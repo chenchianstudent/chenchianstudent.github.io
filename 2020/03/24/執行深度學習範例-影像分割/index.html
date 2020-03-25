@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>執行深度學習範例-影像分割 | chenchian test</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>chenchian test</div>
+        
+            <div>poi</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>執行深度學習範例-影像分割</h1>
+    </header>
+
+    <section>
+      <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第五個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何設定攝像頭，並開啟攝像頭去分割影像中的物件。<br>基本上這篇文章與<a href="https://chenchianstudent.github.io/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-影像辨識</a>雷同，指令下達的部分些許不同而已，故重複部分在此篇會省略。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>和<a href="https://chenchianstudent.github.io/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-影像辨識</a>這兩篇文章，<br>2.請為你的jetson nano購買一組攝像頭，本文是使用樹苺派(Raspberry Pi)的攝像頭去做實作。</p>
+<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>確認攝像頭有畫面後，請打開Terminal，並移動至範例程式的路徑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著就可以下達指令了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;segnet-camera</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc01.jpg" class="" title="This is an image">
+<p>它會跑一小段時間做設定，然後就會跑出畫面了。</p>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc02.jpg" class="" title="This is an image">
+<p>這裡還是提醒一下，影像分割與影像辨識一樣，似乎很燒GPU，我開啟攝像頭沒多久就自動重開機了。<br>圖片是我重開機前趕快拍到的畫面，內容應該有看到一小塊色塊吧?它就是辨識了我的手機並用色塊進行分割。</p>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc03.jpg" class="" title="This is an image">
+<p>辨識完成後，如果jetson nano沒有幫你重開機，請到Terminal裡按下Ctrl+C來中斷畫面</p>
+
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2020-03-24T05:57:12.000Z" itemprop="datePublished">
+              2020-03-24
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%BD%B1%E5%83%8F-%E6%94%9D%E5%83%8F%E9%A0%AD/">影像(攝像頭)</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2020 - daniel chen </div>
+    <div>
+        <span>
+            Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a href="https://github.com/nameoverflow/hexo-theme-icalm" target="_blank" rel="noopener">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>chenchian test</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>chenchian test</div>
+        
+            <div>poi</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <ul class="Index">
+  
+    <header class='PageTitle'>
+        <h1>{ Jetson Nano }</h1>
+    </header>
+  
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/">執行深度學習範例-影像分割</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-24T05:57:12.000Z" itemprop="datePublished">
+    2020-03-24
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%BD%B1%E5%83%8F-%E6%94%9D%E5%83%8F%E9%A0%AD/">影像(攝像頭)</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第五個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何設定攝像頭，並開啟攝像頭去分割影像中的物件。<br>基本上這篇文章與<a href="https://chenchianstudent.github.io/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-影像辨識</a>雷同，指令下達的部分些許不同而已，故重複部分在此篇會省略。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>和<a href="https://chenchianstudent.github.io/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-影像辨識</a>這兩篇文章，<br>2.請為你的jetson nano購買一組攝像頭，本文是使用樹苺派(Raspberry Pi)的攝像頭去做實作。</p>
+<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>確認攝像頭有畫面後，請打開Terminal，並移動至範例程式的路徑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著就可以下達指令了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;segnet-camera</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc01.jpg" class="" title="This is an image">
+<p>它會跑一小段時間做設定，然後就會跑出畫面了。</p>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc02.jpg" class="" title="This is an image">
+<p>這裡還是提醒一下，影像分割與影像辨識一樣，似乎很燒GPU，我開啟攝像頭沒多久就自動重開機了。<br>圖片是我重開機前趕快拍到的畫面，內容應該有看到一小塊色塊吧?它就是辨識了我的手機並用色塊進行分割。</p>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc03.jpg" class="" title="This is an image">
+<p>辨識完成後，如果jetson nano沒有幫你重開機，請到Terminal裡按下Ctrl+C來中斷畫面</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/">執行深度學習範例-影像辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-18T07:41:21.000Z" itemprop="datePublished">
+    2020-03-18
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%BD%B1%E5%83%8F-%E6%94%9D%E5%83%8F%E9%A0%AD/">影像(攝像頭)</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第四個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何設定攝像頭，並開啟攝像頭去辨識影像中有什麼物件。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。<br>2.請為你的jetson nano購買一組攝像頭，本文是使用樹苺派(Raspberry Pi)的攝像頭去做實作，因此攝像頭設定是用樹苺派的設定</p>
+<h3 id="第一步驟-安裝攝像頭並測試是否有畫面"><a href="#第一步驟-安裝攝像頭並測試是否有畫面" class="headerlink" title="第一步驟 安裝攝像頭並測試是否有畫面"></a>第一步驟 安裝攝像頭並測試是否有畫面</h3><p>請先將你的攝像頭安裝至jetson nano<br>安裝請參考<a href="https://www.jetsonhacks.com/2019/04/02/jetson-nano-raspberry-pi-camera/?fbclid=IwAR2fmiPGfwVpjiF7rt9ye3npIOoLix4vszCXVNp3yFkzPV_LMyl4r0GYit0" target="_blank" rel="noopener">這篇文章</a>的影片<br>安裝完成大概是這個樣子，位置記得要插對喔！不然會讀不出來，更糟的是可能會損壞讀頭。</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc05.jpg" class="" title="This is an image">
+<p>由於一開始安裝好後，我自己測試完全沒畫面，所以在這邊卡了很久。<br>因此我先說怎麼測有安裝成功的情況。<br>開啟Terminal後，先打上以下指令                                    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls &#x2F;dev&#x2F;vid*</span><br></pre></td></tr></table></figure>
+<p>如果有出現下圖就表示可以使用了，如果找不到就是要重開機，基本上沒讀到重開機就解決了。</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc06.jpg" class="" title="This is an image">
+<p>接著我們要來測試攝像頭是否功能正常<br>這是我們會用到的github:<a href="https://github.com/jetsonhacksnano/CSI-Camera?fbclid=IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ" target="_blank" rel="noopener">https://github.com/jetsonhacksnano/CSI-Camera?fbclid=IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ</a><br>它會幫助我們測試攝像頭是否能正常開啟並測試畫面，另外他也有自己的人臉辨識程式可以運行，它下面有寫如何測試，這裡我就先不做介紹。<br>我們先將程式下載下來使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;jetsonhacksnano&#x2F;CSI-Camera?fbclid&#x3D;IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ</span><br></pre></td></tr></table></figure>
+<p>下載完成後，先移動至該目錄下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd &#x2F;CSI-Camera</span><br></pre></td></tr></table></figure>
+<p>接著下達指令進行畫面測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gst-launch-1.0 nvarguscamerasrc ! nvoverlaysink</span><br></pre></td></tr></table></figure>
+<p>接著便會開啟畫面，但是開啟畫面後幾乎快佔到全畫面了，有沒有視窗的方式呈現畫面?答案是有的！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gst-launch-1.0 nvarguscamerasrc sensor_mode&#x3D;0 ! &#39;video&#x2F;x-raw(memory:NVMM),width&#x3D;3820, height&#x3D;2464, framerate&#x3D;21&#x2F;1, format&#x3D;NV12&#39; ! nvvidconv flip-method&#x3D;0 ! &#39;video&#x2F;x-raw,width&#x3D;960, height&#x3D;616&#39; ! nvvidconv ! nvegltransform ! nveglglessink -e</span><br></pre></td></tr></table></figure>
+<p>後面一長串便是視窗的參數設定</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc04.png" class="" title="This is an image">
+<p>畫面確認好後，請到Terminal中按下Ctrl+C來中斷畫面。</p>
+<p>好了，以上是順利出現畫面的步驟，可能有些人像我一樣，會變成完全沒畫面的狀況。<br>在這裡我先歸納出兩個問題方向。<br>1.執行測試畫面指令時噴錯了，訊息顯示找不到攝像頭。<br>2.執行測試畫面指令時沒噴錯，但是畫面一直不出來。<br>第一類比較簡單，就是你攝像頭有安裝錯，重新安裝看看，另外確認你的讀頭有沒有損壞。<br>第二類就是我最頭痛的地方了，我第一類解決後，結果跑出第二類，整個傻眼。我的解決方法是最一開始，我們先等待，聽其他做過的人的經驗，據說會跑一段時間才能出畫面。我自己是等了30分鐘以上沒跑出畫面，然後就直接中斷執行重開機了，這樣來回有四次以上，當中也有重新安裝攝像頭。重開機後也會特意打ls /dev/vid*去看是否正常讀到camera。這樣重新嘗試幾次，他突然就可以讀了，老實說我原因我也不太清楚，因為它就是沒噴錯，目前我也只能推斷是它還在跑設定。</p>
+<h3 id="第二步驟-執行影像辨識"><a href="#第二步驟-執行影像辨識" class="headerlink" title="第二步驟 執行影像辨識"></a>第二步驟 執行影像辨識</h3><p>確認攝像頭有畫面後，接下來就可以執行我們今天的主題-影像辨識<br>首先，跟我們之前幾個jetson nano範例實作一樣，先移動至範例程式的路徑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著就可以下達指令了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;imagenet-camera</span><br></pre></td></tr></table></figure>
+<p>它會跑一小段時間做設定，然後就會跑出畫面了。<br>這裡小提醒一下，影像辨識似乎很燒GPU，我的GPU燙到會重新開機，截圖時重開機有3次，所以圖片可能很奇怪就不好意思了。<br>這張是拍我水壺的辨識</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc02.png" class="" title="This is an image">
+<p>這張則是拍我錢包的辨識</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc03.png" class="" title="This is an image">
+<p>辨識完成後，如果jetson nano沒有幫你重開機，請到Terminal裡按下Ctrl+C來中斷畫面</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc01.jpg" class="" title="This is an image">
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/">執行深度學習範例-物件辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-16T07:35:19.000Z" itemprop="datePublished">
+    2020-03-16
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%9C%96%E5%83%8F/">圖像</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第二個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片裡有什麼物件，並將結果顯示出來的操作紀錄。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。</p>
+<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>首先<br>與<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>的第三步驟一樣，我們必須開啟Terminal先移動到此路徑才可進行接下來的步驟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>開始辨識前，要先知道這個路徑下有許多的範例圖片可以進行測試。</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc03.jpg" class="" title="This is an image">
+<p>了解測試的圖片在哪裡後，我們就可以進行物件辨識了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console airplane_0.jpg airplane_test.jpg</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc01.png" class="" title="This is an image">
+<p>上面的指令，詳細為:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console 該圖片檔名或該圖片的路徑及名稱 辨識完成後結果的圖片檔名以及路徑</span><br></pre></td></tr></table></figure>
+<p>執行過程中，可能會比圖像辨識還要久，請耐心等待，完成後會出現下圖</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc02.jpg" class="" title="This is an image">
+<p>這是我們一開始要辨識的圖片</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane01.jpg" class="" title="This is an image">
+<p>經過程式辨識後就變成</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane02.jpg" class="" title="This is an image">
+<p>圖片儲存放置的地方會在jetson-inference/build/aarch64/bin這個路徑下，找到你當初下指令時設定的名稱便可出現上圖</p>
+<p>當然，我們也可以自己找圖片去辨識<br>這是我自己去google打aircraft carrier landing找到的圖片，並把圖片丟到該路徑下:jetson-inference/build/aarch64/bin/images</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cv01.jpg" class="" title="This is an image">
+<p>我想看看辨識後是不是能辨識出哪個是飛機哪個是人<br>經過辨識後</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cvtest.jpg" class="" title="This is an image">
+<p>雖然有小部分辨識錯誤或沒有完全辨識到，但大部分是準確的，也許是模組沒有特別訓練這類的圖片，不過已經算不錯了！</p>
+<p>如果是拿範例圖片的話，辨識程度是沒問題的。<br>這是原圖</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd.jpg" class="" title="This is an image">
+<p>這是辨識後的圖片</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd2.jpg" class="" title="This is an image">
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/">執行深度學習範例-圖像辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-14T04:28:06.000Z" itemprop="datePublished">
+    2020-03-14
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%9C%96%E5%83%8F/">圖像</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我碰jetson nano第一個學到的東西，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片是什麼，並將結果顯示出來的操作紀錄。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.準備jetson nano與相關配件(鍵盤、滑鼠、網路Wi-Fi、外接螢幕、SD卡等….)<br>把jetson nano想成一台小電腦去操控，電腦主機有什麼配件，jetson nano就應該要有，對jetson nano不懂的話，還請參考別人的介紹文。<br>2.略懂cmd指令</p>
+<h3 id="第一步驟-下載相關套件"><a href="#第一步驟-下載相關套件" class="headerlink" title="第一步驟-下載相關套件"></a>第一步驟-下載相關套件</h3><p>將jetson nano開機後，執行Terminal</p>
+<p>安裝cmake以及git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install git cmake</span><br></pre></td></tr></table></figure>
+
+<p>安裝完成後，接著就是將上面參考範例下載下來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;dusty-nv&#x2F;jetson-inference</span><br></pre></td></tr></table></figure>
+<p>以及jetson-utils的submodule，這個也要一併下載下來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd jetson-inference</span><br><span class="line">$ git submodule update --init</span><br></pre></td></tr></table></figure>
+
+<h3 id="第二步驟-利用cmake來編譯需要的相關套件"><a href="#第二步驟-利用cmake來編譯需要的相關套件" class="headerlink" title="第二步驟-利用cmake來編譯需要的相關套件"></a>第二步驟-利用cmake來編譯需要的相關套件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir build &amp;&amp; cd build</span><br><span class="line">$ cmake ..&#x2F;</span><br></pre></td></tr></table></figure>
+<p>接著便會呼叫cmakeprebuild.sh的腳本，然後就會開始下載相關函式庫和模組(應該是訓練完的)<br>過程很長很長<del>~</del>另外會有要按Enter的地方，不要自己跑去泡咖啡了。</p>
+<p>下載完成後，在Terminal下載該指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br></pre></td></tr></table></figure>
+<p>再次等待執行完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>下完指令並完成後，我們接著要用的範例程式會在jetson-inference/build/aarch64/bin這個資料夾中。</p>
+<p>恭喜你！安裝設定方面的已經結束了</p>
+<h3 id="第三步驟-圖像辨識"><a href="#第三步驟-圖像辨識" class="headerlink" title="第三步驟-圖像辨識"></a>第三步驟-圖像辨識</h3><p>將前兩個步驟完成後，我們就有相關的範例程式可以去作使用了。</p>
+<p>我們先移動指定的資料中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著呼叫圖像辨識的範例來辨識圖像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;imagenet-console polar_bear.jpg polar_bear_inferenced.jpg</span><br></pre></td></tr></table></figure>
+<p>接著他會跑一小段時間，第一次會這樣，之後就會比較快。<br>完成後會產生一個polar_bear_inferenced.jpg。<br>路徑會放在這裡</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/pc2.jpg" class="" title="This is an image">
+<p>polar_bear.jpg &gt;&gt;&gt;辨識完成後&gt;&gt;&gt; polar_bear_inferenced.jpg<br>原圖</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/bear01.jpg" class="" title="This is an image">
+<p>經過辨識後的圖片</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/bear02.jpg" class="" title="This is an image">
+
+<p>恭喜你完成第一次的影像辨識。</p>
+<p>當然除了程式範例給的圖片，你也可以自行上網抓圖來靠這支程式辨識<br>像我就google搜尋貓的圖片<br>原圖(圖源是google打貓咪隨意抓下來)</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/cattest01.png" class="" title="This is an image">
+<p>我把這圖片命名為cattest.png<br>然後在cmd裡打上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;imagenet-console cattest.png cattest_inferenced.png</span><br></pre></td></tr></table></figure>
+<p>程式運行完成後</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/pc1.jpg" class="" title="This is an image">
+<p>就會出現辨識結果</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/cattest02.png" class="" title="This is an image">
+      
+    </div>
+</article>
+
+    </li>
+  
+</ul>
+
+
+
+            <footer>
+    <div>© 2020 - daniel chen </div>
+    <div>
+        <span>
+            Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a href="https://github.com/nameoverflow/hexo-theme-icalm" target="_blank" rel="noopener">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

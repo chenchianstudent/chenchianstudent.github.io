@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>執行深度學習範例-影像辨識 | chenchian test</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>chenchian test</div>
+        
+            <div>poi</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>執行深度學習範例-影像辨識</h1>
+    </header>
+
+    <section>
+      <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第四個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何設定攝像頭，並開啟攝像頭去辨識影像中有什麼物件。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。<br>2.請為你的jetson nano購買一組攝像頭，本文是使用樹苺派(Raspberry Pi)的攝像頭去做實作，因此攝像頭設定是用樹苺派的設定</p>
+<h3 id="第一步驟-安裝攝像頭並測試是否有畫面"><a href="#第一步驟-安裝攝像頭並測試是否有畫面" class="headerlink" title="第一步驟 安裝攝像頭並測試是否有畫面"></a>第一步驟 安裝攝像頭並測試是否有畫面</h3><p>請先將你的攝像頭安裝至jetson nano<br>安裝請參考<a href="https://www.jetsonhacks.com/2019/04/02/jetson-nano-raspberry-pi-camera/?fbclid=IwAR2fmiPGfwVpjiF7rt9ye3npIOoLix4vszCXVNp3yFkzPV_LMyl4r0GYit0" target="_blank" rel="noopener">這篇文章</a>的影片<br>安裝完成大概是這個樣子，位置記得要插對喔！不然會讀不出來，更糟的是可能會損壞讀頭。</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc05.jpg" class="" title="This is an image">
+<p>由於一開始安裝好後，我自己測試完全沒畫面，所以在這邊卡了很久。<br>因此我先說怎麼測有安裝成功的情況。<br>開啟Terminal後，先打上以下指令                                    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls &#x2F;dev&#x2F;vid*</span><br></pre></td></tr></table></figure>
+<p>如果有出現下圖就表示可以使用了，如果找不到就是要重開機，基本上沒讀到重開機就解決了。</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc06.jpg" class="" title="This is an image">
+<p>接著我們要來測試攝像頭是否功能正常<br>這是我們會用到的github:<a href="https://github.com/jetsonhacksnano/CSI-Camera?fbclid=IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ" target="_blank" rel="noopener">https://github.com/jetsonhacksnano/CSI-Camera?fbclid=IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ</a><br>它會幫助我們測試攝像頭是否能正常開啟並測試畫面，另外他也有自己的人臉辨識程式可以運行，它下面有寫如何測試，這裡我就先不做介紹。<br>我們先將程式下載下來使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;jetsonhacksnano&#x2F;CSI-Camera?fbclid&#x3D;IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ</span><br></pre></td></tr></table></figure>
+<p>下載完成後，先移動至該目錄下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd &#x2F;CSI-Camera</span><br></pre></td></tr></table></figure>
+<p>接著下達指令進行畫面測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gst-launch-1.0 nvarguscamerasrc ! nvoverlaysink</span><br></pre></td></tr></table></figure>
+<p>接著便會開啟畫面，但是開啟畫面後幾乎快佔到全畫面了，有沒有視窗的方式呈現畫面?答案是有的！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gst-launch-1.0 nvarguscamerasrc sensor_mode&#x3D;0 ! &#39;video&#x2F;x-raw(memory:NVMM),width&#x3D;3820, height&#x3D;2464, framerate&#x3D;21&#x2F;1, format&#x3D;NV12&#39; ! nvvidconv flip-method&#x3D;0 ! &#39;video&#x2F;x-raw,width&#x3D;960, height&#x3D;616&#39; ! nvvidconv ! nvegltransform ! nveglglessink -e</span><br></pre></td></tr></table></figure>
+<p>後面一長串便是視窗的參數設定</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc04.png" class="" title="This is an image">
+<p>畫面確認好後，請到Terminal中按下Ctrl+C來中斷畫面。</p>
+<p>好了，以上是順利出現畫面的步驟，可能有些人像我一樣，會變成完全沒畫面的狀況。<br>在這裡我先歸納出兩個問題方向。<br>1.執行測試畫面指令時噴錯了，訊息顯示找不到攝像頭。<br>2.執行測試畫面指令時沒噴錯，但是畫面一直不出來。<br>第一類比較簡單，就是你攝像頭有安裝錯，重新安裝看看，另外確認你的讀頭有沒有損壞。<br>第二類就是我最頭痛的地方了，我第一類解決後，結果跑出第二類，整個傻眼。我的解決方法是最一開始，我們先等待，聽其他做過的人的經驗，據說會跑一段時間才能出畫面。我自己是等了30分鐘以上沒跑出畫面，然後就直接中斷執行重開機了，這樣來回有四次以上，當中也有重新安裝攝像頭。重開機後也會特意打ls /dev/vid*去看是否正常讀到camera。這樣重新嘗試幾次，他突然就可以讀了，老實說我原因我也不太清楚，因為它就是沒噴錯，目前我也只能推斷是它還在跑設定。</p>
+<h3 id="第二步驟-執行影像辨識"><a href="#第二步驟-執行影像辨識" class="headerlink" title="第二步驟 執行影像辨識"></a>第二步驟 執行影像辨識</h3><p>確認攝像頭有畫面後，接下來就可以執行我們今天的主題-影像辨識<br>首先，跟我們之前幾個jetson nano範例實作一樣，先移動至範例程式的路徑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著就可以下達指令了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;imagenet-camera</span><br></pre></td></tr></table></figure>
+<p>它會跑一小段時間做設定，然後就會跑出畫面了。<br>這裡小提醒一下，影像辨識似乎很燒GPU，我的GPU燙到會重新開機，截圖時重開機有3次，所以圖片可能很奇怪就不好意思了。<br>這張是拍我水壺的辨識</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc02.png" class="" title="This is an image">
+<p>這張則是拍我錢包的辨識</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc03.png" class="" title="This is an image">
+<p>辨識完成後，如果jetson nano沒有幫你重開機，請到Terminal裡按下Ctrl+C來中斷畫面</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc01.jpg" class="" title="This is an image">
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2020-03-18T07:41:21.000Z" itemprop="datePublished">
+              2020-03-18
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%BD%B1%E5%83%8F-%E6%94%9D%E5%83%8F%E9%A0%AD/">影像(攝像頭)</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2020 - daniel chen </div>
+    <div>
+        <span>
+            Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a href="https://github.com/nameoverflow/hexo-theme-icalm" target="_blank" rel="noopener">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

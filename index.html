@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>chenchian test</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>chenchian test</div>
+        
+            <div>poi</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <ul class="Index">
+  
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/">執行深度學習範例-影像分割</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-24T05:57:12.000Z" itemprop="datePublished">
+    2020-03-24
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%BD%B1%E5%83%8F-%E6%94%9D%E5%83%8F%E9%A0%AD/">影像(攝像頭)</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第五個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何設定攝像頭，並開啟攝像頭去分割影像中的物件。<br>基本上這篇文章與<a href="https://chenchianstudent.github.io/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-影像辨識</a>雷同，指令下達的部分些許不同而已，故重複部分在此篇會省略。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>和<a href="https://chenchianstudent.github.io/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-影像辨識</a>這兩篇文章，<br>2.請為你的jetson nano購買一組攝像頭，本文是使用樹苺派(Raspberry Pi)的攝像頭去做實作。</p>
+<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>確認攝像頭有畫面後，請打開Terminal，並移動至範例程式的路徑。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著就可以下達指令了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;segnet-camera</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc01.jpg" class="" title="This is an image">
+<p>它會跑一小段時間做設定，然後就會跑出畫面了。</p>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc02.jpg" class="" title="This is an image">
+<p>這裡還是提醒一下，影像分割與影像辨識一樣，似乎很燒GPU，我開啟攝像頭沒多久就自動重開機了。<br>圖片是我重開機前趕快拍到的畫面，內容應該有看到一小塊色塊吧?它就是辨識了我的手機並用色塊進行分割。</p>
+<img src="/2020/03/24/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E5%88%86%E5%89%B2/pc03.jpg" class="" title="This is an image">
+<p>辨識完成後，如果jetson nano沒有幫你重開機，請到Terminal裡按下Ctrl+C來中斷畫面</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/">Hexo相關文章設定與使用</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-23T06:37:28.000Z" itemprop="datePublished">
+    2020-03-23
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/Hexo/">Hexo</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/github/">github</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Markdown/">Markdown</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Hexo-GitHub-%E5%BF%83%E5%BE%97%E5%AF%A6%E4%BD%9C/">Hexo &amp; GitHub 心得實作</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>之前我發佈了一篇<a href="https://chenchianstudent.github.io/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/" target="_blank" rel="noopener">如何安裝hexo+在github上建立個人網頁</a>，因為內容只寫到如何建立起網站，但並沒有說到如何建立文章，故寫下這篇當作補充。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何在本地端建立起文章，並將文章上傳至github的網頁上。<br>另外此篇也會寫如何在文章裡放置圖片，以及刪除文章。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先實作完這篇文章<a href="https://chenchianstudent.github.io/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/" target="_blank" rel="noopener">如何安裝hexo+在github上建立個人網頁</a>，因為這篇屬於上述文章的延伸。<br>2.請先了解Markdown語法，因為文章是用Markdown寫的。</p>
+<h3 id="如何在本地端建立文章"><a href="#如何在本地端建立文章" class="headerlink" title="如何在本地端建立文章"></a>如何在本地端建立文章</h3><p>首先，我們必須打開CMD並移動至hexo的資料夾上<br>這是我的路徑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd C:\Users\danie\hexotest</span><br></pre></td></tr></table></figure>
+<p>就可以在此路徑下達新建文章的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo n 你的文章名稱</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc07.JPG" class="" title="This is an image">
+<p>接著電腦就會幫你建立MD檔，這個檔案就是我們要寫的文章，那檔案是建在哪裡呢?<br>MD檔會建立在Hexo資料夾的這個路徑下\source\ _posts</p>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc08.JPG" class="" title="This is an image">
+<h3 id="撰寫自己的文章"><a href="#撰寫自己的文章" class="headerlink" title="撰寫自己的文章"></a>撰寫自己的文章</h3><p>剛剛我們建立起MD檔後，接下來就是要寫文章囉！<br>文章我們要用Markdown來撰寫<br>編譯器這邊我推薦<a href="https://hackmd.io/recent" target="_blank" rel="noopener">hackmd</a><br>你寫了多少，hackmd就會即時展現結果讓你看！算是對初學者不錯的編譯器<br>左方是撰寫的地方，右方是結果</p>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc03.JPG" class="" title="This is an image">
+<p>當然，如果你對markdown語法很有信心，這邊還可以再推薦一個編譯器<a href="https://www.sublimetext.com/3" target="_blank" rel="noopener">Sublime Text</a><br>因為文章上傳至github我們是用本地上傳，hackmd是線上的，寫好後還是要download至本地上傳，若使用Sublime Text的話就可以省掉download至本地的步驟。</p>
+<h3 id="上傳自己的文章"><a href="#上傳自己的文章" class="headerlink" title="上傳自己的文章"></a>上傳自己的文章</h3><p>寫好自己的文章後，就是最後的上傳了。<br>再上傳前，我要先提醒各位！<br>如果你的文章內容不是用英文寫的，請將文章轉至”utf-8”格式，不然上傳後會是亂碼，這很重要喔！<br>當你文章確定要上傳後，就可以開啟CMD並CD至hexo資料夾的路徑下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd C:\Users\danie\hexotest</span><br></pre></td></tr></table></figure>
+<p>就可以下達上傳指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+<p>或是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc09.JPG" class="" title="This is an image">
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc10.JPG" class="" title="This is an image">
+<p>上述這些指令詳細我在這篇文章<a href="https://chenchianstudent.github.io/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/" target="_blank" rel="noopener">如何安裝hexo+在github上建立個人網頁</a>有講，因此我就不特別說明<br>好啦！我知道我會懶得開文章，所以在這邊說一下:d代表部署, g代表生成。<br>簡言之，要先將上傳的文章生成出來，才可以進行上傳。<br>接著就等電腦上傳完成就可以去自己的網頁上查看了</p>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc11.JPG" class="" title="This is an image">
+<p>發布上去可能會需要一段時間，請耐心等待！</p>
+<h3 id="如何在文章上放置圖片"><a href="#如何在文章上放置圖片" class="headerlink" title="如何在文章上放置圖片"></a>如何在文章上放置圖片</h3><p>上述的內容，我們沒有提到如何放置圖片在文章裡，於是這裡我們要說放圖片的事情。<br>其實google一下會有不少教學，也比較專業，因此這邊我就來說自己採用的方法。<br>首先，我們必須打開hexo資料夾路徑內的_config.yml這個設定檔<br>找到這個設定值post_asset_folder:，將false改成true後儲存退出</p>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc01.JPG" class="" title="This is an image">
+<p>這樣子當你在建立一筆新的文章時，hexo會幫你再新建一個放置圖片的資料夾</p>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc02.JPG" class="" title="This is an image">
+<p>我們只要將圖片放進資料夾內就可以了。<br>這樣在撰寫文章時，只需要呼叫圖片名稱就好了，不需要填入絕對路徑。<br>語法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
+<p>這樣上傳文章就可以正確顯示出圖片了。</p>
+<p>但是<br>但是<br>但是<br>因為這裡可能會出個不是問題的小疑惑，因此我要先說三次但是。<br>使用了上面說的語法後，上傳至github後可能會發現怎麼沒有出現圖片呢?!</p>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pcerror.JPG" class="" title="This is an image">
+<p>原因很簡單，因為你現在看的是”預覽文章的預覽圖片”，不是文章內容。<br>當你點進去文章後就可以正常顯示圖片了。</p>
+<p>那有辦法可以在預覽頁面上也顯示出圖片嗎?<br>語法是有的喔！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img 圖片名稱.jpg This is an image %&#125;</span><br></pre></td></tr></table></figure>
+<p>使用這個語法，就可以將圖片在預覽頁面上正常顯示出來。<br>也是我目前放置圖片最常用的語法。</p>
+<h3 id="如何刪除文章"><a href="#如何刪除文章" class="headerlink" title="如何刪除文章"></a>如何刪除文章</h3><p>有建立文章，那就一定會有刪除文章<br>這邊我用一張圖就可以解釋如何刪除文章了</p>
+<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc06.jpg" class="" title="This is an image">
+<p>看懂了嗎?就是這麼簡單！<br>接著只要在cmd下達上傳文章的指令就會幫你更新了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+<p>或是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
+<p>一樣，上傳完成後要等段時間才會出現結果，請耐心等待。</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/">執行深度學習範例-影像辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-18T07:41:21.000Z" itemprop="datePublished">
+    2020-03-18
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%BD%B1%E5%83%8F-%E6%94%9D%E5%83%8F%E9%A0%AD/">影像(攝像頭)</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第四個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何設定攝像頭，並開啟攝像頭去辨識影像中有什麼物件。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。<br>2.請為你的jetson nano購買一組攝像頭，本文是使用樹苺派(Raspberry Pi)的攝像頭去做實作，因此攝像頭設定是用樹苺派的設定</p>
+<h3 id="第一步驟-安裝攝像頭並測試是否有畫面"><a href="#第一步驟-安裝攝像頭並測試是否有畫面" class="headerlink" title="第一步驟 安裝攝像頭並測試是否有畫面"></a>第一步驟 安裝攝像頭並測試是否有畫面</h3><p>請先將你的攝像頭安裝至jetson nano<br>安裝請參考<a href="https://www.jetsonhacks.com/2019/04/02/jetson-nano-raspberry-pi-camera/?fbclid=IwAR2fmiPGfwVpjiF7rt9ye3npIOoLix4vszCXVNp3yFkzPV_LMyl4r0GYit0" target="_blank" rel="noopener">這篇文章</a>的影片<br>安裝完成大概是這個樣子，位置記得要插對喔！不然會讀不出來，更糟的是可能會損壞讀頭。</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc05.jpg" class="" title="This is an image">
+<p>由於一開始安裝好後，我自己測試完全沒畫面，所以在這邊卡了很久。<br>因此我先說怎麼測有安裝成功的情況。<br>開啟Terminal後，先打上以下指令                                    </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls &#x2F;dev&#x2F;vid*</span><br></pre></td></tr></table></figure>
+<p>如果有出現下圖就表示可以使用了，如果找不到就是要重開機，基本上沒讀到重開機就解決了。</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc06.jpg" class="" title="This is an image">
+<p>接著我們要來測試攝像頭是否功能正常<br>這是我們會用到的github:<a href="https://github.com/jetsonhacksnano/CSI-Camera?fbclid=IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ" target="_blank" rel="noopener">https://github.com/jetsonhacksnano/CSI-Camera?fbclid=IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ</a><br>它會幫助我們測試攝像頭是否能正常開啟並測試畫面，另外他也有自己的人臉辨識程式可以運行，它下面有寫如何測試，這裡我就先不做介紹。<br>我們先將程式下載下來使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;jetsonhacksnano&#x2F;CSI-Camera?fbclid&#x3D;IwAR1_YcN9FOWgIYf-_TUxaT11nK2OPNogKWEXtdr8lHncM9Zwmzjyw7ZBJgQ</span><br></pre></td></tr></table></figure>
+<p>下載完成後，先移動至該目錄下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd &#x2F;CSI-Camera</span><br></pre></td></tr></table></figure>
+<p>接著下達指令進行畫面測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gst-launch-1.0 nvarguscamerasrc ! nvoverlaysink</span><br></pre></td></tr></table></figure>
+<p>接著便會開啟畫面，但是開啟畫面後幾乎快佔到全畫面了，有沒有視窗的方式呈現畫面?答案是有的！</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ gst-launch-1.0 nvarguscamerasrc sensor_mode&#x3D;0 ! &#39;video&#x2F;x-raw(memory:NVMM),width&#x3D;3820, height&#x3D;2464, framerate&#x3D;21&#x2F;1, format&#x3D;NV12&#39; ! nvvidconv flip-method&#x3D;0 ! &#39;video&#x2F;x-raw,width&#x3D;960, height&#x3D;616&#39; ! nvvidconv ! nvegltransform ! nveglglessink -e</span><br></pre></td></tr></table></figure>
+<p>後面一長串便是視窗的參數設定</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc04.png" class="" title="This is an image">
+<p>畫面確認好後，請到Terminal中按下Ctrl+C來中斷畫面。</p>
+<p>好了，以上是順利出現畫面的步驟，可能有些人像我一樣，會變成完全沒畫面的狀況。<br>在這裡我先歸納出兩個問題方向。<br>1.執行測試畫面指令時噴錯了，訊息顯示找不到攝像頭。<br>2.執行測試畫面指令時沒噴錯，但是畫面一直不出來。<br>第一類比較簡單，就是你攝像頭有安裝錯，重新安裝看看，另外確認你的讀頭有沒有損壞。<br>第二類就是我最頭痛的地方了，我第一類解決後，結果跑出第二類，整個傻眼。我的解決方法是最一開始，我們先等待，聽其他做過的人的經驗，據說會跑一段時間才能出畫面。我自己是等了30分鐘以上沒跑出畫面，然後就直接中斷執行重開機了，這樣來回有四次以上，當中也有重新安裝攝像頭。重開機後也會特意打ls /dev/vid*去看是否正常讀到camera。這樣重新嘗試幾次，他突然就可以讀了，老實說我原因我也不太清楚，因為它就是沒噴錯，目前我也只能推斷是它還在跑設定。</p>
+<h3 id="第二步驟-執行影像辨識"><a href="#第二步驟-執行影像辨識" class="headerlink" title="第二步驟 執行影像辨識"></a>第二步驟 執行影像辨識</h3><p>確認攝像頭有畫面後，接下來就可以執行我們今天的主題-影像辨識<br>首先，跟我們之前幾個jetson nano範例實作一樣，先移動至範例程式的路徑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著就可以下達指令了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;imagenet-camera</span><br></pre></td></tr></table></figure>
+<p>它會跑一小段時間做設定，然後就會跑出畫面了。<br>這裡小提醒一下，影像辨識似乎很燒GPU，我的GPU燙到會重新開機，截圖時重開機有3次，所以圖片可能很奇怪就不好意思了。<br>這張是拍我水壺的辨識</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc02.png" class="" title="This is an image">
+<p>這張則是拍我錢包的辨識</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc03.png" class="" title="This is an image">
+<p>辨識完成後，如果jetson nano沒有幫你重開機，請到Terminal裡按下Ctrl+C來中斷畫面</p>
+<img src="/2020/03/18/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%BD%B1%E5%83%8F%E8%BE%A8%E8%AD%98/pc01.jpg" class="" title="This is an image">
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/">使用docker運行jupyter_notebook</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-17T07:54:15.000Z" itemprop="datePublished">
+    2020-03-17
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Docker/">Docker</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/jupyter-notebook/">jupyter notebook</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Docker%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">Docker實作心得</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是個人練習，指導教授在meeting時告訴我們docker的一些認知，因此便自行練習了一下，並把操作紀錄和遇到的問題寫下來給大家分享。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章算是安裝教學，告訴你怎麼從0開始到安裝docker結束，並教你如何使用docker安裝jupyter notebook。</p>
+<h3 id="jupyter-notebook-image-網址"><a href="#jupyter-notebook-image-網址" class="headerlink" title="jupyter notebook image 網址"></a>jupyter notebook image 網址</h3><p>網址:<a href="https://github.com/jupyter/docker-stacks" target="_blank" rel="noopener">https://github.com/jupyter/docker-stacks</a><br>網址內有他自己的小教學，懂英文的可以進去看一下</p>
+<h3 id="前置作業和注意事項"><a href="#前置作業和注意事項" class="headerlink" title="前置作業和注意事項"></a>前置作業和注意事項</h3><p>1.請先確認自己的電腦RAM有辦法跑docker，docker在運行時會吃些記憶體，RAM只有4G的可能會有點吃緊<br>2.確認自己電腦的VT模式有開啟<br><strong>如何確認有無開啟?</strong><br>電腦的工作管理員&gt;效能&gt;CPU的虛擬欄位會顯示有無開啟</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc03.JPG" class="" title="This is an image">
+<p><strong>怎麼開啟VT?</strong><br>請重啟電腦進入BIOS設定，並進入CPU設定找到 Intel Virtualization Technology（Intel虛擬化技術)，將關閉改成開啟。<br>網上很多教學，就不細講了。這裡我給個網址供各位參考<a href="https://tw.bignox.com/blog/help-vt/" target="_blank" rel="noopener">【新手幫助】電腦開啟vt的方法</a><br>3.看得懂一些英文單字，因為docker沒有中文。</p>
+<h3 id="步驟一-安裝docker"><a href="#步驟一-安裝docker" class="headerlink" title="步驟一 安裝docker"></a>步驟一 安裝docker</h3><p>今天我們是來安裝docker的，因此第一步就是要找到<a href="https://www.docker.com/" target="_blank" rel="noopener">docker官網</a>去了解一下怎麼安裝對吧?<br>經過渣英文查詢，docker要我們安裝一個叫docker desktop的軟體。<br>因此我們先安裝docker desktop<a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener">下載連結</a></p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc01.JPG" class="" title="This is an image">
+<p>安裝過程沒有什麼太大難度，就是一直點next就是了，它沒有什麼太多設定給你選，完成後會請你重新開啟電腦。<br>重啟完成後，docker desktop會自行運行起來。</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc02.JPG" class="" title="This is an image">
+<p><strong>請注意！！！！！！！這裡如果沒有開啟VT的話，docker desktop會運行失敗喔！</strong><br>確認工具列這邊顯示docker desktop is running後</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc04.jpg" class="" title="This is an image">
+<p>請打開CMD輸入以下指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br></pre></td></tr></table></figure>
+<p>有出現以下文字後就表示安裝成功囉！</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc08.JPG" class="" title="This is an image">
+<h3 id="步驟二-安裝jupyter-notebook"><a href="#步驟二-安裝jupyter-notebook" class="headerlink" title="步驟二 安裝jupyter notebook"></a>步驟二 安裝jupyter notebook</h3><p>前面我貼了一個jupyter的網址，這就是我們現在要用的image<br>首先我們先在CMD中下這個指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -p 8888:8888 jupyter&#x2F;scipy-notebook:17aba6048f44</span><br></pre></td></tr></table></figure>
+<p>在這裡可能有人會有想法：奇怪?不是還沒安裝image嗎?為什麼能直接下達run的指令<br>這就是docker的好處之一了！如果電腦上沒有你要的東西，docker會自行去下載會回來並幫你安裝好執行。</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc05.JPG" class="" title="This is an image">
+<p>如果是第一次安裝的，就還請等一下，因為下載的資料量蠻大的。<br>安裝完成後就可以打開瀏覽器，並在URL欄位打上localhost:8888是否有安裝完成</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc06.JPG" class="" title="This is an image">
+<p>另外也可以再另開一個CMD打上docker ps確認是否有安裝成功</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc10.JPG" class="" title="This is an image">
+<h3 id="步驟三-開始使用jupyter"><a href="#步驟三-開始使用jupyter" class="headerlink" title="步驟三 開始使用jupyter"></a>步驟三 開始使用jupyter</h3><p>進入這個畫面後，就是密碼設定的畫面了。</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc06.JPG" class="" title="This is an image">
+<p>裡面內容大約翻譯了一下，似乎是要我們用token去設定一組新密碼。<br>那這個token在哪裡可以找到呢?<br>我們先回到CMD裡，你可以在這裡找到token(白底的部分)</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc07.JPG" class="" title="This is an image">
+<p>將這個token複製下來後，回到瀏覽器將token貼到下方token欄位，並設定一組自己的密碼後按下確認</p>
+<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc09.JPG" class="" title="This is an image">
+<p>這樣就進來了，接下來就可以正常執行jupyter notebook了</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/">執行深度學習範例-圖像分割</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-16T09:15:13.000Z" itemprop="datePublished">
+    2020-03-16
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第三個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片裡有什麼物件，並將圖片內的物件進行顏色分割。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。<br>2.這篇文章為<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>的延伸，如果有先做這篇的實作，會比較好懂這篇文章的意義。</p>
+<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>首先<br>與<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>的第三步驟一樣，我們必須開啟Terminal先移動到此路徑才可進行接下來的步驟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>移動到此路徑後，就可以進行影像分割的操作了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;segnet-console airplane_0.jpg airplane_0_test02.jpg</span><br></pre></td></tr></table></figure>
+
+
+<p>上面的指令，詳細為:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;segnet-console 該圖片檔名或該圖片的路徑及名稱 辨識完成後結果的圖片檔名以及路徑</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/pc01.jpg" class="" title="This is an image">
+<p>一樣我們用<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>的飛機圖來做示範</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/airplane01.jpg" class="" title="This is an image">
+<p>經過分割後</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/airplane02.jpg" class="" title="This is an image">
+
+<p>老樣子，除了用範例圖片外，我也另外找了圖片去辨識。<br>這是我自己去google打aircraft carrier landing找到的圖片，並把圖片丟到該路徑下:jetson-inference/build/aarch64/bin/images</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/cv01.jpg" class="" title="This is an image">
+<p>經過分割後</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/cv02.jpg" class="" title="This is an image">
+<p>雖然好像沒辨識到人，但飛機確實分割到了</p>
+<p>再用另外的圖片去分析</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/pandd.jpg" class="" title="This is an image">
+<p>分割後</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/pandd02.jpg" class="" title="This is an image">
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/">執行深度學習範例-物件辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-16T07:35:19.000Z" itemprop="datePublished">
+    2020-03-16
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%9C%96%E5%83%8F/">圖像</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第二個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片裡有什麼物件，並將結果顯示出來的操作紀錄。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。</p>
+<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>首先<br>與<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>的第三步驟一樣，我們必須開啟Terminal先移動到此路徑才可進行接下來的步驟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>開始辨識前，要先知道這個路徑下有許多的範例圖片可以進行測試。</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc03.jpg" class="" title="This is an image">
+<p>了解測試的圖片在哪裡後，我們就可以進行物件辨識了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console airplane_0.jpg airplane_test.jpg</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc01.png" class="" title="This is an image">
+<p>上面的指令，詳細為:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console 該圖片檔名或該圖片的路徑及名稱 辨識完成後結果的圖片檔名以及路徑</span><br></pre></td></tr></table></figure>
+<p>執行過程中，可能會比圖像辨識還要久，請耐心等待，完成後會出現下圖</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc02.jpg" class="" title="This is an image">
+<p>這是我們一開始要辨識的圖片</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane01.jpg" class="" title="This is an image">
+<p>經過程式辨識後就變成</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane02.jpg" class="" title="This is an image">
+<p>圖片儲存放置的地方會在jetson-inference/build/aarch64/bin這個路徑下，找到你當初下指令時設定的名稱便可出現上圖</p>
+<p>當然，我們也可以自己找圖片去辨識<br>這是我自己去google打aircraft carrier landing找到的圖片，並把圖片丟到該路徑下:jetson-inference/build/aarch64/bin/images</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cv01.jpg" class="" title="This is an image">
+<p>我想看看辨識後是不是能辨識出哪個是飛機哪個是人<br>經過辨識後</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cvtest.jpg" class="" title="This is an image">
+<p>雖然有小部分辨識錯誤或沒有完全辨識到，但大部分是準確的，也許是模組沒有特別訓練這類的圖片，不過已經算不錯了！</p>
+<p>如果是拿範例圖片的話，辨識程度是沒問題的。<br>這是原圖</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd.jpg" class="" title="This is an image">
+<p>這是辨識後的圖片</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd2.jpg" class="" title="This is an image">
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/">執行深度學習範例-圖像辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-14T04:28:06.000Z" itemprop="datePublished">
+    2020-03-14
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%9C%96%E5%83%8F/">圖像</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我碰jetson nano第一個學到的東西，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片是什麼，並將結果顯示出來的操作紀錄。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.準備jetson nano與相關配件(鍵盤、滑鼠、網路Wi-Fi、外接螢幕、SD卡等….)<br>把jetson nano想成一台小電腦去操控，電腦主機有什麼配件，jetson nano就應該要有，對jetson nano不懂的話，還請參考別人的介紹文。<br>2.略懂cmd指令</p>
+<h3 id="第一步驟-下載相關套件"><a href="#第一步驟-下載相關套件" class="headerlink" title="第一步驟-下載相關套件"></a>第一步驟-下載相關套件</h3><p>將jetson nano開機後，執行Terminal</p>
+<p>安裝cmake以及git</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install git cmake</span><br></pre></td></tr></table></figure>
+
+<p>安裝完成後，接著就是將上面參考範例下載下來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;dusty-nv&#x2F;jetson-inference</span><br></pre></td></tr></table></figure>
+<p>以及jetson-utils的submodule，這個也要一併下載下來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd jetson-inference</span><br><span class="line">$ git submodule update --init</span><br></pre></td></tr></table></figure>
+
+<h3 id="第二步驟-利用cmake來編譯需要的相關套件"><a href="#第二步驟-利用cmake來編譯需要的相關套件" class="headerlink" title="第二步驟-利用cmake來編譯需要的相關套件"></a>第二步驟-利用cmake來編譯需要的相關套件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir build &amp;&amp; cd build</span><br><span class="line">$ cmake ..&#x2F;</span><br></pre></td></tr></table></figure>
+<p>接著便會呼叫cmakeprebuild.sh的腳本，然後就會開始下載相關函式庫和模組(應該是訓練完的)<br>過程很長很長<del>~</del>另外會有要按Enter的地方，不要自己跑去泡咖啡了。</p>
+<p>下載完成後，在Terminal下載該指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br></pre></td></tr></table></figure>
+<p>再次等待執行完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>下完指令並完成後，我們接著要用的範例程式會在jetson-inference/build/aarch64/bin這個資料夾中。</p>
+<p>恭喜你！安裝設定方面的已經結束了</p>
+<h3 id="第三步驟-圖像辨識"><a href="#第三步驟-圖像辨識" class="headerlink" title="第三步驟-圖像辨識"></a>第三步驟-圖像辨識</h3><p>將前兩個步驟完成後，我們就有相關的範例程式可以去作使用了。</p>
+<p>我們先移動指定的資料中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>接著呼叫圖像辨識的範例來辨識圖像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;imagenet-console polar_bear.jpg polar_bear_inferenced.jpg</span><br></pre></td></tr></table></figure>
+<p>接著他會跑一小段時間，第一次會這樣，之後就會比較快。<br>完成後會產生一個polar_bear_inferenced.jpg。<br>路徑會放在這裡</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/pc2.jpg" class="" title="This is an image">
+<p>polar_bear.jpg &gt;&gt;&gt;辨識完成後&gt;&gt;&gt; polar_bear_inferenced.jpg<br>原圖</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/bear01.jpg" class="" title="This is an image">
+<p>經過辨識後的圖片</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/bear02.jpg" class="" title="This is an image">
+
+<p>恭喜你完成第一次的影像辨識。</p>
+<p>當然除了程式範例給的圖片，你也可以自行上網抓圖來靠這支程式辨識<br>像我就google搜尋貓的圖片<br>原圖(圖源是google打貓咪隨意抓下來)</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/cattest01.png" class="" title="This is an image">
+<p>我把這圖片命名為cattest.png<br>然後在cmd裡打上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;imagenet-console cattest.png cattest_inferenced.png</span><br></pre></td></tr></table></figure>
+<p>程式運行完成後</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/pc1.jpg" class="" title="This is an image">
+<p>就會出現辨識結果</p>
+<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/cattest02.png" class="" title="This is an image">
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/">如何安裝hexo+在github上建立個人網頁</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-11T04:56:50.000Z" itemprop="datePublished">
+    2020-03-11
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/Hexo/">Hexo</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/github/">github</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Hexo-GitHub-%E5%BF%83%E5%BE%97%E5%AF%A6%E4%BD%9C/">Hexo &amp; GitHub 心得實作</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="這篇文章是做什麼的"><a href="#這篇文章是做什麼的" class="headerlink" title="這篇文章是做什麼的?"></a><strong>這篇文章是做什麼的?</strong></h3><p>這是我的個人學習紀錄，這篇文章主要是來記錄我安裝hexo以及建置github網頁的過程，方便自己查看，當然也會寫上我遇到的問題以及解決方式。</p>
+<h3 id="為什麼要使用hexo"><a href="#為什麼要使用hexo" class="headerlink" title="為什麼要使用hexo?"></a><strong>為什麼要使用hexo?</strong></h3><p>其實純粹當作練習，也沒有什麼一定的要用的理由。google一下很多文章可以告訴你hexo的優缺點。<br>那這邊稍微說明一下hexo的優點:<br>1.不用自己架伺服器<br>2.可以離線撰寫你的網頁<br>3.使用markdown語法，學校有教過，所以個人比較容易上手<br>4.因為部屬在github上，所以成本幾乎是0</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.擁有自己的電腦或伺服器<br>2.已有github帳號<br>3.略懂cmd指令<br>4.懂怎麼google查問題(安裝的時候出現的問題可能都不同，我也只是自己爬文解出來的)<br>5.請先安裝git</p>
+<h3 id="第一步驟-安裝node-js"><a href="#第一步驟-安裝node-js" class="headerlink" title="第一步驟 安裝node.js"></a>第一步驟 安裝node.js</h3><p>請下載安裝<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a></p>
+<h3 id="第二步驟-安裝Hexo"><a href="#第二步驟-安裝Hexo" class="headerlink" title="第二步驟　安裝Hexo"></a>第二步驟　安裝Hexo</h3><p>安裝好node.js後，請開啟cmd(node.js的cmd也行)<br><strong>安裝 Hexo</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+<p>當中可能會有很多warn訊息，先暫時不管它，我在這裡卡很久，跟其他教學文章的圖片差很多，以為安裝失敗了。</p>
+<p><strong>確認是否有安裝成功</strong><br>就如上面所說的，因為跟其他安裝教學文章的圖片有差別，在這裡提供一個確認是否有安裝成功的指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
+<p>若有成功出現版本號，那基本上是有安裝成功。</p>
+<h3 id="第三步驟-hexo相關設定"><a href="#第三步驟-hexo相關設定" class="headerlink" title="第三步驟 hexo相關設定"></a>第三步驟 hexo相關設定</h3><p>接下來會用到的指令有以下三個</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;    #　初始化你的網頁&lt;folder&gt;為你的網頁放置處(本地端)</span><br><span class="line">$ cd &lt;folder&gt;　　　　　　#  移動至該放置處　</span><br><span class="line">$ npm install           #  安裝相關套件</span><br></pre></td></tr></table></figure>
+<p>個人當初建置的位置+下指令是這樣的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init C:\Users\danie\hexotest      # hexotest是自己建立的資料夾</span><br></pre></td></tr></table></figure>
+
+<p>建置過程中可能也會出現一堆奇怪的warn訊息，也是暫時別管。先確認指令下完且跑完後會出現下圖的東西</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc1.jpg" class="" title="This is an image">
+<p>接著測試hexo能不能如預期的執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>指令下完後確認顯示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000 . Press Ctrl+C to stop.</span><br><span class="line">INFO  Catch you later</span><br></pre></td></tr></table></figure>
+<p>就可以到瀏覽器上打上<code>localhost:4000</code>，確認是否有將網頁建立起來</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc2.jpg" class="" title="This is an image">
+<p>出現上圖後，恭喜你!!!算是成功建立起來了<del>~</del><br><strong>想把它關閉記得在cmd裡按下ctrl+c來終止運行。</strong></p>
+<h3 id="第四步驟-將hexo與github連結-github方面的設定"><a href="#第四步驟-將hexo與github連結-github方面的設定" class="headerlink" title="第四步驟 將hexo與github連結-github方面的設定"></a>第四步驟 將hexo與github連結-github方面的設定</h3><p>第三步驟完成後，代表著你能在本地端成功把hexo開起來了，那麼接下來就是要在github上弄出一模一樣的東西出來，而不是單單只能在本地端上觀看。</p>
+<p>請登入自己的<a href="https://github.com/" target="_blank" rel="noopener">github</a>帳號<br>登入完成後請進入your repositories中</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc3.jpg" class="" title="This is an image">
+<p>點擊右方的New<br>並在Repository name欄位裡打上 yourname.github.io (yourname指的是你的github帳號名稱)</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc4.jpg" class="" title="This is an image">
+<p>上圖出現錯誤提示是因為我已經建立了，不能建立重複的名稱<br>確認完畢後按下建立後出現下圖</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc5.jpg" class="" title="This is an image">
+<p>你會看到一個https的URL，這裡我們先複製起來放著，等等會用到<br>例如我的URL是:<a href="https://github.com/chenchianstudent/chenchianstudent.github.io.git" target="_blank" rel="noopener">https://github.com/chenchianstudent/chenchianstudent.github.io.git</a></p>
+<h3 id="第五步驟-將hexo與github連結-本地端方面的設定"><a href="#第五步驟-將hexo與github連結-本地端方面的設定" class="headerlink" title="第五步驟 將hexo與github連結-本地端方面的設定"></a>第五步驟 將hexo與github連結-本地端方面的設定</h3><p>我們回到本地端後，開啟當初第三步驟hexo初始化的檔案位置。<br>我初始化的位置為C:\Users\danie\hexotest<br>然後找到並開啟一個叫_config.yml的檔案</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc6.jpg" class="" title="This is an image">
+<p>開啟之後，拉到檔案最底部，可以看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure>
+<p>將下面參數設定取代掉上面的參數設定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: http:&#x2F;&#x2F;github.com&#x2F;yourname&#x2F;yourname.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>repository的部分就是要貼上在第四步驟取得的url。<br>我的URL:<a href="https://github.com/chenchianstudent/chenchianstudent.github.io.git" target="_blank" rel="noopener">https://github.com/chenchianstudent/chenchianstudent.github.io.git</a><br>然後”:”後面記得加上空格。<br>做完後儲存並退出。</p>
+<h3 id="第六步驟-將hexo的資料上傳至github"><a href="#第六步驟-將hexo的資料上傳至github" class="headerlink" title="第六步驟 將hexo的資料上傳至github"></a>第六步驟 將hexo的資料上傳至github</h3><p>來到此處，就代表快要結束了！<br>接下來請認識以下hexo的指令<br>這些指令並不是安裝時才會用到的喔！之後如果還要維護你的網頁，那就必須熟悉以下的指令。<br>新建文章</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo n 文章名稱</span><br><span class="line">$ hexo new 文章名稱</span><br></pre></td></tr></table></figure>
+<p>生成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>在本地端觀看(第三步驟有提及到的)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s </span><br><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>部屬</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>hexo server 相關指衍生</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server -s  # 靜態模式</span><br><span class="line">$ hexo server -p 5000  # 更改端口</span><br><span class="line">$ hexo server -i 192.168.1.1  # 自定義 IP</span><br><span class="line">$ hexo clean #清緩存</span><br></pre></td></tr></table></figure>
+
+<p>了解以上指令後，就可以將hexo的資料上傳至github上了。</p>
+<p>在cmd裡使用以下指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
+<p>或是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+<p>過程可能會有git的錯誤，還請設定你的email和帳號名稱<br>設定完成後就會跳出github的登入資訊，輸入你的帳號密碼後就會完成了<br>完成後打開瀏覽器輸入:<a href="https://yourname.github.io/" target="_blank" rel="noopener">https://yourname.github.io/</a><br>來查看你的網頁是否建置成功。</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc7.jpg" class="" title="This is an image">
+<p>出現上圖後就真的是結束了，恭喜你!成功建立了屬於你自己的web。</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/10/hello-world/">Hello World</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-10T07:09:12.730Z" itemprop="datePublished">
+    2020-03-10
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+</ul>
+
+
+            <footer>
+    <div>© 2020 - daniel chen </div>
+    <div>
+        <span>
+            Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a href="https://github.com/nameoverflow/hexo-theme-icalm" target="_blank" rel="noopener">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>
