@@ -79,7 +79,7 @@
             <ul class="Index">
   
     <header class='PageTitle'>
-        <h1>{ Markdown }</h1>
+        <h1>{ Hexo標籤設置 }</h1>
     </header>
   
   
@@ -173,108 +173,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
 <p>上傳完成後，前往tag的頁面去查看，就可以看到我們打的標籤了</p>
 <img src="/2020/04/06/Hexo%E9%A1%9E%E5%88%A5%E8%88%87%E6%A8%99%E7%B1%A4%E8%A8%AD%E5%AE%9A/pc10.JPG" class="" title="This is an image">
-      
-    </div>
-</article>
-
-    </li>
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/">Hexo相關文章設定與使用</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-03-23T06:37:28.000Z" itemprop="datePublished">
-    2020-03-23
-  </time>
-  
-  | 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/tags/Hexo/">Hexo</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/github/">github</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/Markdown/">Markdown</a> }
-  </li>
-
-
-  </ul>
-  
-  
-  / 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/categories/Hexo-GitHub-%E5%BF%83%E5%BE%97%E5%AF%A6%E4%BD%9C/">Hexo &amp; GitHub 心得實作</a> }
-  </li>
-
-
-  </ul>
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>之前我發佈了一篇<a href="https://chenchianstudent.github.io/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/" target="_blank" rel="noopener">如何安裝hexo+在github上建立個人網頁</a>，因為內容只寫到如何建立起網站，但並沒有說到如何建立文章，故寫下這篇當作補充。</p>
-<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何在本地端建立起文章，並將文章上傳至github的網頁上。<br>另外此篇也會寫如何在文章裡放置圖片，以及刪除文章。</p>
-<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先實作完這篇文章<a href="https://chenchianstudent.github.io/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/" target="_blank" rel="noopener">如何安裝hexo+在github上建立個人網頁</a>，因為這篇屬於上述文章的延伸。<br>2.請先了解Markdown語法，因為文章是用Markdown寫的。</p>
-<h3 id="如何在本地端建立文章"><a href="#如何在本地端建立文章" class="headerlink" title="如何在本地端建立文章"></a>如何在本地端建立文章</h3><p>首先，我們必須打開CMD並移動至hexo的資料夾上<br>這是我的路徑</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd C:\Users\danie\hexotest</span><br></pre></td></tr></table></figure>
-<p>就可以在此路徑下達新建文章的指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo n 你的文章名稱</span><br></pre></td></tr></table></figure>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc07.JPG" class="" title="This is an image">
-<p>接著電腦就會幫你建立MD檔，這個檔案就是我們要寫的文章，那檔案是建在哪裡呢?<br>MD檔會建立在Hexo資料夾的這個路徑下\source\ _posts</p>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc08.JPG" class="" title="This is an image">
-<h3 id="撰寫自己的文章"><a href="#撰寫自己的文章" class="headerlink" title="撰寫自己的文章"></a>撰寫自己的文章</h3><p>剛剛我們建立起MD檔後，接下來就是要寫文章囉！<br>文章我們要用Markdown來撰寫<br>編譯器這邊我推薦<a href="https://hackmd.io/recent" target="_blank" rel="noopener">hackmd</a><br>你寫了多少，hackmd就會即時展現結果讓你看！算是對初學者不錯的編譯器<br>左方是撰寫的地方，右方是結果</p>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc03.JPG" class="" title="This is an image">
-<p>當然，如果你對markdown語法很有信心，這邊還可以再推薦一個編譯器<a href="https://www.sublimetext.com/3" target="_blank" rel="noopener">Sublime Text</a><br>因為文章上傳至github我們是用本地上傳，hackmd是線上的，寫好後還是要download至本地上傳，若使用Sublime Text的話就可以省掉download至本地的步驟。</p>
-<h3 id="上傳自己的文章"><a href="#上傳自己的文章" class="headerlink" title="上傳自己的文章"></a>上傳自己的文章</h3><p>寫好自己的文章後，就是最後的上傳了。<br>再上傳前，我要先提醒各位！<br>如果你的文章內容不是用英文寫的，請將文章轉至”utf-8”格式，不然上傳後會是亂碼，這很重要喔！<br>當你文章確定要上傳後，就可以開啟CMD並CD至hexo資料夾的路徑下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd C:\Users\danie\hexotest</span><br></pre></td></tr></table></figure>
-<p>就可以下達上傳指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
-<p>或是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc09.JPG" class="" title="This is an image">
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc10.JPG" class="" title="This is an image">
-<p>上述這些指令詳細我在這篇文章<a href="https://chenchianstudent.github.io/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/" target="_blank" rel="noopener">如何安裝hexo+在github上建立個人網頁</a>有講，因此我就不特別說明<br>好啦！我知道我會懶得開文章，所以在這邊說一下:d代表部署, g代表生成。<br>簡言之，要先將上傳的文章生成出來，才可以進行上傳。<br>接著就等電腦上傳完成就可以去自己的網頁上查看了</p>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc11.JPG" class="" title="This is an image">
-<p>發布上去可能會需要一段時間，請耐心等待！</p>
-<h3 id="如何在文章上放置圖片"><a href="#如何在文章上放置圖片" class="headerlink" title="如何在文章上放置圖片"></a>如何在文章上放置圖片</h3><p>上述的內容，我們沒有提到如何放置圖片在文章裡，於是這裡我們要說放圖片的事情。<br>其實google一下會有不少教學，也比較專業，因此這邊我就來說自己採用的方法。<br>首先，我們必須打開hexo資料夾路徑內的_config.yml這個設定檔<br>找到這個設定值post_asset_folder:，將false改成true後儲存退出</p>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc01.JPG" class="" title="This is an image">
-<p>這樣子當你在建立一筆新的文章時，hexo會幫你再新建一個放置圖片的資料夾</p>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc02.JPG" class="" title="This is an image">
-<p>我們只要將圖片放進資料夾內就可以了。<br>這樣在撰寫文章時，只需要呼叫圖片名稱就好了，不需要填入絕對路徑。<br>語法如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](image.jpg)</span><br></pre></td></tr></table></figure>
-<p>這樣上傳文章就可以正確顯示出圖片了。</p>
-<p>但是<br>但是<br>但是<br>因為這裡可能會出個不是問題的小疑惑，因此我要先說三次但是。<br>使用了上面說的語法後，上傳至github後可能會發現怎麼沒有出現圖片呢?!</p>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pcerror.JPG" class="" title="This is an image">
-<p>原因很簡單，因為你現在看的是”預覽文章的預覽圖片”，不是文章內容。<br>當你點進去文章後就可以正常顯示圖片了。</p>
-<p>那有辦法可以在預覽頁面上也顯示出圖片嗎?<br>語法是有的喔！</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img 圖片名稱.jpg This is an image %&#125;</span><br></pre></td></tr></table></figure>
-<p>使用這個語法，就可以將圖片在預覽頁面上正常顯示出來。<br>也是我目前放置圖片最常用的語法。</p>
-<h3 id="如何刪除文章"><a href="#如何刪除文章" class="headerlink" title="如何刪除文章"></a>如何刪除文章</h3><p>有建立文章，那就一定會有刪除文章<br>這邊我用一張圖就可以解釋如何刪除文章了</p>
-<img src="/2020/03/23/Hexo%E7%9B%B8%E9%97%9C%E6%96%87%E7%AB%A0%E8%A8%AD%E5%AE%9A%E8%88%87%E4%BD%BF%E7%94%A8/pc06.jpg" class="" title="This is an image">
-<p>看懂了嗎?就是這麼簡單！<br>接著只要在cmd下達上傳文章的指令就會幫你更新了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
-<p>或是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
-<p>一樣，上傳完成後要等段時間才會出現結果，請耐心等待。</p>
-
       
     </div>
 </article>
