@@ -84,6 +84,109 @@
     <header class="title">
       
         <h1>
+          <a href="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/">在Anaconda安裝Tensorflow2.0版本(CPU版本篇)</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-05-25T07:58:46.000Z" itemprop="datePublished">
+    2020-05-25
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Tensorflow/">Tensorflow</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jupyter-notebook/">Jupyter notebook</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Anaconda/">Anaconda</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Tensorflow-%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">Tensorflow 實作心得</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h1 id="在Anaconda安裝Tensorflow2-0版本-CPU版本篇"><a href="#在Anaconda安裝Tensorflow2-0版本-CPU版本篇" class="headerlink" title="在Anaconda安裝Tensorflow2.0版本(CPU版本篇)"></a>在Anaconda安裝Tensorflow2.0版本(CPU版本篇)</h1><h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>因為碩士選擇了人工智慧，於是便開始接觸tensorflow。網路上雖然有很多的教學文章可以參考，但是按照他們的教學做都失敗了，不是執行時dead kernel，不然就是沒抓到tensorflow的函式庫，還有最重要的一點就是爬出來的文章過舊，已經沒辦法照著做了，當時為了安裝tensorflow折騰了我好久，因此便寫下我安裝的心路歷程，也方便我日後觀看，不用再爬文。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何在anaconda安裝tensorflow 2，包括tensorflow CPU版本以及GPU版本，也會順便提醒安裝時要注意什麼以免安裝失敗。<br>本來想CPU跟GPU一次講解完畢，但發現文章過長，故分成兩篇撰寫，此篇為CPU版本。</p>
+<h3 id="前置步驟-amp-注意事項"><a href="#前置步驟-amp-注意事項" class="headerlink" title="前置步驟&amp;注意事項"></a>前置步驟&amp;注意事項</h3><ol>
+<li>很重要!!!!如果有安裝anaconda的，請卸載anaconda，記得是卸載乾淨！我安裝失敗有很大的原因是沒卸載anaconda，導致anaconda沒有去抓重要的東西進來。</li>
+<li>懂一點伺服器安裝指令。</li>
+<li>這裡我還是要給各位說明一下，每個人遇到的問題可能會不同，也許我遇到的問題你根本沒遇到，我沒遇到的問題你遇到了，因此請具備爬文找問題和方法的處理態度去做接下來的事，這裡我只能把我的遇到的問題跟解決方式說出來，我無法神通廣大預測你會遇到什麼問題。</li>
+<li>tensorflow-CPU安裝的版本為1.10。</li>
+<li>在安裝tensorflow-GPU前，請先確認你的顯示卡支不支援tensorflow，較低階的顯示卡有存在跑不動的問題。<br>(怎麼檢查?這裡有文章教你<a href="https://www.itread01.com/content/1547549489.html" target="_blank" rel="noopener">TensorFlow：檢查顯示卡支援哪個版本的CUDA - IT閱讀</a>)</li>
+<li>我不知道這算不算必要，但請安裝最新的顯卡驅動程式，就當保險起見，以免衍生出新的問題。</li>
+<li>安裝於Windows系統，實際在寫tensorflow時是用jupyter notebook，spyder似乎不能寫的樣子?</li>
+</ol>
+<h3 id="我該安裝GPU還是CPU版本-這到底有什麼差別"><a href="#我該安裝GPU還是CPU版本-這到底有什麼差別" class="headerlink" title="我該安裝GPU還是CPU版本?這到底有什麼差別?"></a>我該安裝GPU還是CPU版本?這到底有什麼差別?</h3><p>能安裝當然是安裝GPU版本囉！GPU跟CPU這兩個版本計算能力差很多的，我親自體驗過，因為我最一開始是裝CPU版本，當時一直裝失敗GPU版本就退而求其次裝CPU版本。CPU訓練模型的時間，GPU可以跑好幾次，甚至有些參數可以調大來計算求更好的模型正確率。個人認為CPU版本純粹是給入門者熟悉用的，不管怎麼樣，要繼續學tensorflow和人工智慧就是要切換成GPU版本，這點還是認清一下吧！兩邊真的差很多。<br>這邊給你一個GPU版本的執行速度，4400筆訓練完只需要花一分鐘左右的時間，CPU會用到5分鐘甚至更久。</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc11.JPG" class="" title="This is an image">
+
+<h3 id="CPU版本安裝第一步驟-安裝anaconda並開啟anaconda的CMD"><a href="#CPU版本安裝第一步驟-安裝anaconda並開啟anaconda的CMD" class="headerlink" title="CPU版本安裝第一步驟-安裝anaconda並開啟anaconda的CMD"></a>CPU版本安裝第一步驟-安裝anaconda並開啟anaconda的CMD</h3><p>CPU版本的安裝我主要是參考<a href="https://medium.com/@virginiakm1988/%E5%9C%A8-anaconda-%E8%99%9B%E6%93%AC%E7%92%B0%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%9D-tensorflow%E8%88%87-keras-c2c5aed98fef" target="_blank" rel="noopener">這篇文章</a>來做的，實際有安裝成功，不想看我教學的可以直接點進去看。<br>如果純粹只是嘗鮮的，安裝CPU版本就好了，跟GPU相比之下簡單又省時(指安裝過程)。<br>另外，安裝CPU版本的，可以不用卸載anaconda，但如果已經卸載了或是還沒安裝過的，請到官網去下載並安裝anaconda。<br>Anaconda官方下載網頁:<a href="https://www.anaconda.com/products/individual" target="_blank" rel="noopener">https://www.anaconda.com/products/individual</a></p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc01.JPG" class="" title="This is an image">
+<p>安裝完成後，點擊左下的windows查找anaonda的CMD並開啟他</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc02.jpg" class="" title="This is an image">
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc03.JPG" class="" title="This is an image">
+<h3 id="CPU版本安裝第二步驟-建置新的anaconda環境"><a href="#CPU版本安裝第二步驟-建置新的anaconda環境" class="headerlink" title="CPU版本安裝第二步驟-建置新的anaconda環境"></a>CPU版本安裝第二步驟-建置新的anaconda環境</h3><p>我們延續第一步驟開啟CMD後，下達該指令來建置一個新的anaconda環境。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create --name tensorflow python&#x3D;3.5</span><br></pre></td></tr></table></figure>
+<p>name空格後面的是環境名稱，也就是tensorflow這裡，你可以自行更改成你熟悉的名稱。而python=3.5則是指定python為3.5版本。<br>安裝過程請直接Y帶過，除非你想弄懂他要安裝什麼進來。<br>成功後開啟anaconda，這裡就會有一個新的環境可以讓你做切換。</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc04.jpg" class="" title="This is an image">
+<p>(因為我重裝GPU版本，導致以前CPU版本的資料都沒了，沒辦法截圖，我只能以文字形容，十分抱歉！)<br>說到這裡可能有人會覺得為什麼要建置新的虛擬環境?用原先預設的root不是也可以?<br>沒錯！確實可以，目前直接在預設環境安裝CPU版本是沒問題的。<br>為什麼要安裝新的虛擬環境，原因是”指定python版本”。<br>建置正確的版本號，來避免程式執行時衍伸的新錯誤或是不該出現的問題，也就是版本出錯無法運行的問題，又或是沒出錯但出現執行卡死，爬的文章好多都不寫原因直接給指令，害我要多爬這類的問題。</p>
+<p>另外，在anaconda的CMD裡也可以直接切換環境，只要打以下指令就可以切換了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activate tensorflow</span><br></pre></td></tr></table></figure>
+<p>這裡的tensorflow是你的環境名稱，環境名稱不同就要更改喔！不要傻傻地也打tensorflow。</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc05.JPG" class="" title="This is an image">
+<p>右邊的(base)轉變成(tensorflow)就表示成功了。</p>
+<h3 id="CPU版本安裝第三步驟-安裝tensorflow-CPU版本"><a href="#CPU版本安裝第三步驟-安裝tensorflow-CPU版本" class="headerlink" title="CPU版本安裝第三步驟-安裝tensorflow CPU版本"></a>CPU版本安裝第三步驟-安裝tensorflow CPU版本</h3><p>繼續第二步驟CMD切換環境的部分，將預設環境切換成新的環境後，就可以下達安裝指令了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install tensorflow</span><br></pre></td></tr></table></figure>
+<p>然後就會開始安裝tensorflow了，中途記得按Y繼續，很簡單的。</p>
+<p>我知道接下來有人會急著測試是不是有安裝成功，但先停下來，我有個anaconda的技巧要告訴大家，當然用不用隨你。<br>我們安裝函式庫時，幾乎都是對CMD下達install指令，然後在CMD裡面看是否有安裝完成。<br>我今天要教的技巧就是，不用在CMD裡下指令就可以將函式庫加進anaconda環境裡。<br>剛剛我們有介紹環境列表在哪裡吧?其實那裏的最大功用就是控管函式庫。</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc06.jpg" class="" title="This is an image">
+<p>圖片紅框裡installed部分，是顯示這個環境已經安裝的函式庫，可以切換成ALL等之類的特定篩選<br>切換成ALL之後，我們先去搜尋jupyter notebook，新環境是沒有幫你安裝jupyter notebook的，等等要測時會用到，因此先安裝notebook</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc07.jpg" class="" title="This is an image">
+<p>勾選你要的，然後點擊右下角apply就會幫你安裝了。<br>(注意！是notebook這個才是jupyter notebook喔！我因為安裝過了才點其他的)</p>
+<h3 id="CPU版本安裝第四步驟-測試tensorflow-CPU版本"><a href="#CPU版本安裝第四步驟-測試tensorflow-CPU版本" class="headerlink" title="CPU版本安裝第四步驟-測試tensorflow CPU版本"></a>CPU版本安裝第四步驟-測試tensorflow CPU版本</h3><p>安裝完成jupyter notebook後，我們接著要做的是開啟新環境的jupyter notebook。<br>怎麼做呢?有兩種方法：<br>第一種是下圖的方式，每個環境旁邊都有執行圖式，點下去就可以選擇執行方式，選擇notebook就可以開啟了。</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc08.jpg" class="" title="This is an image">
+<p>第二種方法就是開啟windows搜尋jupyter notebook，找到環境的jupyter notebook就ok了。</p>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc09.jpg" class="" title="This is an image">
+<p>好了！接下來就是我們最期待的測試階段！<br>以下為測試程式碼，是察看你tensorflow版本號的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">print(tf.__version__)</span><br></pre></td></tr></table></figure>
+<img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc10.JPG" class="" title="This is an image">
+<p>output會顯示你的版本號，如果連版本號都沒出來就表示沒安裝成功。<br>網路上什麼session()之類的，全是舊版的，是tensorflow 2是不支援的，你打再多都是噴錯。</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
           <a href="/2020/04/06/Hexo%E9%A1%9E%E5%88%A5%E8%88%87%E6%A8%99%E7%B1%A4%E8%A8%AD%E5%AE%9A/">Hexo類別與標籤設定</a>
         </h1>
       
@@ -857,119 +960,6 @@
 <img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/pc1.jpg" class="" title="This is an image">
 <p>就會出現辨識結果</p>
 <img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/cattest02.png" class="" title="This is an image">
-      
-    </div>
-</article>
-
-    </li>
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/">如何安裝hexo+在github上建立個人網頁</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-03-11T04:56:50.000Z" itemprop="datePublished">
-    2020-03-11
-  </time>
-  
-  | 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/tags/Hexo/">Hexo</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/github/">github</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
-  </li>
-
-
-  </ul>
-  
-  
-  / 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/categories/Hexo-GitHub-%E5%BF%83%E5%BE%97%E5%AF%A6%E4%BD%9C/">Hexo &amp; GitHub 心得實作</a> }
-  </li>
-
-
-  </ul>
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h3 id="這篇文章是做什麼的"><a href="#這篇文章是做什麼的" class="headerlink" title="這篇文章是做什麼的?"></a><strong>這篇文章是做什麼的?</strong></h3><p>這是我的個人學習紀錄，這篇文章主要是來記錄我安裝hexo以及建置github網頁的過程，方便自己查看，當然也會寫上我遇到的問題以及解決方式。</p>
-<h3 id="為什麼要使用hexo"><a href="#為什麼要使用hexo" class="headerlink" title="為什麼要使用hexo?"></a><strong>為什麼要使用hexo?</strong></h3><p>其實純粹當作練習，也沒有什麼一定的要用的理由。google一下很多文章可以告訴你hexo的優缺點。<br>那這邊稍微說明一下hexo的優點:<br>1.不用自己架伺服器<br>2.可以離線撰寫你的網頁<br>3.使用markdown語法，學校有教過，所以個人比較容易上手<br>4.因為部屬在github上，所以成本幾乎是0</p>
-<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.擁有自己的電腦或伺服器<br>2.已有github帳號<br>3.略懂cmd指令<br>4.懂怎麼google查問題(安裝的時候出現的問題可能都不同，我也只是自己爬文解出來的)<br>5.請先安裝git</p>
-<h3 id="第一步驟-安裝node-js"><a href="#第一步驟-安裝node-js" class="headerlink" title="第一步驟 安裝node.js"></a>第一步驟 安裝node.js</h3><p>請下載安裝<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a></p>
-<h3 id="第二步驟-安裝Hexo"><a href="#第二步驟-安裝Hexo" class="headerlink" title="第二步驟　安裝Hexo"></a>第二步驟　安裝Hexo</h3><p>安裝好node.js後，請開啟cmd(node.js的cmd也行)<br><strong>安裝 Hexo</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
-<p>當中可能會有很多warn訊息，先暫時不管它，我在這裡卡很久，跟其他教學文章的圖片差很多，以為安裝失敗了。</p>
-<p><strong>確認是否有安裝成功</strong><br>就如上面所說的，因為跟其他安裝教學文章的圖片有差別，在這裡提供一個確認是否有安裝成功的指令。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
-<p>若有成功出現版本號，那基本上是有安裝成功。</p>
-<h3 id="第三步驟-hexo相關設定"><a href="#第三步驟-hexo相關設定" class="headerlink" title="第三步驟 hexo相關設定"></a>第三步驟 hexo相關設定</h3><p>接下來會用到的指令有以下三個</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;    #　初始化你的網頁&lt;folder&gt;為你的網頁放置處(本地端)</span><br><span class="line">$ cd &lt;folder&gt;　　　　　　#  移動至該放置處　</span><br><span class="line">$ npm install           #  安裝相關套件</span><br></pre></td></tr></table></figure>
-<p>個人當初建置的位置+下指令是這樣的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init C:\Users\danie\hexotest      # hexotest是自己建立的資料夾</span><br></pre></td></tr></table></figure>
-
-<p>建置過程中可能也會出現一堆奇怪的warn訊息，也是暫時別管。先確認指令下完且跑完後會出現下圖的東西</p>
-<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc1.jpg" class="" title="This is an image">
-<p>接著測試hexo能不能如預期的執行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>指令下完後確認顯示</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000 . Press Ctrl+C to stop.</span><br><span class="line">INFO  Catch you later</span><br></pre></td></tr></table></figure>
-<p>就可以到瀏覽器上打上<code>localhost:4000</code>，確認是否有將網頁建立起來</p>
-<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc2.jpg" class="" title="This is an image">
-<p>出現上圖後，恭喜你!!!算是成功建立起來了<del>~</del><br><strong>想把它關閉記得在cmd裡按下ctrl+c來終止運行。</strong></p>
-<h3 id="第四步驟-將hexo與github連結-github方面的設定"><a href="#第四步驟-將hexo與github連結-github方面的設定" class="headerlink" title="第四步驟 將hexo與github連結-github方面的設定"></a>第四步驟 將hexo與github連結-github方面的設定</h3><p>第三步驟完成後，代表著你能在本地端成功把hexo開起來了，那麼接下來就是要在github上弄出一模一樣的東西出來，而不是單單只能在本地端上觀看。</p>
-<p>請登入自己的<a href="https://github.com/" target="_blank" rel="noopener">github</a>帳號<br>登入完成後請進入your repositories中</p>
-<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc3.jpg" class="" title="This is an image">
-<p>點擊右方的New<br>並在Repository name欄位裡打上 yourname.github.io (yourname指的是你的github帳號名稱)</p>
-<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc4.jpg" class="" title="This is an image">
-<p>上圖出現錯誤提示是因為我已經建立了，不能建立重複的名稱<br>確認完畢後按下建立後出現下圖</p>
-<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc5.jpg" class="" title="This is an image">
-<p>你會看到一個https的URL，這裡我們先複製起來放著，等等會用到<br>例如我的URL是:<a href="https://github.com/chenchianstudent/chenchianstudent.github.io.git" target="_blank" rel="noopener">https://github.com/chenchianstudent/chenchianstudent.github.io.git</a></p>
-<h3 id="第五步驟-將hexo與github連結-本地端方面的設定"><a href="#第五步驟-將hexo與github連結-本地端方面的設定" class="headerlink" title="第五步驟 將hexo與github連結-本地端方面的設定"></a>第五步驟 將hexo與github連結-本地端方面的設定</h3><p>我們回到本地端後，開啟當初第三步驟hexo初始化的檔案位置。<br>我初始化的位置為C:\Users\danie\hexotest<br>然後找到並開啟一個叫_config.yml的檔案</p>
-<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc6.jpg" class="" title="This is an image">
-<p>開啟之後，拉到檔案最底部，可以看到</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure>
-<p>將下面參數設定取代掉上面的參數設定</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: http:&#x2F;&#x2F;github.com&#x2F;yourname&#x2F;yourname.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>repository的部分就是要貼上在第四步驟取得的url。<br>我的URL:<a href="https://github.com/chenchianstudent/chenchianstudent.github.io.git" target="_blank" rel="noopener">https://github.com/chenchianstudent/chenchianstudent.github.io.git</a><br>然後”:”後面記得加上空格。<br>做完後儲存並退出。</p>
-<h3 id="第六步驟-將hexo的資料上傳至github"><a href="#第六步驟-將hexo的資料上傳至github" class="headerlink" title="第六步驟 將hexo的資料上傳至github"></a>第六步驟 將hexo的資料上傳至github</h3><p>來到此處，就代表快要結束了！<br>接下來請認識以下hexo的指令<br>這些指令並不是安裝時才會用到的喔！之後如果還要維護你的網頁，那就必須熟悉以下的指令。<br>新建文章</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo n 文章名稱</span><br><span class="line">$ hexo new 文章名稱</span><br></pre></td></tr></table></figure>
-<p>生成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>在本地端觀看(第三步驟有提及到的)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s </span><br><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>部屬</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>hexo server 相關指衍生</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server -s  # 靜態模式</span><br><span class="line">$ hexo server -p 5000  # 更改端口</span><br><span class="line">$ hexo server -i 192.168.1.1  # 自定義 IP</span><br><span class="line">$ hexo clean #清緩存</span><br></pre></td></tr></table></figure>
-
-<p>了解以上指令後，就可以將hexo的資料上傳至github上了。</p>
-<p>在cmd裡使用以下指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
-<p>或是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
-<p>過程可能會有git的錯誤，還請設定你的email和帳號名稱<br>設定完成後就會跳出github的登入資訊，輸入你的帳號密碼後就會完成了<br>完成後打開瀏覽器輸入:<a href="https://yourname.github.io/" target="_blank" rel="noopener">https://yourname.github.io/</a><br>來查看你的網頁是否建置成功。</p>
-<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc7.jpg" class="" title="This is an image">
-<p>出現上圖後就真的是結束了，恭喜你!成功建立了屬於你自己的web。</p>
-
       
     </div>
 </article>

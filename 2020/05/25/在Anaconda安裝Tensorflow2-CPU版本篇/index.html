@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Anyapoi WebSite</title>
+  <title>在Anaconda安裝Tensorflow2.0版本(CPU版本篇) | Anyapoi WebSite</title>
   
   
   
@@ -76,65 +76,14 @@
 
     <div class="container">
         <div data-pager-shell>
-            <ul class="Index">
-  
+            <div>
+  <article class='ContentView'>
     <header class='PageTitle'>
-        <h1>{ Jupyter notebook }</h1>
+        <h1>在Anaconda安裝Tensorflow2.0版本(CPU版本篇)</h1>
     </header>
-  
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/">在Anaconda安裝Tensorflow2.0版本(CPU版本篇)</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-05-25T07:58:46.000Z" itemprop="datePublished">
-    2020-05-25
-  </time>
-  
-  | 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
-  </li>
 
-  <li class="meta-text">
-  { <a href="/tags/Tensorflow/">Tensorflow</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/Jupyter-notebook/">Jupyter notebook</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/Anaconda/">Anaconda</a> }
-  </li>
-
-
-  </ul>
-  
-  
-  / 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/categories/Tensorflow-%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">Tensorflow 實作心得</a> }
-  </li>
-
-
-  </ul>
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h1 id="在Anaconda安裝Tensorflow2-0版本-CPU版本篇"><a href="#在Anaconda安裝Tensorflow2-0版本-CPU版本篇" class="headerlink" title="在Anaconda安裝Tensorflow2.0版本(CPU版本篇)"></a>在Anaconda安裝Tensorflow2.0版本(CPU版本篇)</h1><h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>因為碩士選擇了人工智慧，於是便開始接觸tensorflow。網路上雖然有很多的教學文章可以參考，但是按照他們的教學做都失敗了，不是執行時dead kernel，不然就是沒抓到tensorflow的函式庫，還有最重要的一點就是爬出來的文章過舊，已經沒辦法照著做了，當時為了安裝tensorflow折騰了我好久，因此便寫下我安裝的心路歷程，也方便我日後觀看，不用再爬文。</p>
+    <section>
+      <h1 id="在Anaconda安裝Tensorflow2-0版本-CPU版本篇"><a href="#在Anaconda安裝Tensorflow2-0版本-CPU版本篇" class="headerlink" title="在Anaconda安裝Tensorflow2.0版本(CPU版本篇)"></a>在Anaconda安裝Tensorflow2.0版本(CPU版本篇)</h1><h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>因為碩士選擇了人工智慧，於是便開始接觸tensorflow。網路上雖然有很多的教學文章可以參考，但是按照他們的教學做都失敗了，不是執行時dead kernel，不然就是沒抓到tensorflow的函式庫，還有最重要的一點就是爬出來的文章過舊，已經沒辦法照著做了，當時為了安裝tensorflow折騰了我好久，因此便寫下我安裝的心路歷程，也方便我日後觀看，不用再爬文。</p>
 <h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何在anaconda安裝tensorflow 2，包括tensorflow CPU版本以及GPU版本，也會順便提醒安裝時要注意什麼以免安裝失敗。<br>本來想CPU跟GPU一次講解完畢，但發現文章過長，故分成兩篇撰寫，此篇為CPU版本。</p>
 <h3 id="前置步驟-amp-注意事項"><a href="#前置步驟-amp-注意事項" class="headerlink" title="前置步驟&amp;注意事項"></a>前置步驟&amp;注意事項</h3><ol>
 <li>很重要!!!!如果有安裝anaconda的，請卸載anaconda，記得是卸載乾淨！我安裝失敗有很大的原因是沒卸載anaconda，導致anaconda沒有去抓重要的東西進來。</li>
@@ -180,15 +129,47 @@
 <img src="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/pc10.JPG" class="" title="This is an image">
 <p>output會顯示你的版本號，如果連版本號都沒出來就表示沒安裝成功。<br>網路上什麼session()之類的，全是舊版的，是tensorflow 2是不支援的，你打再多都是噴錯。</p>
 
+
       
-    </div>
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2020-05-25T07:58:46.000Z" itemprop="datePublished">
+              2020-05-25
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Tensorflow/">Tensorflow</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jupyter-notebook/">Jupyter notebook</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Anaconda/">Anaconda</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
 </article>
 
-    </li>
   
-</ul>
-
-
+</div>
 
             <footer>
     <div>© 2020 - daniel chen </div>
