@@ -95,25 +95,25 @@
 <li>我不知道這算不算必要，但請安裝最新的顯卡驅動程式，就當保險起見，以免衍生出新的問題。</li>
 <li>安裝於Windows系統，實際在寫tensorflow時是用jupyter notebook，spyder似乎不能寫的樣子?</li>
 </ol>
-<h3 id="我該安裝GPU還是CPU版本-這到底有什麼差別"><a href="#我該安裝GPU還是CPU版本-這到底有什麼差別" class="headerlink" title="我該安裝GPU還是CPU版本?這到底有什麼差別?"></a>我該安裝GPU還是CPU版本?這到底有什麼差別?</h3><p>能安裝GPU版本當然是安裝GPU版本囉！GPU跟CPU這兩個版本計算能力差很多的，我親自體驗過，因為我最一開始是裝CPU版本，當時一直裝失敗GPU版本就退而求其次裝CPU版本。CPU訓練模型的時間，GPU可以跑好幾次，甚至有些參數可以調大來計算求更好的模型正確率。個人認為CPU版本純粹是給入門者熟悉用的，不管怎麼樣，要繼續學tensorflow和人工智慧就是要切換成GPU版本，這點還是認清一下吧！兩邊真的差很多。<br>這邊給你一個GPU版本的執行速度，4400筆訓練完只需要花一分鐘左右的時間，CPU會用到5分鐘甚至更久。</p>
+<h3 id="我該安裝GPU還是CPU版本-這到底有什麼差別"><a href="#我該安裝GPU還是CPU版本-這到底有什麼差別" class="headerlink" title="我該安裝GPU還是CPU版本?這到底有什麼差別?"></a>我該安裝GPU還是CPU版本?這到底有什麼差別?</h3><p>能安裝GPU版本當然是安裝GPU版本囉！GPU跟CPU這兩個版本計算能力差很多的，我親自體驗過，因為最一開始是裝CPU版本，當時一直裝失敗GPU版本就退而求其次裝CPU版本。CPU訓練模型的時間，GPU可以跑好幾次，甚至有些參數可以調大來計算求更好的模型正確率。個人認為CPU版本純粹是給入門者熟悉用的，不管怎麼樣，要繼續學tensorflow和人工智慧就是要切換成GPU版本，這點還是認清一下吧！兩邊真的差很多。<br>這邊給你一個GPU版本的執行速度，4400筆訓練完只需要花一分鐘左右的時間，CPU會用到5分鐘甚至更久。</p>
 <img src="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/pc07.JPG" class="" title="This is an image">
 
-<h3 id="安裝GPU版本的流程"><a href="#安裝GPU版本的流程" class="headerlink" title="安裝GPU版本的流程"></a>安裝GPU版本的流程</h3><p>這個流程其實就是我下面要說的安裝步驟，突然獨立出這個部分是因為我怕安裝步驟內容過長，我怕各位光是被我的文字海淹沒就不行了，因此便獨立出來說一下大致的安裝流程。<br>前置  更新顯卡驅動程式(我不知道是不是必要，但我安裝tensorflow的電腦都會更新驅動)<br>第一步 卸載anaconda<br>第二步 安裝cuda和cudnn<br>第三步 安裝anaconda<br>第四步 安裝tensorflow-GPU&amp;指定版本<br>第五步 測試</p>
-<h3 id="GPU版本安裝第一步驟-卸載anaconda"><a href="#GPU版本安裝第一步驟-卸載anaconda" class="headerlink" title="GPU版本安裝第一步驟-卸載anaconda"></a>GPU版本安裝第一步驟-卸載anaconda</h3><p>GPU版本的安裝我爬了不少文章，但是幾乎是失敗的，原因其實有兩種，第一種是蠻多文章過舊，有些安裝方式或是測試方式tensorflow2.0已經不支援了，不然就是天下一大抄，抄完後實際的內容也沒特別去解釋或補充，東漏一個西漏一個，有些乾脆不寫核心問題，導致照他的步驟做，就失敗了。第二個失敗原因就是這個，安裝tensorflow的時候沒將anaconda卸載，有沒有卸載就是成功失敗的關鍵了！</p>
+<h3 id="安裝GPU版本的流程"><a href="#安裝GPU版本的流程" class="headerlink" title="安裝GPU版本的流程"></a>安裝GPU版本的流程</h3><p>這個流程其實就是我下面要說的安裝步驟，突然獨立出這個部分是因為我怕安裝步驟內容過長，各位光是被我的文字海淹沒就不行了，因此便獨立出來說一下大致的安裝流程。<br>前置  更新顯卡驅動程式(我不知道是不是必要，但我安裝tensorflow的電腦都會更新驅動)<br>第一步 卸載anaconda<br>第二步 安裝cuda和cudnn<br>第三步 安裝anaconda<br>第四步 安裝tensorflow-GPU&amp;指定版本<br>第五步 測試</p>
+<h3 id="GPU版本安裝第一步驟-卸載anaconda"><a href="#GPU版本安裝第一步驟-卸載anaconda" class="headerlink" title="GPU版本安裝第一步驟-卸載anaconda"></a>GPU版本安裝第一步驟-卸載anaconda</h3><p>GPU版本的安裝我爬了不少文章，但是幾乎是失敗的，原因其實有兩種，第一種是蠻多文章過舊，有些安裝方式或是測試方式tensorflow2.0已經不支援了，不然就是天下一大抄，抄完後實際的內容也沒特別去解釋或補充，東漏一個西漏一個，有些乾脆不寫核心問題，導致照他的步驟做，就失敗了。第二個失敗原因就是這個，安裝tensorflow的時候沒將anaconda卸載，有沒有卸載就是成功失敗的關鍵了！這邊可能要先講下面會說的CUDA和cuDNN，我們重裝的原因主要是把CUDA和cuDNN的一些設定參數放進anaoncda裡，使tensorflow能正常運作而不會dead kernel。這裡若是在已安裝anaconda的情況下再安裝CUDA和cuDNN，那這兩個的設定參數可能就吃不到了。好像是可以手動加進去拉！但是我直接說我不會，因此乾脆一點直接重裝讓anaconda自己去抓設定參數就好了，也不用去想手動加入的事情。</p>
 <p>因此，第一步驟最關鍵的部分就是將anaconda卸載。如果沒有安裝過anaconda的話可以直接跳過此步驟<br>卸載完成後先去官網將安裝檔載下來等等拿來用<br>Anaconda官方下載網頁:<a href="https://www.anaconda.com/products/individual" target="_blank" rel="noopener">https://www.anaconda.com/products/individual</a></p>
 <h3 id="CPU版本安裝第二步驟-安裝CUDA"><a href="#CPU版本安裝第二步驟-安裝CUDA" class="headerlink" title="CPU版本安裝第二步驟-安裝CUDA"></a>CPU版本安裝第二步驟-安裝CUDA</h3><p>CUDA是什麼?<br>網路上隨便搜索就不少文章，這邊我套用一下wiki的說明<br>CUDA（Compute Unified Device Architecture，統一計算架構）是由NVIDIA所推出的一種整合技術，是該公司對於GPGPU的正式名稱。透過這個技術，使用者可利用NVIDIA的GeForce 8以後的GPU和較新的Quadro GPU進行計算。亦是首次可以利用GPU作為C-編譯器的開發環境。NVIDIA行銷的時候，往往將編譯器與架構混合推廣，造成混亂。實際上，CUDA可以相容OpenCL或者自家的C-編譯器。無論是CUDA C-語言或是OpenCL，指令最終都會被驅動程式轉換成PTX代碼，交由顯示核心計算。<br>另外這是我的解釋<br>其實就是優化GPU運算的一種工具。</p>
-<p>CUDA下載網址:<a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-downloads</a><br>在下載前請先確認你的顯卡支援哪種版本號，方法我在前置步驟&amp;注意事項那邊有講。<br>我安裝的電腦顯卡分別是GTX1050 Ti跟GTX 1650，兩個選擇的版本號皆是最新的10.2。<br>接下來的部分我會用我的顯卡支援的版本號做，其他版本號大同小異拉，就是版本那邊選擇支援的版本號就是了。</p>
+<p>CUDA下載網址:<a href="https://developer.nvidia.com/cuda-downloads" target="_blank" rel="noopener">https://developer.nvidia.com/cuda-downloads</a><br>在下載前請先確認你的顯卡支援哪種版本號，方法我在前置步驟&amp;注意事項那邊有講。<br>我安裝的電腦顯卡分別是GTX1050 Ti跟GTX 1650，兩個選擇的版本號皆是最新的10.2。<br>接下來我會用我的顯卡支援的版本號做接下來的步驟，其他版本號的安裝步驟也大同小異拉，就是版本那邊選擇支援的版本號就是了。</p>
 <p>CUDA<br>版本號:10.2<br>進入上面寫的下載網址後選擇你要求的CUDA<br>Operating System→Windows<br>Architecture→x86_64<br>Version→10 (看你支援的版本號喔)<br>Installer Type→都可以，隨便你選擇<br>圖片紅框的地方就是我選擇的選項</p>
 <img src="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/pc01.jpg" class="" title="This is an image">
-<p>選完Installer Type後，便會開始進行下載安裝檔<br>下載下來後就開始進行安裝，跟安裝更新顯卡驅動一樣，這裡我就不多做解釋。<br>安裝過程中路徑如果照預設路徑安裝，會在這個地方出現C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA，也可以在這邊確認你安裝的CUDA版本號。</p>
+<p>選完Installer Type後，便會開始進行下載安裝檔的動作。<br>下載下來開始進行安裝，跟安裝更新顯卡驅動一樣，這裡我就不多做解釋。<br>安裝過程中路徑如果照預設路徑安裝，會在這個地方出現C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA，也可以在這邊確認你安裝的CUDA版本號。</p>
 <img src="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/pc02.JPG" class="" title="This is an image">
 
 <h3 id="GPU版本安裝第三步驟-安裝cuDNN"><a href="#GPU版本安裝第三步驟-安裝cuDNN" class="headerlink" title="GPU版本安裝第三步驟-安裝cuDNN"></a>GPU版本安裝第三步驟-安裝cuDNN</h3><p>cuDNN是什麼?<br>是一種用於深度神經網絡的GPU加速庫，也就是加速我們tensorflow-GPU運算性能的一種工具。</p>
 <p>CUDA和cuDNN都要裝喔！缺一不可，安裝順序是先CUDA後cuDNN。<br>cuDNN下載網址:<a href="https://developer.nvidia.com/cudnn" target="_blank" rel="noopener">https://developer.nvidia.com/cudnn</a><br>點進去後找到下圖紅框download的位置。</p>
 <img src="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/pc03.jpg" class="" title="This is an image">
-<p>接下來nivida會叫你登入帳號，這裡請登入。<br>登入後就會有個同意選項要你按，下圖是按完後出現的樣子。</p>
+<p>接下來nivida會叫你登入帳號，這裡請登入。<br>登入後就會有個同意選項要你按，下圖是按完同意後的樣子。</p>
 <img src="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/pc04.jpg" class="" title="This is an image">
-<p>機靈的你可能發現我圖片裡有個紅框，沒錯！這裡需要注意一下！<br>要特別注意cuDNN的安裝檔是支援哪個版本的CUDA，CUDA10.2就是配cuDNN10.2，不能配個cuDNN10.1喔！<br>下載下來是個壓縮檔，不是安裝檔，這裡稍微看一下，然後把壓縮檔內的檔案全部複製起來。</p>
+<p>機靈的你可能發現了圖片裡有個紅框，沒錯！這裡需要注意一下！<br>要特別注意cuDNN的安裝檔是支援哪個版本的CUDA，CUDA10.2就是配cuDNN10.2，不能配個cuDNN10.1喔！<br>下載下來是個壓縮檔，不是安裝檔，這裡稍微看一下，然後把壓縮檔內的檔案全部複製起來。</p>
 <img src="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/pc05.jpg" class="" title="This is an image">
 <p>丟到CUDA裡，安裝時的預設路徑為<br>C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.2</p>
 <h3 id="GPU版本安裝第四步驟-安裝anaconda"><a href="#GPU版本安裝第四步驟-安裝anaconda" class="headerlink" title="GPU版本安裝第四步驟-安裝anaconda"></a>GPU版本安裝第四步驟-安裝anaconda</h3><p>確認好CUDA和cuDNN都安裝完成後，就可以將anaconda載回來了。<br>Anaconda官方下載網頁:<a href="https://www.anaconda.com/products/individual" target="_blank" rel="noopener">https://www.anaconda.com/products/individual</a><br>你當初怎麼裝的，這裡就照著做，我是一路next下去，照著預設做。</p>
@@ -127,10 +127,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --ignore-installed --upgrade tensorflow-gpu</span><br></pre></td></tr></table></figure>
 <p>我不知道各位有沒有遇到，他下載的tensorflow-GPU的版本為v2.4。<br>我實際去tensorflow官網查，也沒有2.4版本的消息，到底是哪個環節出錯誤了?<br>實際去測也是各種噴錯，目前我推估這個版本是沒有辦法使用的。</p>
 <p>這裡有人可能會說<br>我一開始使用conda安裝的tensorflow-GPU v1.10版本經測試也可以用啊?為什麼要特地去裝2.0版本?而且還只指定2.0版本，不能用2.1或2.2版本嗎?</p>
-<p>恩…..對！v1.10可以用，但是當你使用了tensorflow 2的模型架構時，會直接噴錯，並告訴你這是TF2才支援的寫法，而且tensorflow 2已經開始算主流，寫法也會開始慢慢轉變成TF2的寫法，沒有必要執著在TF1。<br>而至於為什麼指定為v2.0而不是其他版本原因是我自己安裝時，只有2.0版本成功執行起來，2.1跟2.2直接噴錯不讓我動，應該是我能力不足而不是那個版本有問題，最一開始我也說了，我碰壁很久了，這是我目前能安裝起來並能順利執行程式的心得步驟，也許之後會再修改或是另開文章更新其他版本，但目前這是我的安裝步驟。</p>
+<p>恩…..對！v1.10可以用，但是當你使用了tensorflow 2的模型架構時，會直接噴錯，並告訴你這是TF2才支援的寫法，而且tensorflow 2已經開始算主流，寫法也會開始慢慢轉變成TF2的寫法，沒有必要執著在TF1。<br>而至於為什麼指定為v2.0而不是其他版本原因是我自己安裝時，只有2.0版本成功執行起來，2.1跟2.2直接噴錯不讓我動，應該是我能力不足而不是那個版本有問題，最一開始我也說了，我碰壁很久了，這是我目前能安裝起來並能順利執行程式的心得步驟，也許之後會再修改或是另開文章更新其他版本，但目前這是我的安裝步驟的最佳解。</p>
 <h3 id="GPU版本安裝第五步驟-測試tensorflow-GPU"><a href="#GPU版本安裝第五步驟-測試tensorflow-GPU" class="headerlink" title="GPU版本安裝第五步驟-測試tensorflow-GPU"></a>GPU版本安裝第五步驟-測試tensorflow-GPU</h3><p>第四步驟做完後，就可以打開Anaconda的jupyter notebook</p>
 <img src="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/pc06.jpg" class="" title="This is an image">
-<p>以下測試的程式碼</p>
+<p>以下為測試tensorflow-gpu的程式碼</p>
 <ul>
 <li>最基本的查看tensorflow版本號<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">print(tf.__version__)</span><br></pre></td></tr></table></figure>
 output:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v2.0</span><br></pre></td></tr></table></figure></li>
