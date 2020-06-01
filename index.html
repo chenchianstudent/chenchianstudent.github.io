@@ -84,6 +84,32 @@
     <header class="title">
       
         <h1>
+          <a href="/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/">在Anaconda安裝Tensorflow2.0版本(GPU版本篇)</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-06-01T06:14:51.000Z" itemprop="datePublished">
+    2020-06-01
+  </time>
+  
+  
+</div>
+
+    </header>
+    <div>
+      
+        
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
           <a href="/2020/05/25/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-CPU%E7%89%88%E6%9C%AC%E7%AF%87/">在Anaconda安裝Tensorflow2.0版本(CPU版本篇)</a>
         </h1>
       
@@ -865,101 +891,6 @@
 <img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd.jpg" class="" title="This is an image">
 <p>這是辨識後的圖片</p>
 <img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd2.jpg" class="" title="This is an image">
-      
-    </div>
-</article>
-
-    </li>
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/">執行深度學習範例-圖像辨識</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-03-14T04:28:06.000Z" itemprop="datePublished">
-    2020-03-14
-  </time>
-  
-  | 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/%E5%9C%96%E5%83%8F/">圖像</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/linux/">linux</a> }
-  </li>
-
-
-  </ul>
-  
-  
-  / 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
-  </li>
-
-
-  </ul>
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我碰jetson nano第一個學到的東西，因此便寫下來方便日後觀看。</p>
-<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片是什麼，並將結果顯示出來的操作紀錄。</p>
-<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
-<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.準備jetson nano與相關配件(鍵盤、滑鼠、網路Wi-Fi、外接螢幕、SD卡等….)<br>把jetson nano想成一台小電腦去操控，電腦主機有什麼配件，jetson nano就應該要有，對jetson nano不懂的話，還請參考別人的介紹文。<br>2.略懂cmd指令</p>
-<h3 id="第一步驟-下載相關套件"><a href="#第一步驟-下載相關套件" class="headerlink" title="第一步驟-下載相關套件"></a>第一步驟-下載相關套件</h3><p>將jetson nano開機後，執行Terminal</p>
-<p>安裝cmake以及git</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install git cmake</span><br></pre></td></tr></table></figure>
-
-<p>安裝完成後，接著就是將上面參考範例下載下來</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https:&#x2F;&#x2F;github.com&#x2F;dusty-nv&#x2F;jetson-inference</span><br></pre></td></tr></table></figure>
-<p>以及jetson-utils的submodule，這個也要一併下載下來</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd jetson-inference</span><br><span class="line">$ git submodule update --init</span><br></pre></td></tr></table></figure>
-
-<h3 id="第二步驟-利用cmake來編譯需要的相關套件"><a href="#第二步驟-利用cmake來編譯需要的相關套件" class="headerlink" title="第二步驟-利用cmake來編譯需要的相關套件"></a>第二步驟-利用cmake來編譯需要的相關套件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir build &amp;&amp; cd build</span><br><span class="line">$ cmake ..&#x2F;</span><br></pre></td></tr></table></figure>
-<p>接著便會呼叫cmakeprebuild.sh的腳本，然後就會開始下載相關函式庫和模組(應該是訓練完的)<br>過程很長很長<del>~</del>另外會有要按Enter的地方，不要自己跑去泡咖啡了。</p>
-<p>下載完成後，在Terminal下載該指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make</span><br></pre></td></tr></table></figure>
-<p>再次等待執行完成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make install</span><br></pre></td></tr></table></figure>
-<p>下完指令並完成後，我們接著要用的範例程式會在jetson-inference/build/aarch64/bin這個資料夾中。</p>
-<p>恭喜你！安裝設定方面的已經結束了</p>
-<h3 id="第三步驟-圖像辨識"><a href="#第三步驟-圖像辨識" class="headerlink" title="第三步驟-圖像辨識"></a>第三步驟-圖像辨識</h3><p>將前兩個步驟完成後，我們就有相關的範例程式可以去作使用了。</p>
-<p>我們先移動指定的資料中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
-<p>接著呼叫圖像辨識的範例來辨識圖像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;imagenet-console polar_bear.jpg polar_bear_inferenced.jpg</span><br></pre></td></tr></table></figure>
-<p>接著他會跑一小段時間，第一次會這樣，之後就會比較快。<br>完成後會產生一個polar_bear_inferenced.jpg。<br>路徑會放在這裡</p>
-<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/pc2.jpg" class="" title="This is an image">
-<p>polar_bear.jpg &gt;&gt;&gt;辨識完成後&gt;&gt;&gt; polar_bear_inferenced.jpg<br>原圖</p>
-<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/bear01.jpg" class="" title="This is an image">
-<p>經過辨識後的圖片</p>
-<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/bear02.jpg" class="" title="This is an image">
-
-<p>恭喜你完成第一次的影像辨識。</p>
-<p>當然除了程式範例給的圖片，你也可以自行上網抓圖來靠這支程式辨識<br>像我就google搜尋貓的圖片<br>原圖(圖源是google打貓咪隨意抓下來)</p>
-<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/cattest01.png" class="" title="This is an image">
-<p>我把這圖片命名為cattest.png<br>然後在cmd裡打上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;imagenet-console cattest.png cattest_inferenced.png</span><br></pre></td></tr></table></figure>
-<p>程式運行完成後</p>
-<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/pc1.jpg" class="" title="This is an image">
-<p>就會出現辨識結果</p>
-<img src="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/cattest02.png" class="" title="This is an image">
       
     </div>
 </article>
