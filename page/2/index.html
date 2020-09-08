@@ -84,6 +84,92 @@
     <header class="title">
       
         <h1>
+          <a href="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/">執行深度學習範例-物件辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-16T07:35:19.000Z" itemprop="datePublished">
+    2020-03-16
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%9C%96%E5%83%8F/">圖像</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/linux/">linux</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第二個實作範例，因此便寫下來方便日後觀看。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片裡有什麼物件，並將結果顯示出來的操作紀錄。</p>
+<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。</p>
+<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>首先<br>與<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>的第三步驟一樣，我們必須開啟Terminal先移動到此路徑才可進行接下來的步驟。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
+<p>開始辨識前，要先知道這個路徑下有許多的範例圖片可以進行測試。</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc03.jpg" class="" title="This is an image">
+<p>了解測試的圖片在哪裡後，我們就可以進行物件辨識了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console airplane_0.jpg airplane_test.jpg</span><br></pre></td></tr></table></figure>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc01.png" class="" title="This is an image">
+<p>上面的指令，詳細為:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console 該圖片檔名或該圖片的路徑及名稱 辨識完成後結果的圖片檔名以及路徑</span><br></pre></td></tr></table></figure>
+<p>執行過程中，可能會比圖像辨識還要久，請耐心等待，完成後會出現下圖</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc02.jpg" class="" title="This is an image">
+<p>這是我們一開始要辨識的圖片</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane01.jpg" class="" title="This is an image">
+<p>經過程式辨識後就變成</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane02.jpg" class="" title="This is an image">
+<p>圖片儲存放置的地方會在jetson-inference/build/aarch64/bin這個路徑下，找到你當初下指令時設定的名稱便可出現上圖</p>
+<p>當然，我們也可以自己找圖片去辨識<br>這是我自己去google打aircraft carrier landing找到的圖片，並把圖片丟到該路徑下:jetson-inference/build/aarch64/bin/images</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cv01.jpg" class="" title="This is an image">
+<p>我想看看辨識後是不是能辨識出哪個是飛機哪個是人<br>經過辨識後</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cvtest.jpg" class="" title="This is an image">
+<p>雖然有小部分辨識錯誤或沒有完全辨識到，但大部分是準確的，也許是模組沒有特別訓練這類的圖片，不過已經算不錯了！</p>
+<p>如果是拿範例圖片的話，辨識程度是沒問題的。<br>這是原圖</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd.jpg" class="" title="This is an image">
+<p>這是辨識後的圖片</p>
+<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd2.jpg" class="" title="This is an image">
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
           <a href="/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/">執行深度學習範例-圖像辨識</a>
         </h1>
       
