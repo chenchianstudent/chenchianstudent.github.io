@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Anyapoi WebSite</title>
+  
+  
+  
+  <!--link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css"-->
+  
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/github-gist.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url()">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>Anyapoi WebSite</div>
+        
+            <div>poi</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+            <a href="https://i.imgur.com/cjGoQtg.jpg" target="_blank" rel="noopener" class="Btn">
+              <li>avatar</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+            
+                <a href="https://github.com/chenchianstudent" target="_blank" rel="noopener">
+                    <img src="/assets/github.svg" />
+                </a>
+            
+        
+            
+                <a href="https://www.facebook.com/profile.php?id=100004713881642" target="_blank" rel="noopener">
+                    <img src="/assets/facebook.svg" />
+                </a>
+            
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <ul class="Index">
+  
+    <header class='PageTitle'>
+        <h1>{ 實作心得 }</h1>
+    </header>
+  
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
+          <a href="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/">如何安裝hexo+在github上建立個人網頁</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-03-11T04:56:50.000Z" itemprop="datePublished">
+    2020-03-11
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/Hexo/">Hexo</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/github/">github</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/Hexo-GitHub-%E5%BF%83%E5%BE%97%E5%AF%A6%E4%BD%9C/">Hexo &amp; GitHub 心得實作</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="這篇文章是做什麼的"><a href="#這篇文章是做什麼的" class="headerlink" title="這篇文章是做什麼的?"></a><strong>這篇文章是做什麼的?</strong></h3><p>這是我的個人學習紀錄，這篇文章主要是來記錄我安裝hexo以及建置github網頁的過程，方便自己查看，當然也會寫上我遇到的問題以及解決方式。</p>
+<h3 id="為什麼要使用hexo"><a href="#為什麼要使用hexo" class="headerlink" title="為什麼要使用hexo?"></a><strong>為什麼要使用hexo?</strong></h3><p>其實純粹當作練習，也沒有什麼一定的要用的理由。google一下很多文章可以告訴你hexo的優缺點。<br>那這邊稍微說明一下hexo的優點:<br>1.不用自己架伺服器<br>2.可以離線撰寫你的網頁<br>3.使用markdown語法，學校有教過，所以個人比較容易上手<br>4.因為部屬在github上，所以成本幾乎是0</p>
+<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.擁有自己的電腦或伺服器<br>2.已有github帳號<br>3.略懂cmd指令<br>4.懂怎麼google查問題(安裝的時候出現的問題可能都不同，我也只是自己爬文解出來的)<br>5.請先安裝git</p>
+<h3 id="第一步驟-安裝node-js"><a href="#第一步驟-安裝node-js" class="headerlink" title="第一步驟 安裝node.js"></a>第一步驟 安裝node.js</h3><p>請下載安裝<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a></p>
+<h3 id="第二步驟-安裝Hexo"><a href="#第二步驟-安裝Hexo" class="headerlink" title="第二步驟　安裝Hexo"></a>第二步驟　安裝Hexo</h3><p>安裝好node.js後，請開啟cmd(node.js的cmd也行)<br><strong>安裝 Hexo</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+<p>當中可能會有很多warn訊息，先暫時不管它，我在這裡卡很久，跟其他教學文章的圖片差很多，以為安裝失敗了。</p>
+<p><strong>確認是否有安裝成功</strong><br>就如上面所說的，因為跟其他安裝教學文章的圖片有差別，在這裡提供一個確認是否有安裝成功的指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo version</span><br></pre></td></tr></table></figure>
+<p>若有成功出現版本號，那基本上是有安裝成功。</p>
+<h3 id="第三步驟-hexo相關設定"><a href="#第三步驟-hexo相關設定" class="headerlink" title="第三步驟 hexo相關設定"></a>第三步驟 hexo相關設定</h3><p>接下來會用到的指令有以下三個</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init &lt;folder&gt;    #　初始化你的網頁&lt;folder&gt;為你的網頁放置處(本地端)</span><br><span class="line">$ cd &lt;folder&gt;　　　　　　#  移動至該放置處　</span><br><span class="line">$ npm install           #  安裝相關套件</span><br></pre></td></tr></table></figure>
+<p>個人當初建置的位置+下指令是這樣的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init C:\Users\danie\hexotest      # hexotest是自己建立的資料夾</span><br></pre></td></tr></table></figure>
+
+<p>建置過程中可能也會出現一堆奇怪的warn訊息，也是暫時別管。先確認指令下完且跑完後會出現下圖的東西</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc1.jpg" class="" title="This is an image">
+<p>接著測試hexo能不能如預期的執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>指令下完後確認顯示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000 . Press Ctrl+C to stop.</span><br><span class="line">INFO  Catch you later</span><br></pre></td></tr></table></figure>
+<p>就可以到瀏覽器上打上<code>localhost:4000</code>，確認是否有將網頁建立起來</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc2.jpg" class="" title="This is an image">
+<p>出現上圖後，恭喜你!!!算是成功建立起來了<del>~</del><br><strong>想把它關閉記得在cmd裡按下ctrl+c來終止運行。</strong></p>
+<h3 id="第四步驟-將hexo與github連結-github方面的設定"><a href="#第四步驟-將hexo與github連結-github方面的設定" class="headerlink" title="第四步驟 將hexo與github連結-github方面的設定"></a>第四步驟 將hexo與github連結-github方面的設定</h3><p>第三步驟完成後，代表著你能在本地端成功把hexo開起來了，那麼接下來就是要在github上弄出一模一樣的東西出來，而不是單單只能在本地端上觀看。</p>
+<p>請登入自己的<a href="https://github.com/" target="_blank" rel="noopener">github</a>帳號<br>登入完成後請進入your repositories中</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc3.jpg" class="" title="This is an image">
+<p>點擊右方的New<br>並在Repository name欄位裡打上 yourname.github.io (yourname指的是你的github帳號名稱)</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc4.jpg" class="" title="This is an image">
+<p>上圖出現錯誤提示是因為我已經建立了，不能建立重複的名稱<br>確認完畢後按下建立後出現下圖</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc5.jpg" class="" title="This is an image">
+<p>你會看到一個https的URL，這裡我們先複製起來放著，等等會用到<br>例如我的URL是:<a href="https://github.com/chenchianstudent/chenchianstudent.github.io.git" target="_blank" rel="noopener">https://github.com/chenchianstudent/chenchianstudent.github.io.git</a></p>
+<h3 id="第五步驟-將hexo與github連結-本地端方面的設定"><a href="#第五步驟-將hexo與github連結-本地端方面的設定" class="headerlink" title="第五步驟 將hexo與github連結-本地端方面的設定"></a>第五步驟 將hexo與github連結-本地端方面的設定</h3><p>我們回到本地端後，開啟當初第三步驟hexo初始化的檔案位置。<br>我初始化的位置為C:\Users\danie\hexotest<br>然後找到並開啟一個叫_config.yml的檔案</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc6.jpg" class="" title="This is an image">
+<p>開啟之後，拉到檔案最底部，可以看到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type:</span><br></pre></td></tr></table></figure>
+<p>將下面參數設定取代掉上面的參數設定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: http:&#x2F;&#x2F;github.com&#x2F;yourname&#x2F;yourname.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>repository的部分就是要貼上在第四步驟取得的url。<br>我的URL:<a href="https://github.com/chenchianstudent/chenchianstudent.github.io.git" target="_blank" rel="noopener">https://github.com/chenchianstudent/chenchianstudent.github.io.git</a><br>然後”:”後面記得加上空格。<br>做完後儲存並退出。</p>
+<h3 id="第六步驟-將hexo的資料上傳至github"><a href="#第六步驟-將hexo的資料上傳至github" class="headerlink" title="第六步驟 將hexo的資料上傳至github"></a>第六步驟 將hexo的資料上傳至github</h3><p>來到此處，就代表快要結束了！<br>接下來請認識以下hexo的指令<br>這些指令並不是安裝時才會用到的喔！之後如果還要維護你的網頁，那就必須熟悉以下的指令。<br>新建文章</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo n 文章名稱</span><br><span class="line">$ hexo new 文章名稱</span><br></pre></td></tr></table></figure>
+<p>生成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>在本地端觀看(第三步驟有提及到的)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s </span><br><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>部屬</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d</span><br><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>hexo server 相關指衍生</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server -s  # 靜態模式</span><br><span class="line">$ hexo server -p 5000  # 更改端口</span><br><span class="line">$ hexo server -i 192.168.1.1  # 自定義 IP</span><br><span class="line">$ hexo clean #清緩存</span><br></pre></td></tr></table></figure>
+
+<p>了解以上指令後，就可以將hexo的資料上傳至github上了。</p>
+<p>在cmd裡使用以下指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d -g</span><br></pre></td></tr></table></figure>
+<p>或是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+<p>過程可能會有git的錯誤，還請設定你的email和帳號名稱<br>設定完成後就會跳出github的登入資訊，輸入你的帳號密碼後就會完成了<br>完成後打開瀏覽器輸入:<a href="https://yourname.github.io/" target="_blank" rel="noopener">https://yourname.github.io/</a><br>來查看你的網頁是否建置成功。</p>
+<img src="/2020/03/11/%E5%A6%82%E4%BD%95%E5%AE%89%E8%A3%9Dhexo-%E5%9C%A8github%E4%B8%8A%E5%BB%BA%E7%AB%8B%E5%80%8B%E4%BA%BA%E7%B6%B2%E9%A0%81/pc7.jpg" class="" title="This is an image">
+<p>出現上圖後就真的是結束了，恭喜你!成功建立了屬於你自己的web。</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+</ul>
+
+  <section id="nav-wrapper">
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">« prev</a><a class="page-number" href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">1</a><span class="page-number current">2</span>
+    </nav>
+  </section>
+
+
+
+            <footer>
+    <div>© 2020 - daniel chen </div>
+    <div>
+        <span>
+            Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+        </span>
+        ,
+        <span>
+            Theme - <a href="https://github.com/nameoverflow/hexo-theme-icalm" target="_blank" rel="noopener">Icalm</a>
+        </span>
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/pager/dist/singlepager.js"></script>
+
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

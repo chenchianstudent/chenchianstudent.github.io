@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Anyapoi WebSite</title>
+  <title>World-手寫數字辨識 | Anyapoi WebSite</title>
   
   
   
@@ -76,65 +76,14 @@
 
     <div class="container">
         <div data-pager-shell>
-            <ul class="Index">
-  
+            <div>
+  <article class='ContentView'>
     <header class='PageTitle'>
-        <h1>{ jupyter notebook }</h1>
+        <h1>World-手寫數字辨識</h1>
     </header>
-  
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2020/09/08/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%9A%84Hello_World-%E6%89%8B%E5%AF%AB%E6%95%B8%E5%AD%97%E8%BE%A8%E8%AD%98/">World-手寫數字辨識</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-09-08T07:17:20.000Z" itemprop="datePublished">
-    2020-09-08
-  </time>
-  
-  | 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
-  </li>
 
-  <li class="meta-text">
-  { <a href="/tags/jupyter-notebook/">jupyter notebook</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/Tensorflow/">Tensorflow</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/Deep-Learning/">Deep Learning</a> }
-  </li>
-
-
-  </ul>
-  
-  
-  / 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92-Deep-Learning/">深度學習 Deep Learning</a> }
-  </li>
-
-
-  </ul>
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>記錄我在研究所學習深度學習的知識與心得。</p>
+    <section>
+      <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>記錄我在研究所學習深度學習的知識與心得。</p>
 <h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何利用tensorflow來寫一個最基礎的深度學習範例，相當於學習程式語言的hello world。我會盡量將每個程式碼進行解釋，也保持著盡量說人話的方式來說明，太多專有名詞換作是我去看這類的文章，也一定很想關掉頁面。所以請抱持放鬆的心情來看文章！</p>
 <h3 id="前置步驟-amp-注意事項"><a href="#前置步驟-amp-注意事項" class="headerlink" title="前置步驟&amp;注意事項"></a>前置步驟&amp;注意事項</h3><ol>
 <li>本心得教學是使用tensorflow來進行撰寫。怎麼裝tensorflow？我有另外寫了<a href="https://chenchianstudent.github.io/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/" target="_blank" rel="noopener">文章</a>。</li>
@@ -212,100 +161,47 @@
 <p><code>loss: 0.2889 - acc: 0.9142</code>是我們主要看的地方，loss就是損失函數，而acc則是整體正確率，正確率為0.9142(91.42%)。每一次訓練完成都會顯示loss與acc，這些資訊就是訓練時主要看的。你可以發現output中每次訓練完成後，acc會提升，這也說明了模型越來越能找到規則，能夠辨識的正確率可以提升起來。</p>
 <p><code>[0.07581472408375703, 0.9779]</code>是<code>model.evaluate()</code>的output。拿一份新的資料去進行辨識，loss和acc會是多少，就是output顯示的樣子。做這個目的在於確認模型沒有overfitting，也許在訓練時，模型把訓練資料裡全部的特徵都記住了，也就是連無關緊要的特徵也納入辨識規則中，導致正確率才會那麼高！因為訓練都是拿同一份資料。假如拿一份不是訓練資料裡的圖片去辨識，可能會因為這些無關緊要的特徵而判斷錯誤，我們要避免的就是這個！評估一下拿新的資料去辨識是不是與訓練時的正確率一樣，正是評估的主要意義。</p>
 
-      
-    </div>
-</article>
 
-    </li>
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
       
-        <h1>
-          <a href="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/">使用docker運行jupyter_notebook</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-03-17T07:54:15.000Z" itemprop="datePublished">
-    2020-03-17
-  </time>
-  
-  | 
-  <ul>
+
+    </section>
     
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2020-09-08T07:17:20.000Z" itemprop="datePublished">
+              2020-09-08
+            </time>
+          </div>
+          
+            <div>
+              tags: 
   <li class="meta-text">
   { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/Docker/">Docker</a> }
   </li>
 
   <li class="meta-text">
   { <a href="/tags/jupyter-notebook/">jupyter notebook</a> }
   </li>
 
-
-  </ul>
-  
-  
-  / 
-  <ul>
-    
   <li class="meta-text">
-  { <a href="/categories/Docker%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">Docker實作心得</a> }
+  { <a href="/tags/Tensorflow/">Tensorflow</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Deep-Learning/">Deep Learning</a> }
   </li>
 
 
-  </ul>
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是個人練習，指導教授在meeting時告訴我們docker的一些認知，因此便自行練習了一下，並把操作紀錄和遇到的問題寫下來給大家分享。</p>
-<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章算是安裝教學，告訴你怎麼從0開始到安裝docker結束，並教你如何使用docker安裝jupyter notebook。</p>
-<h3 id="jupyter-notebook-image-網址"><a href="#jupyter-notebook-image-網址" class="headerlink" title="jupyter notebook image 網址"></a>jupyter notebook image 網址</h3><p>網址:<a href="https://github.com/jupyter/docker-stacks" target="_blank" rel="noopener">https://github.com/jupyter/docker-stacks</a><br>網址內有他自己的小教學，懂英文的可以進去看一下</p>
-<h3 id="前置作業和注意事項"><a href="#前置作業和注意事項" class="headerlink" title="前置作業和注意事項"></a>前置作業和注意事項</h3><p>1.請先確認自己的電腦RAM有辦法跑docker，docker在運行時會吃些記憶體，RAM只有4G的可能會有點吃緊<br>2.確認自己電腦的VT模式有開啟<br><strong>如何確認有無開啟?</strong><br>電腦的工作管理員&gt;效能&gt;CPU的虛擬欄位會顯示有無開啟</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc03.JPG" class="" title="This is an image">
-<p><strong>怎麼開啟VT?</strong><br>請重啟電腦進入BIOS設定，並進入CPU設定找到 Intel Virtualization Technology（Intel虛擬化技術)，將關閉改成開啟。<br>網上很多教學，就不細講了。這裡我給個網址供各位參考<a href="https://tw.bignox.com/blog/help-vt/" target="_blank" rel="noopener">【新手幫助】電腦開啟vt的方法</a><br>3.看得懂一些英文單字，因為docker沒有中文。</p>
-<h3 id="步驟一-安裝docker"><a href="#步驟一-安裝docker" class="headerlink" title="步驟一 安裝docker"></a>步驟一 安裝docker</h3><p>今天我們是來安裝docker的，因此第一步就是要找到<a href="https://www.docker.com/" target="_blank" rel="noopener">docker官網</a>去了解一下怎麼安裝對吧?<br>經過渣英文查詢，docker要我們安裝一個叫docker desktop的軟體。<br>因此我們先安裝docker desktop<a href="https://www.docker.com/products/docker-desktop" target="_blank" rel="noopener">下載連結</a></p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc01.JPG" class="" title="This is an image">
-<p>安裝過程沒有什麼太大難度，就是一直點next就是了，它沒有什麼太多設定給你選，完成後會請你重新開啟電腦。<br>重啟完成後，docker desktop會自行運行起來。</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc02.JPG" class="" title="This is an image">
-<p><strong>請注意！！！！！！！這裡如果沒有開啟VT的話，docker desktop會運行失敗喔！</strong><br>確認工具列這邊顯示docker desktop is running後</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc04.jpg" class="" title="This is an image">
-<p>請打開CMD輸入以下指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br></pre></td></tr></table></figure>
-<p>有出現以下文字後就表示安裝成功囉！</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc08.JPG" class="" title="This is an image">
-<h3 id="步驟二-安裝jupyter-notebook"><a href="#步驟二-安裝jupyter-notebook" class="headerlink" title="步驟二 安裝jupyter notebook"></a>步驟二 安裝jupyter notebook</h3><p>前面我貼了一個jupyter的網址，這就是我們現在要用的image<br>首先我們先在CMD中下這個指令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -p 8888:8888 jupyter&#x2F;scipy-notebook:17aba6048f44</span><br></pre></td></tr></table></figure>
-<p>在這裡可能有人會有想法：奇怪?不是還沒安裝image嗎?為什麼能直接下達run的指令<br>這就是docker的好處之一了！如果電腦上沒有你要的東西，docker會自行去下載會回來並幫你安裝好執行。</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc05.JPG" class="" title="This is an image">
-<p>如果是第一次安裝的，就還請等一下，因為下載的資料量蠻大的。<br>安裝完成後就可以打開瀏覽器，並在URL欄位打上localhost:8888是否有安裝完成</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc06.JPG" class="" title="This is an image">
-<p>另外也可以再另開一個CMD打上docker ps確認是否有安裝成功</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc10.JPG" class="" title="This is an image">
-<h3 id="步驟三-開始使用jupyter"><a href="#步驟三-開始使用jupyter" class="headerlink" title="步驟三 開始使用jupyter"></a>步驟三 開始使用jupyter</h3><p>進入這個畫面後，就是密碼設定的畫面了。</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc06.JPG" class="" title="This is an image">
-<p>裡面內容大約翻譯了一下，似乎是要我們用token去設定一組新密碼。<br>那這個token在哪裡可以找到呢?<br>我們先回到CMD裡，你可以在這裡找到token(白底的部分)</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc07.JPG" class="" title="This is an image">
-<p>將這個token複製下來後，回到瀏覽器將token貼到下方token欄位，並設定一組自己的密碼後按下確認</p>
-<img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc09.JPG" class="" title="This is an image">
-<p>這樣就進來了，接下來就可以正常執行jupyter notebook了</p>
-
-      
-    </div>
+            </div>
+          
+      </section>
+    
+    
 </article>
 
-    </li>
   
-</ul>
-
-
+</div>
 
             <footer>
     <div>© 2020 - daniel chen </div>

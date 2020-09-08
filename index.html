@@ -84,6 +84,141 @@
     <header class="title">
       
         <h1>
+          <a href="/2020/09/08/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%9A%84Hello_World-%E6%89%8B%E5%AF%AB%E6%95%B8%E5%AD%97%E8%BE%A8%E8%AD%98/">World-手寫數字辨識</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-09-08T07:17:20.000Z" itemprop="datePublished">
+    2020-09-08
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/jupyter-notebook/">jupyter notebook</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Tensorflow/">Tensorflow</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Deep-Learning/">Deep Learning</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92-Deep-Learning/">深度學習 Deep Learning</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>記錄我在研究所學習深度學習的知識與心得。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何利用tensorflow來寫一個最基礎的深度學習範例，相當於學習程式語言的hello world。我會盡量將每個程式碼進行解釋，也保持著盡量說人話的方式來說明，太多專有名詞換作是我去看這類的文章，也一定很想關掉頁面。所以請抱持放鬆的心情來看文章！</p>
+<h3 id="前置步驟-amp-注意事項"><a href="#前置步驟-amp-注意事項" class="headerlink" title="前置步驟&amp;注意事項"></a>前置步驟&amp;注意事項</h3><ol>
+<li>本心得教學是使用tensorflow來進行撰寫。怎麼裝tensorflow？我有另外寫了<a href="https://chenchianstudent.github.io/2020/06/01/%E5%9C%A8Anaconda%E5%AE%89%E8%A3%9DTensorflow2-0%E7%89%88%E6%9C%AC-GPU%E7%89%88%E6%9C%AC%E7%AF%87/" target="_blank" rel="noopener">文章</a>。</li>
+<li>我必須強調一下，本人在寫這篇文章時還是學習中的學生，算是初心者。內容若是有錯，誤導大家還請多多包涵！之後發現我自己有說錯的話，也會去重新修文章，你發現我有說錯的話，也請告訴我哪裡錯了。</li>
+<li>深度學習的一些專有名詞和要表達的概念實在太多了，如果漏掉了還請多多包涵。</li>
+<li>模型訓練的過程中，有些參數若是照我的內容抄，發現執行時會噴錯，原因很有可能是設備的性能造成的。我的指導老師說了一句我覺得蠻中肯的話:深度學習也是一種軍備競賽，裝備差的人能表現的實在有限。</li>
+<li>若是範例跑不動，可以採用colab。colab是google發明的類似jupyter notebook的程式編譯器，是線上的，有網路就可以在瀏覽器上使用，有興趣可以試試，目前是免費的，但不保證未來也是免費喔！colab的教學我再考慮看看要不要另外寫一篇來說。</li>
+<li>什麼是深度學習？請參考這篇<a href="https://chenchianstudent.github.io/2020/09/08/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%EF%BC%9F%EF%BC%81%E7%82%BA%E4%BB%80%E9%BA%BC%E6%9C%80%E8%BF%91%E5%A4%A7%E5%AD%B8%E5%92%8C%E8%B3%87%E8%A8%8A%E7%95%8C%E9%83%BD%E8%83%BD%E8%81%BD%E5%88%B0%E9%80%99%E5%80%8B%E8%A9%9E%EF%BC%9F/" target="_blank" rel="noopener">文章</a><h3 id="了解資料內容-什麼是手寫數字辨識資料集"><a href="#了解資料內容-什麼是手寫數字辨識資料集" class="headerlink" title="了解資料內容-什麼是手寫數字辨識資料集?"></a>了解資料內容-什麼是手寫數字辨識資料集?</h3>簡單來說，它是一個很多張圖片的資料夾。<br>內容是一般人從數字0寫到9的圖片，不同人寫下並拍照，最後匯集在一起變成手寫數字資料集。手寫數字資料集從很久以前就有人在使用了，它不是最近才出現的，當時創造這份資料的主要目標，是想辦法透過這份資料讓電腦能正確判斷人寫的數字，也就是這篇文章要做的事情。<br>在以前這是一份很艱難的任務，但自從深度學習興起後，電腦辨識手寫數字這份任務就變得很簡單！而且辨識率可以達到99%以上，比人類辨識還要精準！</li>
+</ol>
+<h3 id="程式內容"><a href="#程式內容" class="headerlink" title="程式內容"></a>程式內容</h3><p>以下等等要講解的程式內容，也就是一個手寫數字辨識的實際範例<br>完整程式在我的Github <a href="https://github.com/chenchianstudent/DeepLearing-Test" target="_blank" rel="noopener">Deep Learing-test</a>這個專案中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">print(tf.__version__)</span><br><span class="line"></span><br><span class="line">mnist &#x3D; tf.keras.datasets.mnist</span><br><span class="line">(x_train, y_train), (x_test, y_test) &#x3D; mnist.load_data()</span><br><span class="line">x_train, x_test &#x3D; x_train &#x2F; 255.0, x_test &#x2F; 255.0</span><br><span class="line"></span><br><span class="line">model &#x3D; tf.keras.models.Sequential([</span><br><span class="line">  tf.keras.layers.Flatten(input_shape&#x3D;(28, 28)),</span><br><span class="line">  tf.keras.layers.Dense(128, activation&#x3D;&#39;relu&#39;),</span><br><span class="line">  tf.keras.layers.Dropout(0.2),</span><br><span class="line">  tf.keras.layers.Dense(10, activation&#x3D;&#39;softmax&#39;)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">model.compile(optimizer&#x3D;&#39;adam&#39;,</span><br><span class="line">              loss&#x3D;&#39;sparse_categorical_crossentropy&#39;,</span><br><span class="line">              metrics&#x3D;[&#39;accuracy&#39;])</span><br><span class="line">model.fit(x_train, y_train, epochs&#x3D;5)</span><br><span class="line">model.evaluate(x_test, y_test)</span><br></pre></td></tr></table></figure>
+<p>一共15行，解決以前的大難題，很厲害吧！<br>接下來要做的就是講解這15行在幹嘛，但因為一次說明會很複雜，因此我會將程式分成5個部分，就像jupyter notebook一樣。<br>第一部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">print(tf.__version__)</span><br></pre></td></tr></table></figure>
+<p>第二部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mnist &#x3D; tf.keras.datasets.mnist</span><br><span class="line">(x_train, y_train), (x_test, y_test) &#x3D; mnist.load_data()</span><br><span class="line">x_train, x_test &#x3D; x_train &#x2F; 255.0, x_test &#x2F; 255.0</span><br></pre></td></tr></table></figure>
+<p>第三部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">model &#x3D; tf.keras.models.Sequential([</span><br><span class="line">  tf.keras.layers.Flatten(input_shape&#x3D;(28, 28)),</span><br><span class="line">  tf.keras.layers.Dense(128, activation&#x3D;&#39;relu&#39;),</span><br><span class="line">  tf.keras.layers.Dropout(0.2),</span><br><span class="line">  tf.keras.layers.Dense(10, activation&#x3D;&#39;softmax&#39;)</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>第四部份</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.compile(optimizer&#x3D;&#39;adam&#39;,</span><br><span class="line">              loss&#x3D;&#39;sparse_categorical_crossentropy&#39;,</span><br><span class="line">              metrics&#x3D;[&#39;accuracy&#39;])</span><br></pre></td></tr></table></figure>
+<p>第五部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model.fit(x_train, y_train, epochs&#x3D;5)</span><br><span class="line">model.evaluate(x_test, y_test)</span><br></pre></td></tr></table></figure>
+
+<h3 id="程式講解-第一部分"><a href="#程式講解-第一部分" class="headerlink" title="程式講解-第一部分"></a>程式講解-第一部分</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import tensorflow as tf</span><br><span class="line">print(tf.__version__)</span><br></pre></td></tr></table></figure>
+<p>這是我們最一開始必須import的函式庫，也就是我們的主角tensorflow，接下來會用tensorflow來進行深度學習。<br>而<code>import tensorflow as tf</code>的<code>as tf</code>則是將tensorflow做簡稱，等等在寫程式時如果要用到tensorflow時，只需要打tf電腦就會呼叫tensorflow了。<br>基本上你查文章時很多人都是將tensorflow簡稱tf的，希望各位初學者也養成這個習慣。<br>一來大家看你程式碼時比較不會多想，因為大家都知道tf是什麼，二來是你養成習慣後，查文章看到tf也可以知道作者是在表達什麼，對大家都好，tf這習慣不強制性，但養成會更好。<br>再來我們說說下行的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(tf.__version__)</span><br></pre></td></tr></table></figure>
+<p>如果有寫過程式的人，應該會很明白的這是要做print出一個值的動作。<br>問題是這個值是什麼？<br>很簡單，version的中文是”版本”，整句的意思：print出tensorflow的版本。</p>
+<p>關於第一部分程式碼的注意事項:</p>
+<ol>
+<li>version旁邊的__是特殊寫法，為什麼這樣寫——–&gt;沒為什麼，就是tensorflow的規定。</li>
+<li><code>__version__</code> 的<em>_ 一邊是兩個_，左右兩邊共4個</em> &lt;——-反正寫錯會跳error，你就會記得了。</li>
+<li>tf就是我們上面講的，tensorflow的代稱。</li>
+</ol>
+<h3 id="程式講解-第二部分"><a href="#程式講解-第二部分" class="headerlink" title="程式講解-第二部分"></a>程式講解-第二部分</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mnist &#x3D; tf.keras.datasets.mnist</span><br><span class="line">(x_train, y_train), (x_test, y_test) &#x3D; mnist.load_data()</span><br><span class="line">x_train, x_test &#x3D; x_train &#x2F; 255.0, x_test &#x2F; 255.0</span><br></pre></td></tr></table></figure>
+<p><code>mnist = tf.keras.datasets.mnist</code>的整句意思為以mnist這個變數來存取數字辨識資料集。<br>mnist的意思是手寫數字辨識，你在google打上mnist就會跑出很多手寫數字辨識的文章或資料集。<br>奇怪？我都沒有下載手寫數字資料集，為什麼就能存取數字辨識了？<br>原因就是這個<code>tf.keras.datasets</code>，tensorflow裡面就有內建手寫數字辨識了，我們去呼叫tensorflow資料庫裡的mnist手寫數字辨識就好了，tensorflow將很多大家常用的資料集都放到自己的資料庫了，有興趣的可以上網查一下這個資料庫裡有什麼，今次只講解mnist，因此就不花時間說明。<br>這是我們剛抓進來的<a href="http://yann.lecun.com/exdb/mnist/" target="_blank" rel="noopener">mnist資料集詳細資料</a>，可以看一下！<br>資料集內容大概是長這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">train-images-idx3-ubyte.gz:  training set images (9912422 bytes)</span><br><span class="line">train-labels-idx1-ubyte.gz:  training set labels (28881 bytes)</span><br><span class="line">t10k-images-idx3-ubyte.gz:   test set images (1648877 bytes)</span><br><span class="line">t10k-labels-idx1-ubyte.gz:   test set labels (4542 bytes)</span><br></pre></td></tr></table></figure>
+<p>四個檔案—&gt;training的圖片和標籤(2個)+test的圖片和標籤(2個)<br>為什麼我要突然講資料內容，因為接下來的程式講解會用到這些來說明，老師當初上課不講害我查很久才知道這是在幹嘛的==<br><code>(x_train, y_train), (x_test, y_test) = mnist.load_data()</code>這行跟下行程式碼是比較困難的地方，我想辦法講的簡單一點。<br>想來說說這些x跟y是甚麼東西好了：<br>x_train = 等等要拿去讓機器訓練的數字圖片集<br>y_train = 等等要拿去讓機器訓練的數字標籤集<br>x_test = 機器訓練好後拿來做驗證的數字圖片集<br>y_test = 機器訓練好後拿來做驗證的數字標籤集<br>再將這個代稱拆解<br>x代表圖片集<br>y代表標籤集<br>train代表訓練用<br>test代表測試用<br>合起來就是<code>(x_train, y_train), (x_test, y_test)</code>然後進行讀取資料<code>mnist.load_data()</code>，目的就是讓這些資料轉變成等等要建立的模型能讀取的型態，就是這樣。<br>讀取型態大概就是長這樣<br>訓練用的(‘圖片’,’標籤’)<br>測試用的(‘圖片’,’標籤’)<br>另外圖片是一大串數字，這些數字就是圖片數字化的樣子，你可以print一下x裡的東西看一下長怎樣！</p>
+<p><code>x_train, x_test = x_train / 255.0, x_test / 255.0</code>這行是資料處理，目的是讓等等建立的模型做訓練時可以比較好訓練找出規則。<br>主要的意思是對訓練和測試的圖片(已數字化)都除255.0當作資料再存取。<br>這個行為是所謂的<strong>歸一化</strong>，因為圖片為彩色RGB，值是0-255的數字，我們將這些色彩圖進行/255.0後會將這些數值縮小到0-1之間，好處是模型做計算時會比較好算，百位數跟個位數哪個比較好算，當然是個位數！另外就是防止overfitting，不會因為這張圖色彩在某個區間而認為這就是規則而當作辨識條件。</p>
+<p>關於第二部分程式碼的注意事項:</p>
+<ol>
+<li>為什麼要除255.0而不是255？因為我們要它的小數點，因為歸一化是在0-1數字之間，就是小數點阿！</li>
+<li>你可以發現我們做歸一化都是在圖片集上，標籤集不用做喔！</li>
+<li>不用做歸一化其實也可以，這是一種資料處理的手法，不是絕對必要的動作。</li>
+</ol>
+<h3 id="程式講解-第三部分"><a href="#程式講解-第三部分" class="headerlink" title="程式講解-第三部分"></a>程式講解-第三部分</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">model &#x3D; tf.keras.models.Sequential([</span><br><span class="line">  tf.keras.layers.Flatten(input_shape&#x3D;(28, 28)),</span><br><span class="line">  tf.keras.layers.Dense(128, activation&#x3D;&#39;relu&#39;),</span><br><span class="line">  tf.keras.layers.Dropout(0.2),</span><br><span class="line">  tf.keras.layers.Dense(10, activation&#x3D;&#39;softmax&#39;)</span><br><span class="line">])</span><br></pre></td></tr></table></figure>
+<p>這部分就是在做建立模型(model)。<br>建立模型是深度學習最精華的地方，我們前面都是在做資料處理，目的就是讓現在我們建立的模型能夠讀取，也就是說，這裡是主菜。<br><code>model = tf.keras.models.Sequential([ ])</code>這裡是tensorflow建立模型的寫法。<br>這裡我覺得要用比喻的方式來說明，假如我們現在正在創造一個機器人，<code>model = tf.keras.models.Sequential([ ])</code>就是在做機器人的外殼，讓機器人有個形狀，告訴各位我要做一個機器人，model這個變數則是告訴大家機器人叫model。<br>機器人有了外殼後，接下來就是將空殼加入零件讓他能夠動起來。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tf.keras.layers.Flatten(input_shape&#x3D;(28, 28)),</span><br><span class="line">tf.keras.layers.Dense(128, activation&#x3D;&#39;relu&#39;),</span><br><span class="line">tf.keras.layers.Dropout(0.2),</span><br><span class="line">tf.keras.layers.Dense(10, activation&#x3D;&#39;softmax&#39;)</span><br></pre></td></tr></table></figure>
+<p>這些就是我們的零件，這段程式就是在建構我們的神經層。<br>其中你們有看到Flatten、Dense、Dropout這幾個英文單字，這些是利用keras在做建構網路層時會使用到的東西。</p>
+<p><strong>Flatten層</strong><br>功能是將我們讀入的資料攤平攤開，把多維的輸入一维化，通常我們是把Flatten層當卷積層到全連結層的過渡層。而<code>input_shape=(28, 28)</code>則是設定Flatten層資料讀取進來的大小28*28。</p>
+<p><strong>Dense層</strong><br>就是我們大家常說的全連接層，建立神經層。Dense層會用到很多參數，但是不一定每次建Dense層時，會對每個參數做設定。像這次我們只動用到2個參數，分別是unit與activation。以<code>tf.keras.layers.Dense(128, activation=&#39;relu&#39;)</code>來做解釋好了，裡面的參數寫的詳細點就是(unit = 128, activation = ‘relu’)。</p>
+<ul>
+<li>unit：就是我們神經元，要在神經層裡設定多少個神經元，就是在這裡設定，一般我們在做設定神經元時，只會寫數字，不會寫”unit = “。</li>
+<li>activation：中文名叫激活函數，激活函數的設定有很多，這段程式中我用了兩次Dense層，而這兩層都有用到激活函數，分別是relu與softmax。這些設定我無法用人話說，因為真的是數學抽象東西….若真的想了解，請參考<a href="https://keras.io/zh/activations/" target="_blank" rel="noopener">Keras-激活函数 Activations</a>，他會告訴你在幹嘛……</li>
+</ul>
+<p><strong>Dropout層</strong><br>其功用在將訓練過程中每次更新參數時按一定比率斷開輸入神經元，人話的意思是在丟到一些參數結果進下一神經元，其目的防止overfitting。</p>
+<p>程式內一些注意事項</p>
+<ol>
+<li>最後一行的Dense層為什麼是10，原因是我們輸出結果是0-9共10個數字，因此我們會需要10個神經元。</li>
+<li>Dense層是建構模型裡不可或缺的零件，請一定要加Dense層。</li>
+<li>Dropout層可加可不加，其實你玩久了就會發現有些建立模型的小規則和習慣，各位在建神經層時可以試試有加跟沒加的訓練結果長怎樣。</li>
+<li>input_shape為什麼是28 X 28，原因是這些手寫數字圖片是28 X 28，讓模型讀取訓練資料前，還請讓這些訓練資料修正至統一大小，不然會無法讀取！今天的範例為什麼沒做修正，原因是這些圖片都已經變成28 X 28，不用再做修正，範例比較簡單些，之後如果要自己找資料練習，就會遇到圖片處理這個環節。</li>
+</ol>
+<h3 id="程式講解-第四部份"><a href="#程式講解-第四部份" class="headerlink" title="程式講解-第四部份"></a>程式講解-第四部份</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.compile(optimizer&#x3D;&#39;adam&#39;,</span><br><span class="line">              loss&#x3D;&#39;sparse_categorical_crossentropy&#39;,</span><br><span class="line">              metrics&#x3D;[&#39;accuracy&#39;])</span><br></pre></td></tr></table></figure>
+<p><code>model.compile()</code>是用來選擇這個模型的目標以及求解方法。<br>如果要用上面機器人的例子來說的話，就是對這些在機器人裡的零件建立好規則、教導怎麼運作來防止不會出錯。今天機器人目標是要走路，那就要制訂好規則是用四肢爬還是二肢走，手腳要怎麼運作才能正常走路等類似的概念。<br>在模型中，我們尋求解決方法會用compile(編譯)函數定義損失函數(loss)、優化函數(optimizer)及成效衡量指標(mertrics)。</p>
+<p><strong>優化函數(optimizer)</strong><br>我們建立起來的模型在學習訓練的時候會一個名叫學習率的東西，它是負責控制梯度的收斂程度，如果單次更新學習率的值過高，收斂方向的速度就會變快，但這裡又說一句話，越快並不一定是最好的方法，梯度下降的收斂過程就像走小山丘，太大會暴衝會不穩，太小收斂會太慢，或是卡在局部解(local minimum)而跨不出來了。為了讓學習率更能找到我們要的最底點，就會採取像Adam的優化函數來控制α。</p>
+<p><strong>損失函數(loss)</strong><br>損失函數是神經網路定義要收斂的對象函數。因為我們有龐大的參數節點(神經元)，可以擬合任意函數，我們可以不用知道權重跟bias的值明確要設多少，但可以靠反向傳播做梯度下降，讓函數逐步收斂，直到逼近最低點(global minimum)。<br>好像不是太人話，但這裡我有點想不到能用什麼例子來比喻，大概就是我們會需要定義一個損失函數來尋找最底點這樣子。</p>
+<p><strong>效衡量指標(mertrics)</strong><br>用來評估訓練和測試之間的模型標準，通常我們會用’accuracy’。<br>目前我看了很多模型，幾乎都是用’accuracy’。</p>
+<h3 id="程式講解-第五部份"><a href="#程式講解-第五部份" class="headerlink" title="程式講解-第五部份"></a>程式講解-第五部份</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model.fit(x_train, y_train, epochs&#x3D;5)</span><br><span class="line">model.evaluate(x_test, y_test)</span><br></pre></td></tr></table></figure>
+<p>這裡就是最後一步了，恭喜你堅持到這裡！<br>機器人零件裝好了，怎麼動的規則也建立好了，最後就是要進行測試是不是我們要的結果。<br>沒錯！最後的程式碼就是在進行測試以及評估的動作，確認是我們要的答案。<br><code>model.fit()</code>用來進行模型的訓練。其中你會看到(  )內使用了測試圖片集與標籤集x_train &amp;  y_train，意思就是我要拿這兩份資料來讓模型進行訓練，從這些訓練資料找出規則，進而讓電腦自行找到辨識最佳解。<br>而<code>epochs</code>是訓練次數，我們訓練一次模型時，會更改神經元上的變數權重以利形成良好的辨識規則，但通常模型訓練時不會一次訓練就是最佳解，學腳踏車不太可能一騎上去就會吧？要多騎幾次去累積經驗才能正常騎腳踏車。模型也是如此，我們會讓模型訓練完一次後，讓訓練完後的模型再進行訓練，直到規定的訓練次數都完成為止。當然要訓練幾次就是一個經驗，答案不是你所希望的，就是再訓練或是重新再來一次。<br>另外，因為這裡只是一個很簡單的範例程式，用到的設定其實還蠻少的，實際找例子做會有很多設定會去設，之後我會找機會說，如果你等不下去想早點知道，就參考<a href="https://keras.io/zh/models/model/" target="_blank" rel="noopener">這份文章</a>吧：！</p>
+<p><code>model.evaluate(x_test, y_test)</code>則是評估你的模型正確率。當你得到了一個你滿意的模型就可以拿測試資料進行評估正確率，確認拿新的資料來辨識時，是不是也能如期的辨識出正確的答案。</p>
+<p><strong>output</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Epoch 1&#x2F;5</span><br><span class="line">60000&#x2F;60000 [&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] - 7s 112us&#x2F;sample - loss: 0.2889 - acc: 0.9142</span><br><span class="line">Epoch 2&#x2F;5</span><br><span class="line">60000&#x2F;60000 [&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] - 6s 97us&#x2F;sample - loss: 0.1397 - acc: 0.9582</span><br><span class="line">Epoch 3&#x2F;5</span><br><span class="line">60000&#x2F;60000 [&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] - 6s 95us&#x2F;sample - loss: 0.1049 - acc: 0.9682</span><br><span class="line">Epoch 4&#x2F;5</span><br><span class="line">60000&#x2F;60000 [&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] - 6s 97us&#x2F;sample - loss: 0.0847 - acc: 0.9739</span><br><span class="line">Epoch 5&#x2F;5</span><br><span class="line">60000&#x2F;60000 [&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] - 6s 99us&#x2F;sample - loss: 0.0728 - acc: 0.9769</span><br><span class="line">10000&#x2F;10000 [&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;] - 1s 69us&#x2F;sample - loss: 0.0758 - acc: 0.9779</span><br><span class="line"></span><br><span class="line">[0.07581472408375703, 0.9779]</span><br></pre></td></tr></table></figure>
+
+<p>從output裡，我們有很多東西需要知道，這些在模型訓練時給予了我們很多重要的資訊來評估是不是更改我們的模型或是這就是我們要的模型。<br>我們從<code>60000/60000 [==============================] - 7s 112us/sample - loss: 0.2889 - acc: 0.9142</code>這裡來做講解好了，這段代表模型訓練完成一次了！</p>
+<p><code>60000/60000 [==============================] - 7s 112us/sample</code>是電腦在模型訓練時所花費的時間，現在這個狀態是100%，所以旁邊的秒數是寫整個過程花費的時間。當訓練還在進行時，7s這個位置就會變成距離訓練完成所剩餘的時間。</p>
+<p><code>loss: 0.2889 - acc: 0.9142</code>是我們主要看的地方，loss就是損失函數，而acc則是整體正確率，正確率為0.9142(91.42%)。每一次訓練完成都會顯示loss與acc，這些資訊就是訓練時主要看的。你可以發現output中每次訓練完成後，acc會提升，這也說明了模型越來越能找到規則，能夠辨識的正確率可以提升起來。</p>
+<p><code>[0.07581472408375703, 0.9779]</code>是<code>model.evaluate()</code>的output。拿一份新的資料去進行辨識，loss和acc會是多少，就是output顯示的樣子。做這個目的在於確認模型沒有overfitting，也許在訓練時，模型把訓練資料裡全部的特徵都記住了，也就是連無關緊要的特徵也納入辨識規則中，導致正確率才會那麼高！因為訓練都是拿同一份資料。假如拿一份不是訓練資料裡的圖片去辨識，可能會因為這些無關緊要的特徵而判斷錯誤，我們要避免的就是這個！評估一下拿新的資料去辨識是不是與訓練時的正確率一樣，正是評估的主要意義。</p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
           <a href="/2020/09/08/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%EF%BC%9F%EF%BC%81%E7%82%BA%E4%BB%80%E9%BA%BC%E6%9C%80%E8%BF%91%E5%A4%A7%E5%AD%B8%E5%92%8C%E8%B3%87%E8%A8%8A%E7%95%8C%E9%83%BD%E8%83%BD%E8%81%BD%E5%88%B0%E9%80%99%E5%80%8B%E8%A9%9E%EF%BC%9F/">深度學習？！為什麼最近大學和資訊界都能聽到這個詞？</a>
         </h1>
       
@@ -905,69 +1040,6 @@ output:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span 
 <p>將這個token複製下來後，回到瀏覽器將token貼到下方token欄位，並設定一組自己的密碼後按下確認</p>
 <img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc09.JPG" class="" title="This is an image">
 <p>這樣就進來了，接下來就可以正常執行jupyter notebook了</p>
-
-      
-    </div>
-</article>
-
-    </li>
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/">執行深度學習範例-圖像分割</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-03-16T09:15:13.000Z" itemprop="datePublished">
-    2020-03-16
-  </time>
-  
-  | 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/tags/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
-  </li>
-
-
-  </ul>
-  
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第三個實作範例，因此便寫下來方便日後觀看。</p>
-<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片裡有什麼物件，並將圖片內的物件進行顏色分割。</p>
-<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
-<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。<br>2.這篇文章為<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>的延伸，如果有先做這篇的實作，會比較好懂這篇文章的意義。</p>
-<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>首先<br>與<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>的第三步驟一樣，我們必須開啟Terminal先移動到此路徑才可進行接下來的步驟。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
-<p>移動到此路徑後，就可以進行影像分割的操作了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;segnet-console airplane_0.jpg airplane_0_test02.jpg</span><br></pre></td></tr></table></figure>
-
-
-<p>上面的指令，詳細為:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;segnet-console 該圖片檔名或該圖片的路徑及名稱 辨識完成後結果的圖片檔名以及路徑</span><br></pre></td></tr></table></figure>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/pc01.jpg" class="" title="This is an image">
-<p>一樣我們用<a href="https://chenchianstudent.github.io/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-物件辨識</a>的飛機圖來做示範</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/airplane01.jpg" class="" title="This is an image">
-<p>經過分割後</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/airplane02.jpg" class="" title="This is an image">
-
-<p>老樣子，除了用範例圖片外，我也另外找了圖片去辨識。<br>這是我自己去google打aircraft carrier landing找到的圖片，並把圖片丟到該路徑下:jetson-inference/build/aarch64/bin/images</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/cv01.jpg" class="" title="This is an image">
-<p>經過分割後</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/cv02.jpg" class="" title="This is an image">
-<p>雖然好像沒辨識到人，但飛機確實分割到了</p>
-<p>再用另外的圖片去分析</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/pandd.jpg" class="" title="This is an image">
-<p>分割後</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E5%88%86%E5%89%B2/pandd02.jpg" class="" title="This is an image">
 
       
     </div>
