@@ -88,6 +88,241 @@
     <header class="title">
       
         <h1>
+          <a href="/2020/09/21/%E8%B3%87%E6%96%99%E5%A2%9E%E5%BC%B7ImageGenerator-%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/">資料增強imageGenerator使用心得</a>
+        </h1>
+      
+      <div class='ListMeta'>
+  <time datetime="2020-09-21T06:11:58.000Z" itemprop="datePublished">
+    2020-09-21
+  </time>
+  
+  | 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/jupyter-notebook/">jupyter notebook</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Tensorflow/">Tensorflow</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/Deep-Learning/">Deep Learning</a> }
+  </li>
+
+
+  </ul>
+  
+  
+  / 
+  <ul>
+    
+  <li class="meta-text">
+  { <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92-Deep-Learning/">深度學習 Deep Learning</a> }
+  </li>
+
+
+  </ul>
+  
+</div>
+
+    </header>
+    <div>
+      
+        <h2 id="資料增強-Image-Generator-使用心得"><a href="#資料增強-Image-Generator-使用心得" class="headerlink" title="資料增強(Image Generator)使用心得"></a>資料增強(Image Generator)使用心得</h2><h2 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h2><p>記錄我在研究所學習深度學習的知識與心得。</p>
+<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何利用Keras的Image Generator來進行資料擴增。<br>文中會說明資料增強是什麼？<br>flow、flow_from_directory、fit以及flow_from_dataframe的使用。</p>
+<h2 id="前置步驟-amp-注意事項"><a href="#前置步驟-amp-注意事項" class="headerlink" title="前置步驟&amp;注意事項"></a>前置步驟&amp;注意事項</h2><ol>
+<li>本次心得比較特殊一點，重心在keras而已，tensorflow比較偏延伸應用向，但因為教學心得寫文章關係，因此我會帶點tensorflow。</li>
+<li>我必須強調一下，本人在寫這篇文章時還是學習中的學生，算是初心者。內容若是有錯，誤導大家還請多多包涵！之後發現自己有說錯話，也會去重新修文章，你發現我有說錯的話，也請告訴我哪裡錯了，email和FB應該都在我首頁裡，不好意思麻煩老手了。</li>
+<li>資料增強其實算是學習中期才需要看的文章，初學者可以先跳過這篇文章，會提早寫主要是因為我剛好又深入一次資料增強，趁記憶猶新馬上來寫一下，以免日後想到要寫這篇文章時，已經忘得一乾二淨。</li>
+<li>什麼是深度學習？請參考這篇<a href="https://chenchianstudent.github.io/2020/09/08/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%EF%BC%9F%EF%BC%81%E7%82%BA%E4%BB%80%E9%BA%BC%E6%9C%80%E8%BF%91%E5%A4%A7%E5%AD%B8%E5%92%8C%E8%B3%87%E8%A8%8A%E7%95%8C%E9%83%BD%E8%83%BD%E8%81%BD%E5%88%B0%E9%80%99%E5%80%8B%E8%A9%9E%EF%BC%9F/" target="_blank" rel="noopener">文章</a></li>
+</ol>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>要訓練一個高正確率且泛用的模型，除了需要琢磨模型本身的架構之外，龐大的資料來讓我們去訓練也是一個重大關鍵。<br>今天我們不來討論模型結構這種比較偏數學且核心的問題，我們來討論「資料」這一塊。<br>在進行深度學習處理資料這一塊，我們最終極的目標就是將訓練資料轉變成模型可以讀取的形式。但是在模型讀取資料前，其實有很多小細節可以做，做了會怎樣？不外乎就是讓模型正確率再提高一點，或是將模型的訓練時間縮短。今天要講的「資料增強」就是這個小細節的一環，現在深度學習的比賽或是實例上，不少人都會用上資料增強，這是一個提高正確率不可或缺的手段。</p>
+<h2 id="什麼是資料增強-Data-Augmentation-？"><a href="#什麼是資料增強-Data-Augmentation-？" class="headerlink" title="什麼是資料增強(Data Augmentation)？"></a>什麼是資料增強(Data Augmentation)？</h2><h3 id="一言以蔽之：製造假資料來騙機器說這是份新數據，請拿去訓練。"><a href="#一言以蔽之：製造假資料來騙機器說這是份新數據，請拿去訓練。" class="headerlink" title="一言以蔽之：製造假資料來騙機器說這是份新數據，請拿去訓練。"></a><strong>一言以蔽之：製造假資料來騙機器說這是份新數據，請拿去訓練。</strong></h3><p>前言我們有提到，除了對模型架構下功夫來提高正確率外，龐大的資料也是提高正確率最不可或缺的關鍵。我們訓練的資料越多、越完整，模型就能表現得越好！但一般來說，資料的收集往往是最大的痛點，收集資料比起改變模型結構，要來的困難許多。假如今天在資料有限的狀況下，又該如何創造新的資料呢？沒錯！最直接的方式就是進行資料增強！資料增強最主要的目的，就是透過一些”手法”來將一張圖擴增至2張以上，今天我手上有1000張圖片，那我就可以將數量增加到2000張甚至更多，比起1000張來進行訓練，2000張訓練出來的結果一定比較好！</p>
+<img src="/2020/09/21/%E8%B3%87%E6%96%99%E5%A2%9E%E5%BC%B7ImageGenerator-%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/pc03.png" class="" title="This is an image">
+<p>(<a href="https://chtseng.wordpress.com/2017/11/11/data-augmentation-%E8%B3%87%E6%96%99%E5%A2%9E%E5%BC%B7/" target="_blank" rel="noopener">圖源</a>—&gt;因為我覺得這張圖呈現的很貼切，因此就引用了該網站的圖片來當圖片參考，這個人寫的也很不錯，歡迎參考他的文章內容)<br>這裡可能會有個疑問，同一張圖無論分裂幾百次，不都是同一張圖片嗎？這樣有意義？<br>答案是有意義的。在人類眼裡，這種行為是無意義的沒錯，因為不管怎麼看都是一樣的東西，是能變化出什麼花樣？但在機器眼裡，他就是一份新數據，機器去判斷不是靠肉眼，是靠一連串的計算和數字。因此這種「假」資料可以算一份訓練資料。</p>
+<p>假歸假，這種假數據還是要靠特別的”手法”來騙過機器，而不是隨便從原圖複製幾張就行。<br>增強手法有很多種，常見的增強手法主要是靠旋轉、裁切、增加噪點、白化、拉長、放大縮小等…..，另外也有人特意去研究增強手法來當論文主題，因此每一天都有可能出現新的手法來騙機器。</p>
+<h2 id="如何做資料增強？"><a href="#如何做資料增強？" class="headerlink" title="如何做資料增強？"></a>如何做資料增強？</h2><h3 id="一、了解增強手法"><a href="#一、了解增強手法" class="headerlink" title="一、了解增強手法"></a>一、了解增強手法</h3><p>首先回到一個根本的問題，為什麼要做資料增強？主要原因是資料取得不易，收集下來可能只有幾十張幾百張，無法訓練出好的模型，所以才會誕生出資料資強這種手段！<br>因此資料的收集還請做明確且不要馬虎，不要只拍個幾張圖片，然後用資料增強增加到1000張，這樣做的結果不會讓你正確率拉高，還可能會overfitting。資料增強不是資料處理的萬能解藥，這點還請多多注意！</p>
+<p>本篇文章是用python語言裡的Keras Image Generator來進行。<br>現在網上查的文章，如果沒指定特定程式語言，大多都是用python來進行深度學習，我在學習也是用python，因此文章幾乎是用python語言寫的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.preprocessing.image <span class="keyword">import</span> ImageDataGenerator</span><br><span class="line">img_gen = ImageDataGenerator(</span><br><span class="line">    horizontal_flip=<span class="literal">True</span>,</span><br><span class="line">    vertical_flip=<span class="literal">True</span>,</span><br><span class="line">    rotation_range=<span class="number">10</span>,</span><br><span class="line">    width_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    height_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    zoom_range=<span class="number">.1</span>,</span><br><span class="line">    fill_mode=<span class="string">'nearest'</span>,</span><br><span class="line">    shear_range=<span class="number">0.1</span>,</span><br><span class="line">    rescale=<span class="number">1</span>/<span class="number">255</span>,</span><br><span class="line">    brightness_range=[<span class="number">0.5</span>, <span class="number">1.5</span>]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>這段程式碼主要做的事情是來設定資料增強的手法。<br><code>from keras.preprocessing.image import ImageDataGenerator</code>是用來import我們需要的函式庫<br><code>img_gen = ImageDataGenerator(  )</code>的img_gen是變數，可以隨意取名字。<code>ImageDataGenerator(  )</code>則是我們設定資料增強的地方，(  )內填寫你需要的手法。</p>
+<p>增強的手法怎麼設定?Keras官方文檔給出了不少手法供你設定，我一一列舉出來(親手整理的，沒有複製貼上喔~)：</p>
+<ol>
+<li>featurewise_center:<br>將輸入的資料均值設為0，並依特徵進行。使用布林值(True or False)</li>
+<li>samplewise_center:<br>將每個樣本的均值設置為0。使用布林值(True or False)</li>
+<li>featurewise_std_normalization:<br>將輸入的數據除以標準差，並依特徵進行。使用布林值(True or False)</li>
+<li>samplewise_std_normalization:<br>將每個輸入的數據除以標準差。使用布林值(True or False)</li>
+<li>zca_epsilon:<br>圖片白化。值默認為：1e-6。</li>
+<li>zca_whitening:<br>是否要應用 ZCA 白化。使用布林值(True or False)</li>
+<li>rotation_range:<br>隨機旋轉圖片的度數範圍。只接受整數數值</li>
+<li>width_shift_range:<br>圖片寬度的某個比例，數據提升時圖片水平偏移的幅度。使用浮點數、一維數列或整数。<ul>
+<li>float: 如果 &lt;1，則是除以總寬度的值，或者 &gt;=1，則為像素值。</li>
+<li>1-D 數列: 數列中的隨機元素。</li>
+<li>int: 來自間隔 (-width_shift_range, +width_shift_range) 之間的整數各像素。width_shift_range=2 時，可能值是整數 [-1, 0, +1]，與 width_shift_range= [-1, 0, +1] 相同；而 width_shift_range=1.0 時，可能值是 [-1.0, +1.0) 之間的浮點數。</li>
+</ul>
+</li>
+<li>height_shift_range:<br>圖片長度的某個比例，數據提升時圖片水平偏移的幅度。使用浮點數、一維數列或整数。<ul>
+<li>float: 如果 &lt;1，則是除以總寬度的值，或者 &gt;=1，則為像素質。</li>
+<li>1-D 數列: 數列中的隨機元素。</li>
+<li>int: 來自間隔 (-width_shift_range, +width_shift_range) 之間的整數各像素。width_shift_range=2 時，可能值是整數 [-1, 0, +1]，與 width_shift_range= [-1, 0, +1] 相同；而 width_shift_range=1.0 時，可能值是 [-1.0, +1.0) 之間的浮點數。</li>
+</ul>
+</li>
+<li>shear_range:<br>剪切強度（逆時針方向的剪切變換角度）。使用浮點數。</li>
+<li>zoom_range:<br>浮點數 或 [lower, upper]。隨機縮放範圍。<br>如果是浮點數，[lower, upper] = [1-zoom_range, 1+zoom_range]。</li>
+<li>channel_shift_range:<br>隨機通道轉換的範圍。使用浮點數。</li>
+<li>fill_mode:<br>當進行變換時超出邊界的點將根據本參數給定的方法進行處理：<br>{“constant”, “nearest”, “reflect” or “wrap”} 之一。默認為nearest。<ul>
+<li>constant: kkkkkkkk|abcd|kkkkkkkk (cval=k)</li>
+<li>nearest: aaaaaaaa|abcd|dddddddd</li>
+<li>reflect: abcddcba|abcd|dcbaabcd</li>
+<li>wrap: abcdabcd|abcd|abcdabcd</li>
+</ul>
+</li>
+<li>cval:<br>用於邊界之外點的值。使用浮點數或整數。</li>
+<li>horizontal_flip:<br>隨機水平翻轉。使用布林值(True or False)。</li>
+<li>vertical_flip:<br>随機垂直翻轉。使用布林值(True or False)</li>
+<li>rescale:<br>重新縮放因子。默認為 None。<br>如果是 None 或 0，則不進行縮放，否則將數據乘上所提供的值（在任何應用其他轉化之前）。</li>
+<li>preprocessing_function:<br>應用於每個輸入的函數。這個函數會在任何其他改變之前運行。<br>這個函數需要一個參數：一張圖片（亦為 3 的 Numpy 張量），並且應該輸出一個同尺存的Numpy張量。</li>
+<li>data_format:<br>圖像數據格式，{“channels_first”, “channels_last”} 之一。<br>“channels_last” 模式表示圖像輸入尺寸應該為 (samples, height, width, channels)，”channels_first” 模式表示輸入尺寸應該為 (samples, channels, height, width)。<br>默認為在 Keras 配置文件 ~/.keras/keras.json 中的 image_data_format 值。如果你未設置，那它就是 “channels_last”。</li>
+<li>validation_split:<br>保留用於驗證的圖像比例（基本上是0-1之間）。使用浮點數</li>
+<li>dtype:<br>生成數組用的數據類型。</li>
+</ol>
+<p>我知道一定有人沒看完，打那麼多字誰要看阿！對！是我也會放棄觀看。<br>能設定的東西是真的很多，而且有些設定十分的抽象，沒有實際的範例我想也很難懂，但相信我，在實作上用到的就那幾個，不用馬上去搞懂所有的設定，至於常用是哪幾個，應該就旋轉、裁切、增加噪點、白化、拉長、放大縮小等…..就這幾個手法在做，第一次接觸增強也可以只先做這幾種就好，等真的熟了再去嘗試其他的也不遲。<br><strong>題外話</strong><br>“資料增強時要用什麼手段”比較偏習慣和今天要學習的主題去做變化居多，如果第一次接觸沒有方向的話，建議去kaggle找別人的notebook看看，看多了就會發現大家常用的是哪幾個。我自己常用的就是上面那段程式碼裡面的設定，就給你們參考看看。</p>
+<h3 id="二、flow、flow-from-directory、fit以及flow-from-dataframe的使用"><a href="#二、flow、flow-from-directory、fit以及flow-from-dataframe的使用" class="headerlink" title="二、flow、flow_from_directory、fit以及flow_from_dataframe的使用"></a>二、flow、flow_from_directory、fit以及flow_from_dataframe的使用</h3><p>做完上面的設定後，接著就是把這些手法套用至圖片上。<br>在套用前，我們必須要判斷一件事：你的訓練資料在處理前，是以什麼樣的形式呈現的？<br>我們在網路上找到的資料集大多有兩種形式：</p>
+<ol>
+<li>用各自類名命名的單獨資料夾中的所有圖像，A標籤的圖片全部集中在同一個資料夾中，以此類推。</li>
+<li>所有圖像都存在於一個目錄中，並將圖片名稱與對應標籤寫入一個CSV或JSON文件中。</li>
+</ol>
+<p>這兩大類對資料處裡的方法會有所不同，這就是需要判斷的原因。<br>另外也關係到你接下來要用什麼樣的函數去進行資料增強，也就是文章的第二主題《flow、flow_from_directory、fit以及flow_from_dataframe的使用》，每個函數都有不太相同的使用時機，我自己也不是100%全熟，但我會把我目前用到的，介紹給各位。</p>
+<p>※ 以下我會用數據生成器來代替”將資料增強手法套用至圖片”這個行為<br><strong>fit</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">fit(x, </span><br><span class="line">    augment=<span class="literal">False</span>, </span><br><span class="line">    rounds=<span class="number">1</span>, </span><br><span class="line">    seed=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+<p>將數據生成器套用至特定的數據上。<br>通常會用fit主要是圖片資料已經轉換成模型可以讀取的形式了(Numpy)，接著對這些數據套用fit就會幫你將這些資料進行增強。</p>
+<ul>
+<li>x：樣本數據，也就是這裡填寫你要增強的數據。</li>
+<li>augment：是否隨機對數據進行增強。使用布林值(True or False)</li>
+<li>rounds: 當 augment 為True，對該圖片要增強幾次。</li>
+<li>seed: 使用種子碼隨機。</li>
+</ul>
+<p>下面是我寫程式時有用到fit的片段：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">datagen = ImageDataGenerator(</span><br><span class="line">    horizontal_flip=<span class="literal">True</span>,</span><br><span class="line">    vertical_flip=<span class="literal">True</span>,</span><br><span class="line">    rotation_range=<span class="number">10</span>,</span><br><span class="line">    width_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    height_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    zoom_range=<span class="number">.1</span>,</span><br><span class="line">    fill_mode=<span class="string">'nearest'</span>,</span><br><span class="line">    shear_range=<span class="number">0.1</span>,</span><br><span class="line">    rescale=<span class="number">1</span>/<span class="number">255</span>,</span><br><span class="line">    brightness_range=[<span class="number">0.5</span>, <span class="number">1.5</span>])</span><br><span class="line">datagen.fit(x_train)   &lt;---------這個地方</span><br><span class="line">x_train = x_train/<span class="number">255</span></span><br><span class="line">x_test = x_test/<span class="number">255</span></span><br><span class="line">x_val = x_val/<span class="number">255</span></span><br><span class="line">print(<span class="string">'rescale！done!'</span>)</span><br></pre></td></tr></table></figure>
+<p>x_train是我的圖片訓練資料集，而下面的/255是在做歸一化，之前的文章有講到，這次就不多說了。</p>
+<h3 id="flow"><a href="#flow" class="headerlink" title="flow"></a>flow</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">flow(x, </span><br><span class="line">     y=<span class="literal">None</span>, </span><br><span class="line">     batch_size=<span class="number">32</span>, </span><br><span class="line">     shuffle=<span class="literal">True</span>, </span><br><span class="line">     sample_weight=<span class="literal">None</span>, </span><br><span class="line">     seed=<span class="literal">None</span>, </span><br><span class="line">     save_to_dir=<span class="literal">None</span>, </span><br><span class="line">     save_prefix=<span class="string">''</span>, </span><br><span class="line">     save_format=<span class="string">'png'</span>, </span><br><span class="line">     subset=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+<p>透過數據生成器可以將numpy的數組和標籤，進行批量的資料增強。<br>用法比較像fit的加強版。fit是對特定的數組進行增強，而flow除了做到fit的工作外，還能批量進行，並且還加上儲存的功能。</p>
+<ul>
+<li>x：樣本數據，也就是這裡填寫你要增強的數據。</li>
+<li>y：標籤</li>
+<li>batch_size: 批量數據的尺寸，默認為32。</li>
+<li>shuffle: 是否混洗數據，講白點就是亂數打亂，默認為True。</li>
+<li>save_to_dir: 是否要保存增強後的圖片，是的話填入要保存的路徑，默認為None。</li>
+<li>save_prefix: 保存圖片的名稱前綴。</li>
+<li>save_format: 二選一 “png” &amp; “jpeg” ，默認為”png”。</li>
+<li>yields: 形如(x,y)的tuple，x是代表圖像數據的numpy數組，y是代表標籤的numpy數組。</li>
+<li>seed: 是否用種子碼打亂數據。</li>
+</ul>
+<p>flow的使用是我這4個要介紹的數據生成器中，唯一沒使用過的生成器。<br>不過我在網上有找到不少範例，我用範例有稍微改了一下，應該可以Run起來的，自己測試還可以。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">img_gen = ImageDataGenerator(</span><br><span class="line">    horizontal_flip=<span class="literal">True</span>,</span><br><span class="line">    vertical_flip=<span class="literal">True</span>,</span><br><span class="line">    rotation_range=<span class="number">10</span>,</span><br><span class="line">    width_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    height_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    zoom_range=<span class="number">.1</span>,</span><br><span class="line">    fill_mode=<span class="string">'nearest'</span>,</span><br><span class="line">    shear_range=<span class="number">0.1</span>,</span><br><span class="line">    rescale=<span class="number">1.</span>/<span class="number">255</span>,</span><br><span class="line">    brightness_range=[<span class="number">0.5</span>, <span class="number">1.5</span>]</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 將圖片轉成array並儲存至l陣列，再將l陣列轉成numpy</span></span><br><span class="line">l=[]</span><br><span class="line">img01 = load_img(<span class="string">r"圖片路徑/00001.jpg"</span>)  </span><br><span class="line">img02 = load_img(<span class="string">r"圖片路徑/00002.jpg"</span>)  </span><br><span class="line">x = img_to_array(img01)</span><br><span class="line">y = img_to_array(img02) </span><br><span class="line">l.append(x)</span><br><span class="line">l.append(y)</span><br><span class="line">l=np.array(l)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>flow_from_dataframe</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">flow_from_dataframe(dataframe, </span><br><span class="line">                    directory, </span><br><span class="line">                    x_col=<span class="string">'filename'</span>, </span><br><span class="line">                    y_col=<span class="string">'class'</span>, </span><br><span class="line">                    has_ext=<span class="literal">True</span>, </span><br><span class="line">                    target_size=(<span class="number">256</span>, <span class="number">256</span>), </span><br><span class="line">                    color_mode=<span class="string">'rgb'</span>, </span><br><span class="line">                    classes=<span class="literal">None</span>, </span><br><span class="line">                    class_mode=<span class="string">'categorical'</span>, </span><br><span class="line">                    batch_size=<span class="number">32</span>, </span><br><span class="line">                    shuffle=<span class="literal">True</span>, </span><br><span class="line">                    seed=<span class="literal">None</span>, </span><br><span class="line">                    save_to_dir=<span class="literal">None</span>, </span><br><span class="line">                    save_prefix=<span class="string">''</span>, </span><br><span class="line">                    save_format=<span class="string">'png'</span>, </span><br><span class="line">                    subset=<span class="literal">None</span>, </span><br><span class="line">                    interpolation=<span class="string">'nearest'</span>)</span><br></pre></td></tr></table></figure>
+<p>在此數據生成器輸入 dataframe 和圖片目錄的路徑，使其生成批量的增強數據。<br>這個函數常適用在資料形式為”所有圖像都存在於一個目錄中，並將圖片名稱與對應標籤寫入一個CSV或JSON文件中”的這一類。<br>flow_from_dataframe有超級多東西可以設定，可能對新手來說會花上不少時間。</p>
+<ul>
+<li>dataframe: Pandas dataframe，一列為圖像名稱，另一列為該圖像類別標籤，或是做為原始目標數據多個列。</li>
+<li>directory: 字符串，目標目錄的路徑，也就是dataframe裡的所有圖像的路徑。</li>
+<li>x_col: 字符串，dataframe 圖像名稱的列名稱，也就是圖像名稱該列的最上面名字，沒有的話就自行加個。</li>
+<li>y_col: 字符串或字符串列表，圖像對應的標籤類別的列，與”x_col”雷同，一樣是沒有就自行加入。</li>
+<li>has_ext: 如果 dataframe[x_col] 中的文件名具有擴展名則為 True，否則為 False。使用布林值(True or False)</li>
+<li>target_size: 將圖片調整為(height, width)的尺寸，默認為 (256, 256)。只接受整數。</li>
+<li>color_mode: 二選一 “grayscale” &amp; “rgb” 。默認為”rgb”。 圖像是否轉換為 1 個或 3 個顏色通道。</li>
+<li>classes: 可選的類別列表 (例如， [‘dogs’, ‘cats’])。默認為None。 若沒有提供，則類比列表會自動從 y_col 中推理出來，y_col 將會被映射為類別索引）。包含從類名到類索引的映射的字典可以通過屬性 class_indices 獲得。</li>
+<li>class_mode: 六選一 “categorical”, “binary”, “sparse”, “input”, “other” or None 之一。 默認為”categorical”。<br>決定返回標籤數組的類型：<br>categorical：  2D one-hot 編碼標籤。<br>binary： 1D 二進制標籤。<br>sparse： 1D 整數標籤。<br>input： 與輸入圖像相同的圖像（主要用於與自動編碼器一起使用）。<br>other： 將是 y_col 數據的 numpy 數組，<br>None： 不返回任何標籤（生成器只會產生批量的圖像數據，這對使用model.predict_generator(), model.evaluate_generator() 等很有用）。</li>
+<li>batch_size: 批量數據的尺寸，默認為32。</li>
+<li>shuffle: 是否混洗數據，講白點就是亂數打亂，默認為True。</li>
+<li>seed: 是否用種子碼打亂數據。</li>
+<li>save_to_dir: 是否要保存增強後的圖片，是的話填入要保存的路徑，默認為None。</li>
+<li>save_prefix: 保存圖片的名稱前綴。</li>
+<li>save_format: 二選一 “png” &amp; “jpeg” ，默認為”png”。</li>
+<li>follow_links: 是否跟隨類子目錄的符號連結，默認為False。</li>
+<li>subset: 決定資料的數據子集 (“training” 或 “validation”)，前提是 ImageDataGenerator 中有設定 validation_split。</li>
+<li>interpolation: 在目標大小與加載圖像的大小不同時，用於重新採樣圖像的插值方法。 支持的方法有 “nearest”, “bilinear”, and “bicubic”。 如果安裝了 1.1.3 以上版本的 PIL 的話，同樣支持 “lanczos”。 如果安裝了 3.4.0 以上版本的 PIL 的話，同樣支持 “box” 和 “hamming”。 默認情況下，使用 “nearest”。</li>
+</ul>
+<p>下面是我寫程式時有用到flow_from_dataframe的片段：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">df_train = pd.read_csv(<span class="string">"C:/**********/C1-P2_Train Dev/train2.csv"</span>,encoding=<span class="string">"utf8"</span>)</span><br><span class="line">img_gen = ImageDataGenerator(</span><br><span class="line">    horizontal_flip=<span class="literal">True</span>,</span><br><span class="line">    vertical_flip=<span class="literal">True</span>,</span><br><span class="line">    rotation_range=<span class="number">10</span>,</span><br><span class="line">    width_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    height_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    zoom_range=<span class="number">.1</span>,</span><br><span class="line">    fill_mode=<span class="string">'nearest'</span>,</span><br><span class="line">    shear_range=<span class="number">0.1</span>,</span><br><span class="line">    rescale=<span class="number">1.</span>/<span class="number">255</span>,</span><br><span class="line">    brightness_range=[<span class="number">0.5</span>, <span class="number">1.5</span>],</span><br><span class="line">    validation_split=<span class="number">0.25</span>   <span class="comment">#設定驗證集</span></span><br><span class="line">)</span><br><span class="line">train_generator = img_gen.flow_from_dataframe(</span><br><span class="line">                                              dataframe=df_train,</span><br><span class="line">                                              directory=<span class="string">"C:/Users/**************/Crop_Train"</span>,</span><br><span class="line">                                              x_col=<span class="string">"image_id"</span>,</span><br><span class="line">                                              y_col=<span class="string">"grade"</span>,</span><br><span class="line">                                              batch_size=<span class="number">10</span>,</span><br><span class="line">                                              <span class="comment">#has_ext=False, </span></span><br><span class="line">                                              subset=<span class="string">"training"</span>, </span><br><span class="line">                                              class_mode=<span class="string">"categorical"</span>,</span><br><span class="line">                                              color_mode=<span class="string">"rgb"</span>,</span><br><span class="line">                                              target_size=(<span class="number">224</span>,<span class="number">224</span>))</span><br><span class="line"></span><br><span class="line">val_generator = img_gen.flow_from_dataframe( </span><br><span class="line">                                          dataframe=df_train, </span><br><span class="line">                                          directory=<span class="string">"C:/**************/Crop_Train"</span>,</span><br><span class="line">                                          x_col=<span class="string">"image_id"</span>,</span><br><span class="line">                                          y_col=<span class="string">"grade"</span>, </span><br><span class="line">                                          batch_size=<span class="number">10</span>,</span><br><span class="line">                                          <span class="comment">#has_ext=False, </span></span><br><span class="line">                                          subset=<span class="string">"validation"</span>, </span><br><span class="line">                                          class_mode=<span class="string">"categorical"</span>, </span><br><span class="line">                                          color_mode=<span class="string">"rgb"</span>,</span><br><span class="line">                                          target_size=(<span class="number">224</span>,<span class="number">224</span>))</span><br></pre></td></tr></table></figure>
+<p><code>flow_from_dataframe</code>函數裡有個<code>dataframe=df_train</code>，這個<code>df_train</code>是CSV檔，變數的宣告我寫在最上方。</p>
+<p>另外這個範例有一個很重要的東西要講，各位應該有看到一個<code>validation_split=0.25</code>這個設定吧？<br>這個設定是用來設置驗證資料集，0.25代表拿訓練資料裡的25%來當驗證。</p>
+<p>當<code>validation_split</code>有被設定後，接下來進行<code>flow_from_dataframe</code>這個函數就需要在設定裡加上<code>subset=&quot;validation&quot;或 &quot;training&quot;</code>。training代表訓練集，validation代表驗證集。<br>這也就是為什麼我宣告了兩次變數去進行<code>flow_from_dataframe</code>這個函數，因為我需要訓練集跟驗證集，兩個是要個別做宣告的。</p>
+<p>那要進行訓練時要怎麼去應用上面的東西呢？<br>假設你已經建構好一個模型了，接下來要進行訓練。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># model 代表你建置的模型名稱</span></span><br><span class="line">model.fit_generator(</span><br><span class="line">                    <span class="comment">#使用訓練集</span></span><br><span class="line">                    generator = train_generator,                                                 steps_per_epoch = step_size_train,</span><br><span class="line">                    <span class="comment">#使用驗證集</span></span><br><span class="line">                    validation_data = val_generator,    </span><br><span class="line">                    validation_steps = step_size_valid, </span><br><span class="line">                    epochs = <span class="number">10</span>,</span><br><span class="line">                    verbose = <span class="number">1</span>,</span><br><span class="line">                    callbacks = [RLR, ckptforall],</span><br><span class="line">                    use_multiprocessing = <span class="literal">False</span>,</span><br><span class="line">                    shuffle = <span class="literal">True</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<p>訓練時就不是用<code>fit</code>了，而是用<code>fit_generator</code>。<br>裡面的設定也有小變化喔！各位應該有看到<code>batch_size</code>這個設定不見了吧？<br>在<code>fit_generator</code>這個函數裡，不會用到<code>batch_size</code>，就算用了也只會噴錯給你看。<br><code>batch_size</code>的不見，換來的是<code>steps_per_epoch = step_size_train</code>變成必填設定，怎麼設定？</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">step_size_train = train_generator.n//train_generator.batch_size</span><br></pre></td></tr></table></figure>
+<p>再加個<code>epochs</code>決定你要訓練幾次，這樣就是基本的訓練形式，可以直接進行訓練了。<br>如果還還要再加個驗證資料，那就是以下兩個設定要填：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">validation_data = val_generator,</span><br><span class="line">validation_steps = step_size_valid,</span><br></pre></td></tr></table></figure>
+<p><code>validation_steps</code>中的<code>step_size_valid</code>設定怎麼用？就跟<code>steps_per_epoch</code>一樣：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">step_size_valid = val_generator.n//val_generator.batch_size</span><br></pre></td></tr></table></figure>
+<p>範例中<code>fit_generator</code>剩下的設定就不是太必要的東西，算額外的設定，因此我就不多加說明。</p>
+<p>總結上述的程式範例，整個流程為下圖：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#讀取csv檔</span></span><br><span class="line">df_train = pd.read_csv(<span class="string">"C:/********/C1-P2_Train Dev/train2.csv"</span>,encoding=<span class="string">"utf8"</span>)  </span><br><span class="line"><span class="comment"># 設定增強手法</span></span><br><span class="line">img_gen = ImageDataGenerator(</span><br><span class="line">    horizontal_flip=<span class="literal">True</span>,</span><br><span class="line">    vertical_flip=<span class="literal">True</span>,</span><br><span class="line">    rotation_range=<span class="number">10</span>,</span><br><span class="line">    width_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    height_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    zoom_range=<span class="number">.1</span>,</span><br><span class="line">    fill_mode=<span class="string">'nearest'</span>,</span><br><span class="line">    shear_range=<span class="number">0.1</span>,</span><br><span class="line">    rescale=<span class="number">1.</span>/<span class="number">255</span>,</span><br><span class="line">    brightness_range=[<span class="number">0.5</span>, <span class="number">1.5</span>],</span><br><span class="line">    validation_split=<span class="number">0.25</span>   <span class="comment">#設定驗證集</span></span><br><span class="line">)</span><br><span class="line"><span class="comment"># 進行資料增強於訓練資料中</span></span><br><span class="line">train_generator = img_gen.flow_from_dataframe(</span><br><span class="line">                                              dataframe=df_train,</span><br><span class="line">                                              directory=<span class="string">"C:/********/Crop_Train"</span>,</span><br><span class="line">                                              x_col=<span class="string">"image_id"</span>,</span><br><span class="line">                                              y_col=<span class="string">"grade"</span>,</span><br><span class="line">                                              batch_size=<span class="number">10</span>,</span><br><span class="line">                                              <span class="comment">#has_ext=False, </span></span><br><span class="line">                                              subset=<span class="string">"training"</span>, </span><br><span class="line">                                              class_mode=<span class="string">"categorical"</span>,</span><br><span class="line">                                              color_mode=<span class="string">"rgb"</span>,</span><br><span class="line">                                              target_size=(<span class="number">224</span>,<span class="number">224</span>))</span><br><span class="line"><span class="comment"># 進行資料增強於驗證資料中</span></span><br><span class="line">val_generator = img_gen.flow_from_dataframe( </span><br><span class="line">                                          dataframe=df_train, </span><br><span class="line">                                          directory=<span class="string">"C:/**********/test/Crop_Train"</span>,</span><br><span class="line">                                          x_col=<span class="string">"image_id"</span>,</span><br><span class="line">                                          y_col=<span class="string">"grade"</span>, </span><br><span class="line">                                          batch_size=<span class="number">10</span>,</span><br><span class="line">                                          <span class="comment">#has_ext=False, </span></span><br><span class="line">                                          subset=<span class="string">"validation"</span>, </span><br><span class="line">                                          class_mode=<span class="string">"categorical"</span>, </span><br><span class="line">                                          color_mode=<span class="string">"rgb"</span>,</span><br><span class="line">                                          target_size=(<span class="number">224</span>,<span class="number">224</span>))</span><br><span class="line">                                          </span><br><span class="line">*********************過程中你建置了一個模型*********************                                           </span><br><span class="line"><span class="comment"># model 代表你建置的模型名稱</span></span><br><span class="line"><span class="comment"># 進行訓練</span></span><br><span class="line">model.fit_generator(</span><br><span class="line">    generator = train_generator,        <span class="comment"># 訓練資料集                          </span></span><br><span class="line">    steps_per_epoch = step_size_train,</span><br><span class="line">    validation_data = val_generator,    <span class="comment"># 驗證資料集</span></span><br><span class="line">    validation_steps = step_size_valid, </span><br><span class="line">    epochs = <span class="number">10</span>,</span><br><span class="line">    verbose = <span class="number">1</span>,</span><br><span class="line">    callbacks = [RLR, ckptforall],</span><br><span class="line">    use_multiprocessing = <span class="literal">False</span>,</span><br><span class="line">    shuffle = <span class="literal">True</span></span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<p>不要直接複製起來用喔！應該會噴錯，因為這只是一個概念流程圖。</p>
+<p><strong>flow_from_directory</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">flow_from_directory(directory, </span><br><span class="line">                    target_size=(<span class="number">256</span>, <span class="number">256</span>), </span><br><span class="line">                    color_mode=<span class="string">'rgb'</span>, </span><br><span class="line">                    classes=<span class="literal">None</span>, </span><br><span class="line">                    class_mode=<span class="string">'categorical'</span>, </span><br><span class="line">                    batch_size=<span class="number">32</span>, </span><br><span class="line">                    shuffle=<span class="literal">True</span>, </span><br><span class="line">                    seed=<span class="literal">None</span>, </span><br><span class="line">                    save_to_dir=<span class="literal">None</span>, </span><br><span class="line">                    save_prefix=<span class="string">''</span>, </span><br><span class="line">                    save_format=<span class="string">'png'</span>, </span><br><span class="line">                    follow_links=<span class="literal">False</span>, </span><br><span class="line">                    subset=<span class="literal">None</span>, </span><br><span class="line">                    interpolation=<span class="string">'nearest'</span>)</span><br></pre></td></tr></table></figure>
+<p>這個數據生成器最主要目的是從圖片資料夾裡抓出圖片，接著對該圖片進行增強後再儲存至指定路徑中，不會去管標籤類別。<br>因此<code>flow_from_directory</code>適用於”用各自類名命名的單獨資料夾中的所有圖像，A標籤的圖片全部集中在同一個資料夾中，以此類推”的形式。</p>
+<ul>
+<li>directory: 欲增強的圖片資料夾路徑，資料夾內接受 PNG, JPG, BMP, PPM 或 TIF 格式的圖像。。</li>
+<li>target_size: 將圖片調整為(height, width)的尺寸，默認為 (256, 256)。只接受整數。</li>
+<li>color_mode: 二選一 “grayscale” &amp; “rgb” 。默認為”rgb”。 圖像是否轉換為 1 個或 3 個顏色通道。</li>
+<li>classes: 可選的類別列表 (例如， [‘dogs’, ‘cats’])。默認為None。 若沒有提供，則類比列表會自動從 y_col 中推理出來，y_col 將會被映射為類別索引）。包含從類名到類索引的映射的字典可以通過屬性 class_indices 獲得。</li>
+<li>class_mode: 六選一 “categorical”, “binary”, “sparse”, “input”, “other” or None 之一。 默認為”categorical”。<br>決定返回標籤數組的類型：<br>categorical：  2D one-hot 編碼標籤。<br>binary： 1D 二進制標籤。<br>sparse： 1D 整數標籤。<br>input： 與輸入圖像相同的圖像（主要用於與自動編碼器一起使用）。<br>other： 將是 y_col 數據的 numpy 數組，<br>None： 不返回任何標籤（生成器只會產生批量的圖像數據，這對使用model.predict_generator(), model.evaluate_generator() 等很有用）。這裡要特別留意，如果 class_mode 為 None，數據仍然需要留在 directory 的子目錄才能正常運作。</li>
+<li>batch_size: 批量數據的尺寸，默認為32。</li>
+<li>shuffle: 是否混洗數據，講白點就是亂數打亂，默認為True。</li>
+<li>seed: 是否用種子碼打亂數據。</li>
+<li>save_to_dir: 是否要保存增強後的圖片，是的話填入要保存的路徑，默認為None。</li>
+<li>save_prefix: 保存圖片的名稱前綴。</li>
+<li>save_format: 二選一 “png” &amp; “jpeg” ，默認為”png”。</li>
+<li>follow_links: 是否跟隨類子目錄的符號連結，默認為False。</li>
+<li>subset: 決定資料的數據子集 (“training” 或 “validation”)，前提是 ImageDataGenerator 中有設定 validation_split。</li>
+<li>interpolation: 在目標大小與加載圖像的大小不同時，用於重新採樣圖像的插值方法。 支持的方法有 “nearest”, “bilinear”, and “bicubic”。 如果安裝了 1.1.3 以上版本的 PIL 的話，同樣支持 “lanczos”。 如果安裝了 3.4.0 以上版本的 PIL 的話，同樣支持 “box” 和 “hamming”。 默認情況下，使用 “nearest”。</li>
+</ul>
+<p>這是我使用<code>flow_from_directory</code>時的程式片段，下面我會稍微做個解釋：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.preprocessing.image <span class="keyword">import</span> ImageDataGenerator</span><br><span class="line">datagen = ImageDataGenerator(</span><br><span class="line">    horizontal_flip=<span class="literal">True</span>,</span><br><span class="line">    vertical_flip=<span class="literal">True</span>,</span><br><span class="line">    rotation_range=<span class="number">10</span>,</span><br><span class="line">    width_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    height_shift_range=<span class="number">0.1</span>,</span><br><span class="line">    zoom_range=<span class="number">.1</span>,</span><br><span class="line">    fill_mode=<span class="string">'nearest'</span>,</span><br><span class="line">    shear_range=<span class="number">0.1</span>,</span><br><span class="line">    rescale=<span class="number">1</span>/<span class="number">255</span>,</span><br><span class="line">    brightness_range=[<span class="number">0.5</span>, <span class="number">1.5</span>])</span><br><span class="line">train_dir = <span class="string">r'C:/********************/test/'</span></span><br><span class="line">train_generator = datagen.flow_from_directory(</span><br><span class="line">          train_dir,</span><br><span class="line">          target_size=(<span class="number">224</span>, <span class="number">224</span>),</span><br><span class="line">          batch_size=<span class="number">1</span>,</span><br><span class="line">          shuffle=<span class="literal">False</span>,</span><br><span class="line">          save_to_dir=<span class="string">'C:/Users/*********/C1-P2_Train Dev/Train_dataFrame/'</span>,</span><br><span class="line">          save_prefix=<span class="string">'train'</span>,</span><br><span class="line">          save_format=<span class="string">'jpg'</span>,</span><br><span class="line">          class_mode=<span class="string">'binary'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">45000</span>):</span><br><span class="line">    train_generator.next()</span><br><span class="line">    <span class="keyword">if</span> (i%<span class="number">100</span> == <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"."</span>, end=<span class="string">''</span>)</span><br><span class="line">print(<span class="string">"down"</span>)</span><br></pre></td></tr></table></figure>
+<p>前面的應該大家都熟了，就是增強手法的設定，主要是下面的程式碼</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">train_dir = <span class="string">r'C:/********************/test/'</span></span><br><span class="line">train_generator = datagen.flow_from_directory(</span><br><span class="line">          train_dir,</span><br><span class="line">          target_size=(<span class="number">224</span>, <span class="number">224</span>),</span><br><span class="line">          batch_size=<span class="number">1</span>,</span><br><span class="line">          shuffle=<span class="literal">False</span>,</span><br><span class="line">          save_to_dir=<span class="string">'C:/***************/C1-P2_Train Dev/Train_dataFrame/'</span>,</span><br><span class="line">          save_prefix=<span class="string">'train'</span>,</span><br><span class="line">          save_format=<span class="string">'jpg'</span>,</span><br><span class="line">          class_mode=<span class="string">'binary'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">45000</span>):</span><br><span class="line">    train_generator.next()</span><br><span class="line">    <span class="keyword">if</span> (i%<span class="number">100</span> == <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"."</span>, end=<span class="string">''</span>)</span><br><span class="line">print(<span class="string">"down"</span>)</span><br></pre></td></tr></table></figure>
+<p><code>train_dir</code>是變數，記錄訓練資料的資料夾路徑。<br>這裡有兩個很重要的地方：</p>
+<ol>
+<li>資料夾路徑不是寫到目標資料夾的所在位置，而是所在位置的上一層，假如目標資料夾的路徑為”A/B/C/目標資料夾”，那寫法就是”A/B/C”，這樣子就可以停了。</li>
+<li>目標資料夾所在的位置，最好是只放單獨的資料夾，也就是只放目標資料夾，不然很容易噴路徑錯誤。我至今也沒搞懂為何會這樣，就當有個限制在，怕衍伸出不必要的麻煩。<br>我用圖片來說明會比較好：<img src="/2020/09/21/%E8%B3%87%E6%96%99%E5%A2%9E%E5%BC%B7ImageGenerator-%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/pc01.jpg" class="" title="This is an image">
+Crop_Train資料夾是我的訓練資料集，而它路徑上一層test就是Crop_Train的所在位置。這個位置只能放一個資料夾。</li>
+</ol>
+<p><code>train_generator = datagen.flow_from_directory( )</code>就是本次數據生成器主要的核心，裡面的設定我不細講，上面我有做說明了。</p>
+<p>在這邊你可以先嘗試Run一下，有個小細節要讓各位知道。<br>我們不是做完資料增強了嗎？現在Run下去，<code>save_to_dir</code>這個路徑裡是不是就會有增強後的圖片了？<br>答案是：沒半張。<br>我當時也是傻眼，沒道理阿！之前的<code>flow_from_directory</code>或是<code>fit</code>使用下去就有結果了，為什麼<code>flow_from_directory</code>照著<code>flow_from_directory</code>的邏輯走，結果會沒反應呢？</p>
+<p>我也另外爬文查這個問題了，好笑的是，天下一大抄，全部抄官方文檔或是別人的example，半字不提這個情況…..，所以等我查到這個問題的核心前，就當是一個未解之謎。</p>
+<p>不過不是不能用，就只是要多加個for迴圈</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">45000</span>):</span><br><span class="line">    train_generator.next()</span><br></pre></td></tr></table></figure>
+
+<p>45000是因為我的訓練集有45000張圖片，我要所有的圖片都進行增強。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (i%<span class="number">100</span> == <span class="number">0</span>):</span><br><span class="line">        print(<span class="string">"."</span>, end=<span class="string">''</span>)</span><br></pre></td></tr></table></figure>
+<p>後面我有多加這個，主要是想知道圖偏增強進行到哪了。<br>output的結果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Found 45000 images belonging to 1 classes.</span><br><span class="line">..................................................................................................................................................................................................................................................................................................................................................................................................................................................................down</span><br></pre></td></tr></table></figure>
+<p>實際的結果：</p>
+<img src="/2020/09/21/%E8%B3%87%E6%96%99%E5%A2%9E%E5%BC%B7ImageGenerator-%E4%BD%BF%E7%94%A8%E5%BF%83%E5%BE%97/pc02.jpg" class="" title="This is an image">
+<p>左邊第一張對應右邊第一張，以此類推。<br>跟原圖片不太相同，但仔細去看的話，其實跟原圖片有很多相似處，這個就是資料增強。<br>要先說明一下，我只對原圖片增強一次，<code>batch_size</code>我設定1而已喔！如果一張要變成好幾張，還請把<code>batch_size</code>調高。</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><p>[<a href="https://keras.io/zh/preprocessing/image/]" target="_blank" rel="noopener">https://keras.io/zh/preprocessing/image/]</a><br>[<a href="https://kknews.cc/zh-tw/code/yeg6oba.html]" target="_blank" rel="noopener">https://kknews.cc/zh-tw/code/yeg6oba.html]</a><br>[<a href="https://www.itread01.com/content/1546542668.html]" target="_blank" rel="noopener">https://www.itread01.com/content/1546542668.html]</a></p>
+
+      
+    </div>
+</article>
+
+    </li>
+  
+    <li>
+      <article class='ListView'>
+    <header class="title">
+      
+        <h1>
           <a href="/2020/09/08/%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%9A%84Hello_World-%E6%89%8B%E5%AF%AB%E6%95%B8%E5%AD%97%E8%BE%A8%E8%AD%98/">World-手寫數字辨識</a>
         </h1>
       
@@ -960,92 +1195,6 @@ output:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span 
 <img src="/2020/03/17/%E4%BD%BF%E7%94%A8docker%E9%81%8B%E8%A1%8Cjupyter-notebook/pc09.JPG" class="" title="This is an image">
 <p>這樣就進來了，接下來就可以正常執行jupyter notebook了</p>
 
-      
-    </div>
-</article>
-
-    </li>
-  
-    <li>
-      <article class='ListView'>
-    <header class="title">
-      
-        <h1>
-          <a href="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/">執行深度學習範例-物件辨識</a>
-        </h1>
-      
-      <div class='ListMeta'>
-  <time datetime="2020-03-16T07:35:19.000Z" itemprop="datePublished">
-    2020-03-16
-  </time>
-  
-  | 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/tags/%E5%AF%A6%E4%BD%9C%E5%BF%83%E5%BE%97/">實作心得</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/Jetson-Nano/">Jetson Nano</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/%E5%9C%96%E5%83%8F/">圖像</a> }
-  </li>
-
-  <li class="meta-text">
-  { <a href="/tags/linux/">linux</a> }
-  </li>
-
-
-  </ul>
-  
-  
-  / 
-  <ul>
-    
-  <li class="meta-text">
-  { <a href="/categories/Jetson-Nano%E7%B7%B4%E7%BF%92/">Jetson Nano練習</a> }
-  </li>
-
-
-  </ul>
-  
-</div>
-
-    </header>
-    <div>
-      
-        <h3 id="為什麼會有這篇文章"><a href="#為什麼會有這篇文章" class="headerlink" title="為什麼會有這篇文章?"></a>為什麼會有這篇文章?</h3><p>這是我個人的學習紀錄，也是我學習jetson nano第二個實作範例，因此便寫下來方便日後觀看。</p>
-<h3 id="這篇文章做什麼用的"><a href="#這篇文章做什麼用的" class="headerlink" title="這篇文章做什麼用的?"></a>這篇文章做什麼用的?</h3><p>這篇文章是來說明如何餵圖片給機器，並讓機器去辨識這個圖片裡有什麼物件，並將結果顯示出來的操作紀錄。</p>
-<h3 id="參考的範例"><a href="#參考的範例" class="headerlink" title="參考的範例"></a>參考的範例</h3><p>網址:<a href="https://github.com/dusty-nv/jetson-inference" target="_blank" rel="noopener">https://github.com/dusty-nv/jetson-inference</a><br>網址內有他自己的操作教學，本文章也是照他的教學慢慢做出來的，但自己英文差，所以再另外寫自己用中文的操作紀錄。</p>
-<h3 id="前置步驟"><a href="#前置步驟" class="headerlink" title="前置步驟"></a>前置步驟</h3><p>1.在開始實作這篇文章的內容前，請先看過這篇文章<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>，並完成到第二步驟設定方面的建置才可進行此文章的內容。</p>
-<h3 id="實作過程"><a href="#實作過程" class="headerlink" title="實作過程"></a>實作過程</h3><p>首先<br>與<a href="https://chenchianstudent.github.io/2020/03/14/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E5%9C%96%E5%83%8F%E8%BE%A8%E8%AD%98/" target="_blank" rel="noopener">執行深度學習範例-圖像辨識</a>的第三步驟一樣，我們必須開啟Terminal先移動到此路徑才可進行接下來的步驟。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~&#x2F;jetson-inference&#x2F;build&#x2F;aarch64&#x2F;bin</span><br></pre></td></tr></table></figure>
-<p>開始辨識前，要先知道這個路徑下有許多的範例圖片可以進行測試。</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc03.jpg" class="" title="This is an image">
-<p>了解測試的圖片在哪裡後，我們就可以進行物件辨識了。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console airplane_0.jpg airplane_test.jpg</span><br></pre></td></tr></table></figure>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc01.png" class="" title="This is an image">
-<p>上面的指令，詳細為:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;detectnet-console 該圖片檔名或該圖片的路徑及名稱 辨識完成後結果的圖片檔名以及路徑</span><br></pre></td></tr></table></figure>
-<p>執行過程中，可能會比圖像辨識還要久，請耐心等待，完成後會出現下圖</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pc02.jpg" class="" title="This is an image">
-<p>這是我們一開始要辨識的圖片</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane01.jpg" class="" title="This is an image">
-<p>經過程式辨識後就變成</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/airplane02.jpg" class="" title="This is an image">
-<p>圖片儲存放置的地方會在jetson-inference/build/aarch64/bin這個路徑下，找到你當初下指令時設定的名稱便可出現上圖</p>
-<p>當然，我們也可以自己找圖片去辨識<br>這是我自己去google打aircraft carrier landing找到的圖片，並把圖片丟到該路徑下:jetson-inference/build/aarch64/bin/images</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cv01.jpg" class="" title="This is an image">
-<p>我想看看辨識後是不是能辨識出哪個是飛機哪個是人<br>經過辨識後</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/cvtest.jpg" class="" title="This is an image">
-<p>雖然有小部分辨識錯誤或沒有完全辨識到，但大部分是準確的，也許是模組沒有特別訓練這類的圖片，不過已經算不錯了！</p>
-<p>如果是拿範例圖片的話，辨識程度是沒問題的。<br>這是原圖</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd.jpg" class="" title="This is an image">
-<p>這是辨識後的圖片</p>
-<img src="/2020/03/16/%E5%9F%B7%E8%A1%8C%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%AF%84%E4%BE%8B-%E7%89%A9%E4%BB%B6%E8%BE%A8%E8%AD%98/pandd2.jpg" class="" title="This is an image">
       
     </div>
 </article>
